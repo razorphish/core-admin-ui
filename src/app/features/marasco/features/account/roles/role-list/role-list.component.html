@@ -1,0 +1,44 @@
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Roles', 'List']" icon="legal" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <sa-stats></sa-stats>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+          
+            <sa-widget [editbutton]="false" color="blueDark">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Roles</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+
+                        <sa-datatable 
+                            [options]="options" 
+                            tableClass="table table-striped table-bordered table-hover" 
+                            paginationLength=true>
+                            <thead>
+                                <tr>
+                                    <th [style.width]="'250px'" data-hide="mobile-p">Id</th>
+                                    <th [style.width]="'8%'">Name</th>
+                                    <th data-class="expand">Normalized Name</th>
+                                </tr>
+                            </thead>
+
+                            <tfoot>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Normalized Name</th>
+                                </tr>
+                            </tfoot>
+                        </sa-datatable>
+
+                    </div>
+                </div>
+            </sa-widget>
+
+        </div>
+    </div>
+</div>
