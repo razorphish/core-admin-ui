@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LayoutService} from "@app/core/services/layout.service";
+import {LayoutService} from "@app/features/marasco/core/services/layout.service";
 
 @Component({
   selector: 'sa-ribbon',

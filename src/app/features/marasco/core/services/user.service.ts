@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
 import { BehaviorSubject } from "rxjs";
-import { JsonApiService } from "@app/core/services/json-api.service";
+import { JsonApiService } from "@app/features/marasco/core/services/json-api.service";
 
 
 

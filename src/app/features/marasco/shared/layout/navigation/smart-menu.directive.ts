@@ -7,7 +7,7 @@ import {
 
 import {
   LayoutService
-} from "@app/core/services/layout.service";
+} from "@app/features/marasco/core/services/layout.service";
 import {
   Router,
   NavigationEnd

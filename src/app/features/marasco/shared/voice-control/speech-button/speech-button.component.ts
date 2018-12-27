@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import {
   VoiceControlService
-} from "@app/core/services/voice/voice-control.service";
+} from "@app/features/marasco/core/services/voice/voice-control.service";
 import {
   VoiceRecognitionService
-} from "@app/core/services/voice/voice-recognition.service";
+} from "@app/features/marasco/core/services/voice/voice-recognition.service";
 
 import {
   BsModalService

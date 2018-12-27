@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { map, tap } from "rxjs/operators";
-import { LayoutService } from "@app/core/services/layout.service";
+import { LayoutService } from "@app/features/marasco/core/services/layout.service";
 import { LayoutActionTypes } from "./layout.actions";
 
 @Injectable()

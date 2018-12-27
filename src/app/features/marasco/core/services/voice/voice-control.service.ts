@@ -3,21 +3,21 @@ import {
   ApplicationRef
 } from '@angular/core';
 
-import {config} from '@app/core/smartadmin.config';
-import {SoundService} from "@app/core/services/sound.service";
-import {SpeechRecognition} from "./speech-recognition.api";
-import {VoiceRecognitionService} from "./voice-recognition.service";
-import {NotificationService} from "@app/core/services/notification.service";
-import {BodyService} from "@app/core/services/body.service";
-import {Router} from "@angular/router";
-import {LayoutService} from "@app/core/services/layout.service";
+import { config } from '@app/features/marasco/core/smartadmin.config';
+import { SoundService } from "@app/features/marasco/core/services/sound.service";
+import { SpeechRecognition } from "./speech-recognition.api";
+import { VoiceRecognitionService } from "./voice-recognition.service";
+import { NotificationService } from "@app/features/marasco/core/services/notification.service";
+import { BodyService } from "@app/features/marasco/core/services/body.service";
+import { Router } from "@angular/router";
+import { LayoutService } from "@app/features/marasco/core/services/layout.service";
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 
 @Injectable()
 export class VoiceControlService {
-w
+  w
   public state = {
     enabled: !!config.voice_command,
     available: false,
@@ -34,13 +34,13 @@ w
   private static helpModal;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
-              private app: ApplicationRef,
-              private soundService: SoundService,
-              private voiceRecognitionService: VoiceRecognitionService,
-              private notificationService: NotificationService,
-              private bodyService: BodyService,
-              private router: Router,
-              private layoutService: LayoutService,) {
+    private app: ApplicationRef,
+    private soundService: SoundService,
+    private voiceRecognitionService: VoiceRecognitionService,
+    private notificationService: NotificationService,
+    private bodyService: BodyService,
+    private router: Router,
+    private layoutService: LayoutService, ) {
 
     this.state.available = !!SpeechRecognition;
 
@@ -49,13 +49,13 @@ w
     }
 
     this.voiceRecognitionService.events
-    .pipe(
-      tap( event => this.speechEvent$.next(event))
-    )
+      .pipe(
+        tap(event => this.speechEvent$.next(event))
+      )
 
-    .subscribe((event)=> {
-      return this.respondToEvent(event)
-    })
+      .subscribe((event) => {
+        return this.respondToEvent(event)
+      })
   }
 
 
@@ -86,7 +86,7 @@ w
     this.bodyService.removeClass('voice-command-active');
   }
 
-  public respondToEvent(event){
+  public respondToEvent(event) {
     switch (event.type) {
       case 'start':
         this.bodyService.removeClass("service-not-allowed");

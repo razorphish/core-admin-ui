@@ -1,17 +1,19 @@
-import {Subscription} from "rxjs";
+import { Subscription } from "rxjs";
 import {
   Component, OnInit, OnDestroy, ElementRef,
-   AfterViewInit, AfterContentInit, Renderer2
+  AfterViewInit, AfterContentInit, Renderer2
 } from '@angular/core';
-import { Router} from "@angular/router";
+import { Router } from "@angular/router";
 
-import {LayoutService} from "@app/core/services/layout.service";
+import { LayoutService } from "@app/features/marasco/core/services/layout.service";
 
-import { trigger,
+import {
+  trigger,
   state,
   style,
   transition,
-  animate} from '@angular/animations'
+  animate
+} from '@angular/animations'
 
 @Component({
   selector: 'sa-shortcut',
@@ -32,15 +34,15 @@ import { trigger,
 export class ShortcutComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
 
 
-  public state:string = 'out';
+  public state: string = 'out';
 
-  private layoutSub:Subscription;
-  private documentSub:any;
+  private layoutSub: Subscription;
+  private documentSub: any;
 
-  constructor(private layoutService:LayoutService,
-              private router:Router,
-              private renderer:Renderer2,
-              private el:ElementRef) {
+  constructor(private layoutService: LayoutService,
+    private router: Router,
+    private renderer: Renderer2,
+    private el: ElementRef) {
   }
 
   shortcutTo(route) {
@@ -53,7 +55,7 @@ export class ShortcutComponent implements OnInit, AfterViewInit, AfterContentIni
   }
 
   listen() {
-    this.layoutSub = this.layoutService.subscribe((store)=> {
+    this.layoutSub = this.layoutService.subscribe((store) => {
       this.state = store.shortcutOpen ? 'in' : 'out'
 
       if (store.shortcutOpen) {

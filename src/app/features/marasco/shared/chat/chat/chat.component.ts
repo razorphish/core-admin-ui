@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ChatService} from "@app/core/services/chat.service";
+import {ChatService} from "@app/features/marasco/core/services/chat.service";
 
 @Component({
   selector: 'chat',

@@ -1,12 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { MainLayoutComponent } from './shared/layout/app-layouts/main-layout.component';
+import { AuthLayoutComponent } from "./shared/layout/app-layouts/auth-layout.component";
+
 const routes: Routes = [
   {
-    path: 'account',
-    loadChildren: 'app/features/marasco/features/account/account.module#AccountModule',
-    data: { pageTitle: 'Account' }
-  }
+    path: '',
+    component: MainLayoutComponent,
+    data: { pageTitle: 'Home' },
+    children: [
+      {
+        path: "",
+        redirectTo: "dashboard/analytics",
+        pathMatch: "full"
+      },
+      {
+        path: "dashboard",
+        loadChildren: "./features/dashboard/dashboard.module#DashboardModule",
+        data: { pageTitle: "Dashboard" }
+      },
+    ]
+  },
   //,
   // {
   //   path: 'my-services',
@@ -30,10 +45,21 @@ const routes: Routes = [
   //     'app/features/marasco/features/settings/settings.module#SettingsModule',
   //   data: { pageTitle: 'Settings' }
   // }
+  {
+    path: "auth",
+    component: AuthLayoutComponent,
+    loadChildren: "./features/auth/auth.module#AuthModule"
+  },
+  { path: "**", redirectTo: "miscellaneous/error404" }
 ];
 
+// @NgModule({
+//   imports: [RouterModule.forChild(routes)],
+//   exports: [RouterModule]
+// })
+
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: false })],
   exports: [RouterModule]
 })
-export class MarascoRoutingModule {}
+export class MarascoRoutingModule { }

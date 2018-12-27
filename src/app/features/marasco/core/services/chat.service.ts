@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {JsonApiService} from "../../core/services/json-api.service";
+import { JsonApiService } from "../../core/services/json-api.service";
 import { Subject } from 'rxjs';
 
 @Injectable()
@@ -17,16 +17,16 @@ export class ChatService {
   }
 
 
-  getChatState()  {
+  getChatState() {
     return this.jsonApiService.fetch(this.url)
 
   }
 
-  messageTo(user){
+  messageTo(user) {
     this.messageToSubject.next(user)
   }
 
-  sendMessage(message){
+  sendMessage(message) {
     this.newMessage.next(message)
 
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { routerTransition } from "@app/shared/utils/animations";
+import { routerTransition } from "@app/features/marasco/shared/utils/animations";
 
 @Component({
   selector: "app-main-layout",

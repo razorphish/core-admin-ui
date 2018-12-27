@@ -1,13 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
+// import { Component, OnInit } from '@angular/core';
+// import { Http } from '@angular/http';
+
+// @Component({
+//   selector: 'app-root',
+//   templateUrl: './marasco.component.html',
+//   styleUrls: ['./marasco.component.css']
+// })
+// export class MarascoComponent implements OnInit {
+//   constructor() {}
+
+//   ngOnInit() {}
+// }
+
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-marasco',
-  templateUrl: './marasco.component.html',
-  styleUrls: ['./marasco.component.css']
+  selector: 'app-root',
+  template: '<router-outlet></router-outlet>',
 })
-export class MarascoComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
+export class MarascoComponent {
+  title = 'sa';
 }

@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { map } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { environment } from './../../../../../../../environments/environment';
 import { IApiResponse } from '../../../../shared/IApiResponse';

@@ -1,8 +1,8 @@
 import {Injectable, ApplicationRef} from '@angular/core';
 
-import {config} from '@app/core/smartadmin.config';
+import {config} from '@app/features/marasco/core/smartadmin.config';
 import {languages} from './languages.model';
-import {JsonApiService} from "@app/core/services/json-api.service";
+import {JsonApiService} from "@app/features/marasco/core/services/json-api.service";
 import { Subject } from 'rxjs';
 
 
