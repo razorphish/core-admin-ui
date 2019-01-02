@@ -29,6 +29,7 @@ export class TokenInterceptor implements HttpInterceptor {
       // attach tcken
       return this.handleApiRequest(request, next);
     } else {
+      console.log('not intercepted')
       return next.handle(request);
     }
   }
@@ -39,7 +40,8 @@ export class TokenInterceptor implements HttpInterceptor {
     request = this.authToken.token
       ? request.clone({
           setHeaders: {
-            Authorization: `Bearer ${this.authToken.token}`
+            Authorization: `Bearer ${this.authToken.token}`,
+            'Content-Type': 'application/json'
           }
         })
       : request;

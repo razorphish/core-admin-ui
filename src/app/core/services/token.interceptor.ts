@@ -21,6 +21,7 @@ export class TokenInterceptor implements HttpInterceptor {
     public authToken: AuthTokenService,
     public store: Store<fromAuth.AuthState>
   ) {}
+
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -32,8 +33,6 @@ export class TokenInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
   }
-
-
 
   handleApiRequest(request, next) {
     request = this.authToken.token

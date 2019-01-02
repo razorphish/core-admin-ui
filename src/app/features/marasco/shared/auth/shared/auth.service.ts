@@ -6,12 +6,13 @@ import {
     Response,
     RequestOptions
 } from '@angular/http';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 //import 'rxjs/add/operator/map';
 import { map, catchError } from 'rxjs/operators';
 
 import { environment } from '../../../../../../environments/environment';
+import { IUser } from './../../../features/account/users/shared/IUser';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,22 @@ export class AuthService {
     private clientId = environment.clientId;
     private clientSecret = environment.clientSecret;
 
-    constructor(private http: Http, private _router: Router) {
+    private userSource = new BehaviorSubject<IUser>({
+        _id: '',
+        dateCreated: null,
+        email: '',
+        firstName: '',
+        lastName: '',
+        username: '',
+        password: '',
+        confirmPassword: ''
+    });
+
+    public user$ = this.userSource.asObservable();
+
+    constructor(
+        private http: Http,
+        private _router: Router) {
         this.requireLoginSubject = new Subject<boolean>();
         this.tokenIsBeingRefreshed = new Subject<boolean>();
         this.currentUser = new Subject<string>();
@@ -90,6 +106,17 @@ export class AuthService {
         return this.tokenNotExpired();
     }
 
+    onAuthStateChanged() {
+        return this.user$.subscribe(
+            {next(data){
+
+            },
+            complete(){
+
+            }
+        });
+    }
+
     login(username: string, password: string) {
         const params: any = {
             username: username,
@@ -113,7 +140,7 @@ export class AuthService {
                     return resp;
                 }
             }),
-            catchError(this.handleError));
+                catchError(this.handleError));
     }
 
     refreshToken() {
@@ -150,7 +177,7 @@ export class AuthService {
                     return resp;
                 }
             }),
-            catchError(this.handleError));
+                catchError(this.handleError));
     }
 
     refreshTokenSuccessHandler(data) {

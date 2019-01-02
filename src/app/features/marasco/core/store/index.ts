@@ -40,8 +40,8 @@ export function logger(
       // !action.silent &&
       environment.log.store
     ) {
-      // console.log("\nstate", state);
-      // console.log("+ action", action);
+      console.log("\nstate", state);
+      console.log("+ action", action);
 
     }
 

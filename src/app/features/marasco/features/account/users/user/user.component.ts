@@ -48,9 +48,6 @@ export class UserComponent implements OnInit {
     addresses: this._addressesModel,
     password: '',
     confirmPassword: '',
-    salt: '',
-    businessHours: null,
-    calendars: [{ name: 'My Calendar', isDefault: true }],
     roles: []
   };
 

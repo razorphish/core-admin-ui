@@ -11,8 +11,8 @@ export const environment = {
 
   debug: true,
   log: {
-    auth: false,
-    store: false,
+    auth: true,
+    store: true,
   },
 
   smartadmin: {

@@ -8,6 +8,7 @@ import { JsonApiService } from "@app/core/services/json-api.service";
 const defaultUser = {
   username: "Guest"
 }
+
 @Injectable()
 export class UserService {
   public user$ = new BehaviorSubject({...defaultUser});

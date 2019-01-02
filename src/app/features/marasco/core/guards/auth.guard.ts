@@ -10,10 +10,10 @@ import * as fromAuth from '../store/auth';
 export class AuthGuard implements CanActivate {
   constructor(
     private store: Store<fromAuth.AuthState>) {
-    }
+  }
 
   canActivate(): Observable<boolean> {
-    
+
     return this.store.pipe(
       select(fromAuth.getLoggedIn),
       map(authed => {

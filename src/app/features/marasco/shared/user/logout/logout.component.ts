@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotificationService } from "@app/features/marasco/core/services/notification.service";
 
-import {UserService} from "@app/features/marasco/core/services/user.service";
+import { UserService } from "@app/features/marasco/core/services/user.service";
 
 @Component({
   selector: "sa-logout",

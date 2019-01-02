@@ -20,8 +20,7 @@ export class RegisterComponent implements OnInit {
     homePhone: '',
     username: '',
     password: '',
-    confirmPassword: '',
-    salt: ''
+    confirmPassword: ''
   };
 
   loading = false;

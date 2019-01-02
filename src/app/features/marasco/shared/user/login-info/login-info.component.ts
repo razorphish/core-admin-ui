@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { UserService } from '@app/features/marasco/core/services/user.service';
+import { UserService } from "@app/features/marasco/core/services/user.service";
 import { LayoutService } from '@app/features/marasco/core/services/layout.service';
 
 @Component({

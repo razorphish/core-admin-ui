@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {config} from '@app/core/smartadmin.config';
+import {config} from '@app/features/marasco/core/smartadmin.config';
 import {NotificationService} from "./notification.service";
 
 @Injectable()
