@@ -17,14 +17,14 @@ export const environment = {
 
   smartadmin: {
     api: null,
-    db: 'smartadmin-angular'
+    db: 'marasco-ui'
   },
 
   notificationStatus: ['pending', 'opened', 'archived'],
 
   apiUrl: 'http://localhost:3000/api/',
   apiUrlAuth: 'http://localhost:3000/oauth/',
-  clientId: 'glidia-web-ui',
+  clientId: 'core-web-ui',
   clientSecret:
     'E89fZK0oQnEuMWuqRhpNZG5ObexOw81RdnWHnSIuQVjaei3bag4kq' +
     'nSyPXIrAi5gpYQcPU98leY1J5eL1sQUrUCRjS3SdZlMK1vSSv1kORtDqaxdYslVMe8uCBxk4Np' +

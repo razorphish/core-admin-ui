@@ -6,7 +6,7 @@ import { SmartadminDatatableModule } from '../../../shared/ui/datatable/smartadm
 import { SmartadminValidationModule } from '../../../shared/forms/validation/smartadmin-validation.module';
 import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-input.module';
 
-import { AuthHttpService } from '../../authorities/shared/authorities-http.service';
+import { AuthHttpService } from '../../../core/services/auth-http.service';
 import {
   RolesRoutingModule,
   RolesComponent,
@@ -37,4 +37,4 @@ import {
     AuthHttpService
   ]
 })
-export class RolesModule {}
+export class RolesModule { }

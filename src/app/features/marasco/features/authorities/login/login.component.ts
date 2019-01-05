@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 // Third Party Services
 import { NotificationService } from '../../../shared/utils/notification.service';
 
-import { AuthoritiesService } from '../../authorities/';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'marasco-login',
@@ -21,13 +21,14 @@ export class LoginComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private _router: Router,
-    private _authoritiesService: AuthoritiesService,
+    private _authoritiesService: AuthService,
     private _notificationService: NotificationService
   ) {}
 
   ngOnInit() {
     // reset login status
-    this._authoritiesService.logout();
+    //this._authoritiesService.logout();
+    this._authoritiesService.signOut();
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || this._authoritiesService.lastUrl;

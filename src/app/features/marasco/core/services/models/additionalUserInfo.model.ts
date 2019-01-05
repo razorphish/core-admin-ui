@@ -7,9 +7,8 @@
 // };
 
 export class AdditionalUserInfo {
-    constructor(
-        public isNewUser: boolean,
-        public profile: Object | null,
-        public providerId: string,
-        public username: string | null) { }
+    public isNewUser: boolean;
+    public profile: Object;
+    public providerId: string;
+    public username: string;
 }

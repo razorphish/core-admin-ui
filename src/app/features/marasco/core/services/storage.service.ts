@@ -21,10 +21,13 @@ export class StorageService {
    * @param value
    */
   set(key, value){
-    return this.load().then(db => {
+    return this.load()
+    .then(db => {
        db[key] = value
        return db
-    }).then(this.dump).then(_ => value)
+    })
+    .then(this.dump)
+    .then(_ => value)
   }
 
   remove(key){

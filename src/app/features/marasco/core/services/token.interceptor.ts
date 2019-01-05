@@ -25,8 +25,9 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (request.url.search('YOUR_API_ENDPOINT') === 0) {
-      // attach tcken
+    if (request.url.search(environment.apiUrl) === 0) {
+      console.log('intercepted');
+      // attach token
       return this.handleApiRequest(request, next);
     } else {
       console.log('not intercepted')

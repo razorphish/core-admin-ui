@@ -1,4 +1,5 @@
 import { Action } from "@ngrx/store";
+import { TokenResult } from '../../services/models/tokenResult.model';
 
 export enum AuthActionTypes {
   AppInit = "[App] Init",
@@ -28,12 +29,12 @@ export class AuthInit implements Action {
 
 export class LoggedOnce implements Action {
   readonly type = AuthActionTypes.LoggedOnce;
-  constructor(readonly payload: boolean) {}
+  constructor(readonly payload: boolean) { }
 }
 
 export class LoginAction implements Action {
   readonly type = AuthActionTypes.LoginAction;
-  constructor(readonly payload: any) {}
+  constructor(readonly payload: any) { }
 }
 
 export class LogoutAction implements Action {
@@ -42,12 +43,12 @@ export class LogoutAction implements Action {
 
 export class LoginRedirect implements Action {
   readonly type = AuthActionTypes.LoginRedirect;
-  constructor(readonly payload: any) {}
+  constructor(readonly payload: any) { }
 }
 
 export class SignupAction implements Action {
   readonly type = AuthActionTypes.SignupAction;
-  constructor(readonly payload: any) {}
+  constructor(readonly payload: any) { }
 }
 
 export class GoogleSign implements Action {
@@ -56,16 +57,21 @@ export class GoogleSign implements Action {
 
 export class AuthFailure implements Action {
   readonly type = AuthActionTypes.AuthFailure;
-  constructor(readonly payload: any) {}
+  constructor(readonly payload: any) { }
 }
 
 export class AuthUserChange implements Action {
   readonly type = AuthActionTypes.AuthUserChange;
-  constructor(readonly payload: any) {}
+  //constructor(readonly payload: TokenResult) {}
+  constructor(readonly payload: any) { }
 }
 
 export class AuthTokenPayload implements Action {
   readonly type = AuthActionTypes.AuthTokenPayload;
+  // constructor(readonly payload: any) {
+  //   this.payload = { uid: payload.user_id, ...payload };
+  // }
+
   constructor(readonly payload: any) {
     this.payload = { uid: payload.user_id, ...payload };
   }
@@ -88,7 +94,7 @@ export class TokenRefresh implements Action {
 
 export class TokenRefreshSuccess implements Action {
   readonly type = AuthActionTypes.TokenRefreshSuccess;
-  constructor(readonly payload: any) {}
+  constructor(readonly payload: any) { }
 }
 
 export type AuthActions =

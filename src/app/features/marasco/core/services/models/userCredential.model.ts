@@ -1,6 +1,6 @@
 import { AdditionalUserInfo } from './additionalUserInfo.model';
 import { AuthCredential } from './authCredential.model';
-import { UserService } from '../user.service';
+import { UserInfo } from './userInfo.model';
 
 // export type UserCredential = {
 //     additionalUserInfo?: AdditionalUserInfo | null;
@@ -10,10 +10,8 @@ import { UserService } from '../user.service';
 // };
 
 export class UserCredential {
-    constructor(
-        public credential: AuthCredential | null,
-        public user: UserService | null,
-        public additionalUserInfo?: AdditionalUserInfo | null,
-        public operationType?: string | null
-    ) { }
+    public credential: AuthCredential;
+    public user: UserInfo;
+    public additionalUserInfo?: AdditionalUserInfo;
+    public operationType?: string;
 }

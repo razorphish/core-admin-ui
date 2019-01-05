@@ -7,7 +7,7 @@ import { SmartadminValidationModule } from '../../../shared/forms/validation/sma
 import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-input.module';
 
 import { RoleService } from '../roles';
-import { AuthHttpService } from '../../authorities';
+import { AuthHttpService } from '../../../core/services/auth-http.service';
 
 import {
   UsersComponent,

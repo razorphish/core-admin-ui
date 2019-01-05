@@ -12,7 +12,7 @@ export const environment = {
 
   smartadmin: {
     api: null,
-    db: 'smartadmin-angular'
+    db: 'marasco-ui'
   }
 
 };

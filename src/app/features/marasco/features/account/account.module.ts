@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { AccountComponent } from './account.component';
 import { AccountRoutingModule } from './account-routing';
 
-import { AuthoritiesService } from '../authorities';
+import { AuthService } from '../../core/services/auth.service';
 
 @NgModule({
   imports: [CommonModule, AccountRoutingModule],
   declarations: [AccountComponent],
-  providers: [AuthoritiesService]
+  providers: [AuthService]
 })
-export class AccountModule {}
+export class AccountModule { }

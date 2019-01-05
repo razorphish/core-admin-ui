@@ -11,7 +11,7 @@ import { catchError } from 'rxjs/operators';
 
 import { environment } from './../../../../../../../environments/environment';
 import { IApiResponse } from '../../../../shared/IApiResponse';
-import { AuthHttpService } from '../../../authorities';
+import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
 import { IUser } from '../../users';
 

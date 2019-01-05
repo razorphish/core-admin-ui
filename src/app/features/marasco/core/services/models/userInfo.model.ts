@@ -6,14 +6,23 @@
 //     providerId: string;
 //     uid: string;
 // }
+import { Role } from './role.model';
+import { Address } from './address.model';
 
 export class UserInfo {
-    constructor(
-        public displayName: string | null,
-        public email: string | null,
-        public phoneNumber: string | null,
-        public photoURL: string | null,
-        public providerId: string,
-        public uid: string
-    ) { }
+    _id: string;
+    avatar?: string;
+    email: string;
+    firstName: string;
+    homePhone?: string;
+    lastName: string;
+    username: string;
+    refreshToken?: any;
+    addresses?: Address[];
+    roles?: Role[];
+    facebook?: string;
+    twitter?: string;
+    instagram?: string;
+    dateCreated?: Date;
+    displayName? : string = `@${this.username}`;
 }

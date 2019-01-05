@@ -8,24 +8,18 @@ import { UserInfo } from './models/userInfo.model';
 import { UserCredential } from './models/userCredential.model';
 import { AuthCredential } from './models/authCredential.model';
 
-const defaultUser = {
-  username: "Guest"
+const defaultUser : UserInfo = {
+  _id: '',
+  username: 'Guest',
+  firstName: 'Guest',
+  lastName: '',
+  email: '@'
 }
 
 @Injectable()
-export class UserService implements UserInfo {
-  public user$ = new BehaviorSubject({ ...defaultUser });
+export class UserService {
 
-  displayName: string;
-  email: string;
-  emailVerified: boolean;
-  isAnonymous: boolean;
-  phoneNumber: string | null;
-  photoURL: string;
-  providerData: (UserInfo | null)[];
-  providerId: string;
-  refreshToken: string;
-  uid: string;
+  public user$ = new BehaviorSubject<UserInfo>({ ...defaultUser });
 
   constructor(private jsonApiService: JsonApiService) {
     this.jsonApiService.fetch("/user/login-info.json").subscribe(this.user$)
@@ -36,26 +30,26 @@ export class UserService implements UserInfo {
   };
 
   getIdToken(forceRefresh?: boolean): Observable<string> {
-    return new Observable<string>(null);
+    return new Observable<string>();
   };
 
   getIdTokenResult(
     forceRefresh?: boolean
   ): Observable<TokenResult> {
-    return new Observable<TokenResult>(null);
+    return new Observable<TokenResult>();
   };
 
-  linkAndRetrieveDataWithCredential(
-    credential: AuthCredential
-  ): Observable<UserCredential> {
-    return new Observable<UserCredential>(null);
-  };
+  // linkAndRetrieveDataWithCredential(
+  //   credential: AuthCredential
+  // ): Observable<UserCredential> {
+  //   return new Observable<UserCredential>(null);
+  // };
 
-  linkWithCredential(
-    credential: AuthCredential
-  ): Observable<this> {
-    return new Observable<this>(null);
-  };
+  // linkWithCredential(
+  //   credential: AuthCredential
+  // ): Observable<this> {
+  //   return new Observable<this>(null);
+  // };
 
   // linkWithPhoneNumber(
   //     phoneNumber: string,

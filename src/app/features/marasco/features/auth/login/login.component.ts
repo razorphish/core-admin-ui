@@ -14,7 +14,9 @@ export class LoginComponent implements OnInit {
   auth$;
 
   form: FormGroup;
+
   email = new FormControl("", Validators.required);
+  password = new FormControl("", Validators.required);
 
   constructor(
     formBuilder: FormBuilder,
@@ -24,7 +26,7 @@ export class LoginComponent implements OnInit {
 
     this.form = formBuilder.group({
       "email": this.email,
-      "password": ["", Validators.required]
+      "password": this.password
     });
   }
 
@@ -38,12 +40,12 @@ export class LoginComponent implements OnInit {
     // this._authService.login();
 
     // this.router.navigate(['/dashboard'])
-    this._store.dispatch(new fromAuth.LoginAction({ username: this.email }));
+    this._store.dispatch(new fromAuth.LoginAction({ username: this.email.value, password: this.password.value }));
   }
 
-  onSubmit() {
-    console.log("model-based form submitted");
-    console.log(this.form.controls.email);
-  }
+  // onSubmit() {
+  //   console.log("model-based form submitted");
+  //   console.log(this.form.controls.email);
+  // }
 
 }

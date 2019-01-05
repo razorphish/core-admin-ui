@@ -2,39 +2,29 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-
-import { tap, filter, map } from 'rxjs/operators';
+import { tap, filter, map, switchMap } from 'rxjs/operators';
 import { AuthState } from './auth.reducer';
 import { Store } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthTokenService } from '../../services/auth-token.service';
-import { AuthService } from './../../../core/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import * as actions from './auth.actions';
+import { TokenResult } from '../../services/models/tokenResult.model';
 
 @Injectable()
 export class AuthEffects {
   redirectUrl: string = '/dashboard';
   loginUrl: string = '/auth/login';
-  user = {};
+
 
   @Effect({ dispatch: false })
   login$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.LoginAction),
     tap((data: any) => {
-      console.log(data);
-      console.log(data.payload.username);
-      // auth
-      //   .signInWithEmailAndPassword(
-      //     data.payload.username,
-      //     data.payload.password
-      //   )
-      //   .catch(this.dispatchError);
       this._authService
         .login(data.payload.username, data.payload.password)
-        .subscribe(user => {
-          this.user = user
-        })
+        .subscribe((_ : TokenResult) => _)
     })
   );
 
@@ -44,7 +34,7 @@ export class AuthEffects {
     tap((data: any) => {
       this.router.navigate(['']);
       console.log('logout');
-      //auth.signOut();
+      this.auth.signOut();
     })
   );
 
@@ -93,13 +83,11 @@ export class AuthEffects {
   @Effect()
   authUser$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.AuthUserChange),
-    //switchMap((data: any) => data.payload.getIdToken()),
-    tap(_ => (this.authToken.token = _)),
+    switchMap((data: any) => data.payload.getIdToken()),
+    tap<TokenResult>(_ => (this.authToken.token = _)),
     map(_ => this.authToken.readPayload(_)),
-
     map(_ => new actions.AuthTokenPayload(_))
   );
-
 
 
   dispatchError = err => {
@@ -115,24 +103,27 @@ export class AuthEffects {
     private actions$: Actions,
     private store: Store<AuthState>,
     private authToken: AuthTokenService,
+    private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private _authService: AuthService
   ) {
-    //auth.onAuthStateChanged(data => {
-    // console.log('\n\n onAuthStateChanged', data);
-    //});
 
-    //auth.onIdTokenChanged(authUser => {
-    // console.log('\n\n onIdTokenChanged', data);
-    // if (authUser) {
-    //   this.store.dispatch(new actions.AuthUserChange(authUser));
-    // } else {
-    //   this.authToken.token = null;
-    //   this.store.dispatch(new actions.NullToken());
-    // }
-    //});
+    //Login, Logout
+    this.auth.onAuthStateChanged(null).subscribe(data => {
+      console.log('\n\n onAuthStateChanged', data);
+    });
 
+    //Login, Logout, Token Refresh
+    this.auth.onIdTokenChanged(null).subscribe(authUser => {
+      console.log('\n\n onIdTokenChanged', authUser);
 
+      if (authUser) {
+        this.store.dispatch(new actions.AuthUserChange(authUser));
+      } else {
+        this.authToken.token = null;
+        this.store.dispatch(new actions.NullToken());
+      }
+    });
   }
 }

@@ -8,7 +8,7 @@ import { SmartadminDatatableModule } from '../../../shared/ui/datatable/smartadm
 import { SmartadminValidationModule } from '../../../shared/forms/validation/smartadmin-validation.module';
 import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-input.module';
 
-import { AuthHttpService } from '../../authorities';
+import { AuthHttpService } from '../../../core/services/auth-http.service';
 
 import {
   ProfileComponent,

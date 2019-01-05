@@ -106,17 +106,6 @@ export class AuthService {
         return this.tokenNotExpired();
     }
 
-    onAuthStateChanged() {
-        return this.user$.subscribe(
-            {next(data){
-
-            },
-            complete(){
-
-            }
-        });
-    }
-
     login(username: string, password: string) {
         const params: any = {
             username: username,

@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from '@env/environment';
-import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { Store } from '@ngrx/store';
 
 import { TokenRestore, AuthInit, LoggedOnce } from '../store/auth/auth.actions';
 import { AuthState } from '../store/auth/auth.reducer';
 import { TokenResult } from './models/tokenResult.model';
-import { UserCredential } from './models/userCredential.model';
-import { UserService } from './user.service';
-
-//import { UserService } from '@app/core/services/user.service';
 
 const ROLE_ADMIN = 1;
 
@@ -22,35 +18,25 @@ const USER_LOGGED_ONCE = 'logged_once';
 export class AuthTokenService {
 
   private _token: TokenResult = {
-    token: '',
+    access_token: '',
+    refresh_token: '',
+    expires_in: '',
     expirationTime: '',
-    authTime: '',
     issuedAtTime: '',
-    signInProvider: '',
-    claims: []
+    signInProvider: ''
   }
 
-  //private tokenSubject = new BehaviorSubject<TokenResult>(this._token);
-  private tokenSubject = new BehaviorSubject<any>(this._token); 
-
-  private _userCredentials: UserCredential = {
-    credential: {
-        providerId: '',
-        signInMethod: ''
-    },
-    user: this.currentUser
-}
+  //private tokenSubject = new BehaviorSubject<any>(this._token);
+  private tokenSubject = new BehaviorSubject<TokenResult>(this._token);
 
   /**
-   * Token that can be subscribed to directly when changes are made
+   * Token that can be subscribed (observer) to directly when changes are made
    */
   public token$ = this.tokenSubject.asObservable();
 
   constructor(
-    public currentUser: UserService | null,
     private _storage: StorageService,
-    private _store: Store<AuthState>,
-    private _userService: UserService
+    private _store: Store<AuthState>
   ) { }
 
   load(): Promise<any> {
@@ -107,17 +93,18 @@ export class AuthTokenService {
     });
   };
 
-  set token(value) {
+  set token(value: TokenResult) {
     this.tokenSubject.next(value);
   }
-  get token() {
+
+  get token(): TokenResult {
     return this.tokenSubject.value;
   }
 
   readPayload(token) {
     let payload = this.getTokenPayload(token);
-    return payload; // && payload.user ? Object.assign({roles: [], id: null},
-    // {id: payload.user.id, roles: JSON.parse(payload.user.roles)}) : null
+    return payload && payload.user ? Object.assign({ roles: [], id: null },
+      { id: payload.user.id, roles: JSON.parse(payload.user.roles) }) : null
   }
 
   getTokenPayload(token) {
@@ -127,6 +114,7 @@ export class AuthTokenService {
   }
 
   b64DecodeUnicode(str) {
+
     // Going backwards: from bytestream, to percent-encoding, to original string.
     return decodeURIComponent(
       atob(str)
@@ -137,42 +125,6 @@ export class AuthTokenService {
         .join("")
     );
   }
-
-  /**
- * Observer for changes to the signed in user's Id token including sign in , sign out, and token refresh
- * @param user {UserService} user User data that informs observers/subscribers
- * @example .onIdTokenChanged(null).subscribe((token) => { this._store.dispatch(new actions.Idtoken(user)) })
- */
-  onIdTokenChanged(user: UserService) {
-    var tokenObservable = new Observable(observer => {
-      observer.next(user);
-      observer.complete();
-    });
-
-    return tokenObservable;
-  }
-
-      //confirmPasswordReset(code: string, newPassword: string): Promise<void>;
-
-    //createUserAndRetrieveDataWithEmailAndPassword(
-    //  email: string,
-    //  password: string
-    //): Promise<UserCredential>;
-
-    createUserWithEmailAndPassword(
-      email: string,
-      password: string
-  ): Observable<UserCredential> {
-      var observable = new Observable<UserCredential>(() => {
-
-      });
-
-      //Inform everybody
-      //this.tokenSource.next({ token: '' });
-      //this.onIdTokenChanged(new UserService());
-      this.onIdTokenChanged(null);
-      return observable;
-  };
 }
 
 export function AuthTokenFactory(service: AuthTokenService): Function {

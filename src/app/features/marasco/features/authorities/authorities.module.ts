@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { AuthoritiesComponent } from './authorities.component';
-import { AuthoritiesService } from './shared/authorities.service';
+//import { AuthoritiesService } from './shared/authorities.service';
+import { AuthService } from '../../core/services/auth.service';
 import { AlertService } from './shared/alert.service';
 import { routing } from './authorities-routing';
 
@@ -16,7 +17,7 @@ import { routing } from './authorities-routing';
   imports: [CommonModule, routing, FormsModule],
   declarations: [AuthoritiesComponent],
   providers: [
-    AuthoritiesService,
+    AuthService,
     AlertService
     // providers used to create fake backend
     // fakeBackendProvider,
@@ -24,4 +25,4 @@ import { routing } from './authorities-routing';
     // BaseRequestOptions
   ]
 })
-export class AuthoritiesModule {}
+export class AuthoritiesModule { }

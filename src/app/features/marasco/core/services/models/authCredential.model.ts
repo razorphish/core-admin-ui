@@ -4,9 +4,6 @@
 // }
 
 export class AuthCredential {
-    constructor(
-        public providerId: string,
-        public signInMethod: string) {
-
-    }
+    public providerId: string;
+    public signInMethod: string;
 }
