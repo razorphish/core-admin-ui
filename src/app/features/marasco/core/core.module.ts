@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders, APP_INITIALIZER , Optional, SkipSelf } from '@angular/core';
+import { NgModule, ModuleWithProviders, APP_INITIALIZER, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
@@ -11,7 +11,7 @@ import { AppEffects } from "./app.effects";
 import * as fromStore from "./store";
 import { AuthGuard } from "./guards/auth.guard";
 
-import {services, AuthTokenFactory, AuthTokenService, TokenInterceptor} from '@app/features/marasco/core/services'
+import { services, AuthTokenFactory, AuthTokenService, TokenInterceptor } from '@app/features/marasco/core/services'
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 
 
@@ -50,7 +50,7 @@ import { throwIfAlreadyLoaded } from './guards/module-import.guard';
   ]
 })
 export class CoreModule {
-  constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     throwIfAlreadyLoaded(parentModule, 'CoreModule');
   }
 

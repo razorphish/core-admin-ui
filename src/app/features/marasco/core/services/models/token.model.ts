@@ -1,5 +1,3 @@
-import { UserInfo } from './userInfo.model';
-import { TokenModel } from './token.model';
 // export interface ITokenResult {
 //     token: string;
 //     expirationTime: string;
@@ -11,15 +9,15 @@ import { TokenModel } from './token.model';
 //     };
 // }
 
-export class TokenResult implements TokenModel {
+export class TokenModel {
     public access_token: string;
     public refresh_token: string;
     public expirationTime: string;
-    public expires_in: string;
+    public expires_in : string;
     //public authTime: string; same as expires_in
     public issuedAtTime: string;
     public signInProvider: string;
     public claims?: { [key: string]: any };
-    public user?: UserInfo;
-    public token_type?: string
+    public token_type?: string;
+    public forceRefresh? : boolean;
 }

@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
@@ -11,20 +10,27 @@ import { AuthTokenService } from '../../services/auth-token.service';
 import { AuthService } from '../../services/auth.service';
 import * as actions from './auth.actions';
 import { TokenResult } from '../../services/models/tokenResult.model';
+import { environment } from '@env/environment';
+
+import { AuthService as SocialAuthService, SocialUser } from "angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider, LinkedInLoginProvider } from "angularx-social-login";
+import { NotificationService } from '@app/features/marasco/core/services/notification.service';
+
 
 @Injectable()
 export class AuthEffects {
-  redirectUrl: string = '/dashboard';
-  loginUrl: string = '/auth/login';
+  redirectUrl: string = environment.redirectUrl;
+  loginUrl: string = environment.loginUrl;
 
 
   @Effect({ dispatch: false })
   login$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.LoginAction),
     tap((data: any) => {
-      this._authService
-        .login(data.payload.username, data.payload.password)
-        .subscribe((_ : TokenResult) => _)
+      this.auth
+        .login(data.payload.username, data.payload.password, data.payload.forceRefresh)
+        .subscribe((_: TokenResult) => { _ },
+          (error: any) => { this.dispatchError(error); })
     })
   );
 
@@ -32,9 +38,10 @@ export class AuthEffects {
   logout$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.LogoutAction),
     tap((data: any) => {
-      this.router.navigate(['']);
-      console.log('logout');
-      this.auth.signOut();
+      this.router.navigate([this.loginUrl]);
+      this.auth
+        .signOut()
+        .subscribe((_: any) => _);
     })
   );
 
@@ -56,9 +63,29 @@ export class AuthEffects {
   googleSign$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.GoogleSign),
     tap((data: any) => {
-      // auth
-      //   .signInWithPopup(new fireAuth.GoogleAuthProvider())
-      //   .catch(this.dispatchError);
+      this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+        .then((value: SocialUser) => {
+          console.log(value);
+        })
+        .catch((error: any) => {
+          this.dispatchError(error);
+        });
+    })
+  );
+
+  @Effect({ dispatch: false })
+  facebookSign$ = this.actions$.pipe(
+    ofType(actions.AuthActionTypes.FacebookSign),
+    tap((data: any) => {
+
+      this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
+        .then((value: SocialUser) => {
+
+        })
+        .catch((error: any) => {
+          this.dispatchError(error);
+        });
+      
     })
   );
 
@@ -83,6 +110,8 @@ export class AuthEffects {
   @Effect()
   authUser$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.AuthUserChange),
+    // tap((data: any) => console.log('Whatup!!')),
+    // tap((data: any) => console.log(data)),
     switchMap((data: any) => data.payload.getIdToken()),
     tap<TokenResult>(_ => (this.authToken.token = _)),
     map(_ => this.authToken.readPayload(_)),
@@ -91,6 +120,8 @@ export class AuthEffects {
 
 
   dispatchError = err => {
+    //Notify, if applicable
+    this.dispatchErrorNotification(err);
     this.store.dispatch(
       new actions.AuthFailure({
         code: err.code,
@@ -99,6 +130,35 @@ export class AuthEffects {
     );
   };
 
+  dispatchErrorNotification (error: any) {
+    console.log(error)
+    if (!error.code){
+      this.notify('Fatal Error occurred', 'Please contact your administrator', error);
+      return;
+    }
+
+    switch (error.code) {
+      case 'invalid_grant':
+        this.notify('Invalid username and/or password', 'Please re-enter your sign in credentials.', ' ');
+        break;
+      default:
+        this.notify('Error occurred', 'Please contact your administrator');
+        break;
+    }
+  }
+
+  notify(title, content, number?) {
+
+    this._notificationService.bigBox({
+      title: title,
+      content: content,
+      color: '#C46A69',
+      icon: 'fa fa-warning shake animated',
+      number: number || '1',
+      timeout: 6000
+    });
+  }
+
   constructor(
     private actions$: Actions,
     private store: Store<AuthState>,
@@ -106,17 +166,24 @@ export class AuthEffects {
     private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private _authService: AuthService
+    private authService: SocialAuthService,
+    private _notificationService: NotificationService,
   ) {
 
-    //Login, Logout
-    this.auth.onAuthStateChanged(null).subscribe(data => {
-      console.log('\n\n onAuthStateChanged', data);
+    //Login/Logout
+    this.auth.onAuthStateChanged.subscribe(data => {
+      //console.log('\n\n onAuthStateChanged', data);
     });
 
     //Login, Logout, Token Refresh
-    this.auth.onIdTokenChanged(null).subscribe(authUser => {
-      console.log('\n\n onIdTokenChanged', authUser);
+    this.auth.onIdTokenChanged.subscribe(authUser => {
+      //console.log('\n\n onIdTokenChanged', authUser);
+
+      // if (typeof authUser.getIdToken === "function") {
+      //   console.log('I see it');
+      // } else {
+      //   console.log('I dont see it');
+      // }
 
       if (authUser) {
         this.store.dispatch(new actions.AuthUserChange(authUser));

@@ -10,6 +10,8 @@ export enum AuthActionTypes {
   LoginRedirect = "[Auth] Login Redirect Action",
   SignupAction = "[Auth] Signup Action",
   GoogleSign = "[Auth] Google Sign Action",
+  FacebookSign = "[Auth] Facebook Sign Action",
+  LinkedInSign = "[Auth] LinkedIn Sign Action",
   AuthFailure = "[Auth] Failure Action",
   AuthUserChange = "[Auth] User Change",
   AuthTokenPayload = "[Auth] Token Payload",
@@ -55,6 +57,14 @@ export class GoogleSign implements Action {
   readonly type = AuthActionTypes.GoogleSign;
 }
 
+export class FacebookSign implements Action {
+  readonly type = AuthActionTypes.FacebookSign;
+}
+
+export class LinkedInSign implements Action {
+  readonly type = AuthActionTypes.LinkedInSign;
+}
+
 export class AuthFailure implements Action {
   readonly type = AuthActionTypes.AuthFailure;
   constructor(readonly payload: any) { }
@@ -71,9 +81,8 @@ export class AuthTokenPayload implements Action {
   // constructor(readonly payload: any) {
   //   this.payload = { uid: payload.user_id, ...payload };
   // }
-
   constructor(readonly payload: any) {
-    this.payload = { uid: payload.user_id, ...payload };
+    this.payload = { uid: payload.user._id, ...payload };
   }
 }
 
@@ -84,7 +93,7 @@ export class NullToken implements Action {
 export class TokenRestore implements Action {
   readonly type = AuthActionTypes.TokenRestore;
   constructor(readonly payload: any) {
-    this.payload = { uid: payload.user_id, ...payload };
+    this.payload = { uid: payload.user._id, ...payload };
   }
 }
 
@@ -106,6 +115,8 @@ export type AuthActions =
   | LoginRedirect
   | SignupAction
   | GoogleSign
+  | FacebookSign
+  | LinkedInSign
   | AuthFailure
   | AuthUserChange
   | AuthTokenPayload

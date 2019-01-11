@@ -4,7 +4,8 @@
     <span id="logo"> <img src="assets/img/logo.png" alt="SmartAdmin"> </span>
   </div>
 
-  <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a routerLink="/auth/register" class="btn btn-danger">Create account</a> </span>
+  <span id="extr-page-header-space"> <span class="hidden-mobile hiddex-xs">Need an account?</span> <a routerLink="/auth/register"
+      class="btn btn-danger">Create account</a> </span>
 
 </header>
 <div id="main" role="main" class="animated fadeInDown">
@@ -12,16 +13,17 @@
   <div id="content" class="container">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
-        <h1 class="txt-color-red login-header-big">SmartAdmin</h1>
+        <h1 class="txt-color-red login-header-big">Maras,co</h1>
 
         <div class="hero">
           <div class="pull-left login-desc-box-l">
-            <h4 class="paragraph-header">It's Okay to be Smart. Experience the simplicity of SmartAdmin,
-              everywhere you go!</h4>
+            <h4 class="paragraph-header">It is foolish and wrong to mourn the men who died. Rather we should thank God
+              that such men lived. <br />
+              --General George S Patton</h4>
 
             <div class="login-app-icons">
-              <a routerLink="/dashboard/analytics" class="btn btn-danger btn-sm">Frontend Template</a>
-              <a routerLink="/smartadmin/app-layouts" class="btn btn-danger btn-sm">Find out more</a>
+              <!-- <a routerLink="/dashboard/analytics" class="btn btn-danger btn-sm">Frontend Template</a>&nbsp; -->
+              <a href="https://www.maras.co" class="btn btn-danger btn-sm">Find out more</a>
             </div>
           </div>
           <img src="assets/img/demo/iphoneview.png" class="pull-right display-image" alt="" style="width:210px">
@@ -47,7 +49,7 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
         <div class="well no-padding">
-          <form class="smart-form client-form" [formGroup]="form"  (ngSubmit)="login($event)">
+          <form class="smart-form client-form" [formGroup]="form" (ngSubmit)="login($event)">
             <header>
               Sign In
             </header>
@@ -55,14 +57,16 @@
               <section>
                 <label class="label">E-mail</label>
                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                  <input formControlName ="email" type="email" name="email" data-smart-validate-input="" data-required="" data-email="" data-message-required="Please enter your email address" data-message-email="Please enter a VALID email address">
+                  <input formControlName="email" type="email" name="email" data-smart-validate-input="" data-required=""
+                    data-email="" data-message-required="Please enter your email address" data-message-email="Please enter a VALID email address">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i>
                     Please enter email address/username</b></label>
               </section>
               <section>
                 <label class="label">Password</label>
                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                  <input formControlName="password" type="password" name="password" data-smart-validate-input="" data-required="" data-minlength="3" data-maxnlength="20" data-message="Please enter your email password">
+                  <input formControlName="password" type="password" name="password" data-smart-validate-input=""
+                    data-required="" data-minlength="3" data-maxnlength="20" data-message="Please enter your email password">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter
                     your password</b> </label>
 
@@ -72,7 +76,7 @@
               </section>
               <section>
                 <label class="checkbox">
-                  <input type="checkbox" name="remember" checked>
+                  <input formControlName="forceRefresh" type="checkbox" name="remember" checked>
                   <i></i>Stay signed in</label>
               </section>
             </fieldset>
@@ -86,10 +90,10 @@
         <h5 class="text-center"> - Or sign in using -</h5>
         <ul class="list-inline text-center">
           <li>
-            <a (click)="(null)" class="btn btn-primary btn-circle"><i class="fa fa-facebook"></i></a>
+            <a (click)="signInWithFB()" class="btn btn-primary btn-circle"><i class="fa fa-facebook"></i></a>
           </li>
           <li>
-            <a (click)="(null)" class="btn btn-info btn-circle"><i class="fa fa-twitter"></i></a>
+            <a (click)="signInWithGoogle()" class="btn btn-info btn-circle"><i class="fa fa-google"></i></a>
           </li>
           <li>
             <a (click)="(null)" class="btn btn-warning btn-circle"><i class="fa fa-linkedin"></i></a>

@@ -23,7 +23,7 @@ export class AuthTokenService {
     expires_in: '',
     expirationTime: '',
     issuedAtTime: '',
-    signInProvider: ''
+    signInProvider: '',
   }
 
   //private tokenSubject = new BehaviorSubject<any>(this._token);
@@ -60,7 +60,8 @@ export class AuthTokenService {
           this.token = token;
 
           this.token$
-            .pipe(switchMap(this.dumpToken), switchMap(this.updateLoggedOnce))
+            .pipe(switchMap(this.dumpToken),
+              switchMap(this.updateLoggedOnce))
             .subscribe(() => { });
 
           resolve(token);
@@ -102,9 +103,11 @@ export class AuthTokenService {
   }
 
   readPayload(token) {
-    let payload = this.getTokenPayload(token);
-    return payload && payload.user ? Object.assign({ roles: [], id: null },
-      { id: payload.user.id, roles: JSON.parse(payload.user.roles) }) : null
+    //Below is for JWT tokens...for now we'll use http tokens
+    return token;
+    // let payload = this.getTokenPayload(token);
+    // return payload && payload.user ? Object.assign({ roles: [], id: null },
+    //   { id: payload.user.id, roles: JSON.parse(payload.user.roles) }) : null
   }
 
   getTokenPayload(token) {

@@ -24,6 +24,8 @@ export const environment = {
 
   apiUrl: 'http://localhost:3000/api/',
   apiUrlAuth: 'http://localhost:3000/oauth/',
+  redirectUrl: '/dashboard',
+  loginUrl:  '/auth/login',
   clientId: 'core-web-ui',
   clientSecret:
     'E89fZK0oQnEuMWuqRhpNZG5ObexOw81RdnWHnSIuQVjaei3bag4kq' +

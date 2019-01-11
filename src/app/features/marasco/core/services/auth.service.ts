@@ -13,15 +13,15 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 
-import { delay, tap, map, catchError, share } from 'rxjs/operators';
+import { map, catchError, share } from 'rxjs/operators';
 
 import { environment } from '../../../../../environments/environment';
 
-import { UserService } from './user.service';
 import { UserCredential } from './models/userCredential.model';
 import { StorageService } from './storage.service';
 import { UserInfo } from './models/userInfo.model';
 import { TokenResult } from './models/tokenResult.model';
+import { Response } from '@angular/http';
 
 const ROLE_ADMIN = 1;
 
@@ -30,12 +30,18 @@ const USER_LOGGED_ONCE = 'logged_once';
 
 @Injectable()
 export class AuthService {
+  private userSource: UserInfo;
+
   private _loginSubject = new BehaviorSubject<boolean>(this.hasToken());
-  private _url: string = environment.apiUrlAuth;
+  private _userSubject = new BehaviorSubject<UserInfo>(this.userSource);
+  public onAuthStateChanged = new BehaviorSubject<UserInfo>(this.userSource);
+  public onIdTokenChanged = new BehaviorSubject<UserInfo>(this.userSource);
+
+  private _authUrl: string = environment.apiUrlAuth;
+  private _apiUrl: string = environment.apiUrl;
   private _clientId = environment.clientId;
   private _clientSecret = environment.clientSecret;
 
-  public currentUser: UserService | null;
   public lastUrl: string;
   // store the URL so we can redirect after logging in
   public redirectUrl: string;
@@ -44,8 +50,11 @@ export class AuthService {
   constructor(
     private _http: HttpClient,
     private _storage: StorageService) {
-      this.lastUrl = '/';
-     }
+
+    this.lastUrl = '/';
+    console.log('created');
+
+  }
 
   //createUserAndRetrieveDataWithEmailAndPassword(
   //  email: string,
@@ -57,27 +66,26 @@ export class AuthService {
     password: string
   ): Observable<UserCredential> {
     var observable = new Observable<UserCredential>(() => {
-
     });
 
     //Inform everybody
     //this.tokenSource.next({ token: '' });
     //this.onIdTokenChanged(new UserService());
-    this.onIdTokenChanged(null);
+    //this.onIdTokenChanged(null);
     return observable;
   };
 
   //confirmPasswordReset(code: string, newPassword: string): Promise<void>;
 
   isLoggedIn(): Observable<boolean> {
-    return this._loginSubject.asObservable().pipe(share());
+    return this._loginSubject.asObservable();
   }
 
   loggedIn() {
     return this.tokenNotExpired().then(_ => _);
   }
 
-  login(username: string, password: string): Observable<TokenResult> {
+  login(username: string, password: string, forceRefresh: boolean = false): Observable<TokenResult> {
     const params: any = {
       username: username,
       password: password,
@@ -87,51 +95,27 @@ export class AuthService {
     };
 
     return this._http
-      .post<TokenResult>(this._url + 'token', params)
+      .post<TokenResult>(this._authUrl + 'token', params)
       .pipe(map((credential: TokenResult) => {
         // login successful if there's a jwt token in the response
 
         if (credential && credential.access_token) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          //localStorage.setItem('currentUser', JSON.stringify(user));
-          //localStorage.setItem('access_token', user.access_token);
-          ///this.currentUser.next(JSON.stringify(user));
+
+          //Inform everyone
           this._loginSubject.next(true);
-          this.onIdTokenChanged(credential.user);
-          this.onAuthStateChanged(credential.user);
+
+          this.userSource = new UserInfo(credential.user);
+          this.userSource.token = credential;
+          this.userSource.token.forceRefresh = forceRefresh;
+          this._userSubject.next(this.userSource);
+          this.onAuthStateChanged.next(this.userSource);
+          this.onIdTokenChanged.next(this.userSource);
           return credential;
         }
       }),
         catchError(this.handleError)
       );
-  }
-
-  /**
-  * Observer for changes to the signed in user's Id token including sign in , sign out
-  * @param user {UserService} user User data that informs observers/subscribers
-  * @example .onAuthStateChanged(null).subscribe((token) => { this._store.dispatch(new actions.Idtoken(user)) })
-  */
-  onAuthStateChanged(user: UserInfo) {
-    var tokenObservable = new Observable(observer => {
-      observer.next(user);
-      observer.complete();
-    });
-
-    return tokenObservable;
-  }
-
-  /**
-  * Observer for changes to the signed in user's Id token including sign in , sign out, and token refresh
-  * @param user {UserService} user User data that informs observers/subscribers
-  * @example .onIdTokenChanged(null).subscribe((token) => { this._store.dispatch(new actions.Idtoken(user)) })
-  */
-  onIdTokenChanged(user: UserInfo): Observable<UserInfo> {
-    var tokenObservable = new Observable<UserInfo>(observer => {
-      observer.next(user);
-      observer.complete();
-    });
-
-    return tokenObservable;
   }
 
   refreshToken() {
@@ -154,7 +138,7 @@ export class AuthService {
     };
 
     return this._http
-      .post(this._url + 'token', params)
+      .post(this._authUrl + 'token', params)
       .pipe(map((credential: TokenResult) => {
         // Business as usual
         // login successful if there's a jwt token in the response
@@ -164,16 +148,16 @@ export class AuthService {
           //localStorage.setItem('access_token', user.access_token);
           ///this.currentUser.next(JSON.stringify(user));
           this._loginSubject.next(true);
-          this.onIdTokenChanged(credential.user);
-          this.onAuthStateChanged(credential.user);
+          this.onIdTokenChanged.next(credential.user);
+          //this.onAuthStateChanged(credential.user);
           return credential;
         }
       }),
-      catchError(this.handleError));
+        catchError(this.handleError));
   }
 
   refreshTokenErrorHandler(error) {
-    this._loginSubject.next(true);
+    this._loginSubject.next(false);
     this.signOut();
     this.tokenIsBeingRefreshed.next(false);
     //this._router.navigate(['/auth/login']);
@@ -215,17 +199,25 @@ export class AuthService {
     return new Observable<UserCredential>(null);
   };
 
-  signOut(): Observable<void> {
-    let observable = new Observable<void>(null);
+  signOut(): Observable<any> {
+    const url = this._apiUrl + 'auth/logout';
+    const body: any = {};
+    return this._http
+      .post(url, body)
+      .pipe(map((response: Response) => {
+        // logout response
 
-
-    this._loginSubject.next(false);
-
-    //Notify listeners
-    this.onAuthStateChanged(null);
-    this.onIdTokenChanged(null);
-
-    return observable;
+        //Notify listeners
+        this._loginSubject.next(false);
+        this._userSubject.next(null);
+        this.onAuthStateChanged.next(null);
+        this.onIdTokenChanged.next(null);
+      }),
+        catchError(error => {
+          console.log(error);
+          return throwError(error);
+        })
+      );
   };
 
   tokenRequiresRefresh(): boolean {
@@ -242,18 +234,23 @@ export class AuthService {
 
   /**
    * handles the errors from api calls
-   * @param error 
+   * @param errorResponse 
    */
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
+  private handleError(errorResponse: HttpErrorResponse) {
+    let errorInfo = {
+      code: '',
+      message: ''
+    };
+
+    if (errorResponse.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accor
-      console.error('An error occurred:', error.error.message);
-    } else if (error instanceof Response) {
+      console.error('An error occurred:', errorResponse.error.message);
+    } else if (errorResponse instanceof Response) {
       let errMessage = '';
       try {
-        errMessage = error.message;
+        errMessage = errorResponse.message;
       } catch (err) {
-        errMessage = error.statusText;
+        errMessage = errorResponse.statusText;
       }
 
       return Observable.throw(errMessage);
@@ -265,13 +262,17 @@ export class AuthService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        `Backend returned code ${errorResponse.status}, ` +
+        `body was:`, errorResponse.error);
+      if (errorResponse.error) {
+        errorInfo.code = errorResponse.error.error;
+        errorInfo.message = errorResponse.error.error_description;
+        console.log(errorResponse.error.error)
+      }
     }
 
     // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError(errorInfo);
   };
 
   /**

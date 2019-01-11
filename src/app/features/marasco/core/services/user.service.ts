@@ -5,21 +5,22 @@ import { JsonApiService } from "@app/features/marasco/core/services/json-api.ser
 
 import { TokenResult } from './models/tokenResult.model';
 import { UserInfo } from './models/userInfo.model';
+import { User } from './models/userInfo.interface';
 import { UserCredential } from './models/userCredential.model';
 import { AuthCredential } from './models/authCredential.model';
 
-const defaultUser : UserInfo = {
-  _id: '',
-  username: 'Guest',
-  firstName: 'Guest',
-  lastName: '',
-  email: '@'
-}
+const defaultUser : User = new UserInfo(); 
+  defaultUser._id = '';
+  defaultUser.username = 'Guest';
+  defaultUser.firstName= 'Guest';
+  defaultUser.lastName= '';
+  defaultUser.email= '@';
+
 
 @Injectable()
 export class UserService {
 
-  public user$ = new BehaviorSubject<UserInfo>({ ...defaultUser });
+  public user$ = new BehaviorSubject<User>({ ...defaultUser });
 
   constructor(private jsonApiService: JsonApiService) {
     this.jsonApiService.fetch("/user/login-info.json").subscribe(this.user$)

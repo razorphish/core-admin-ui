@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import {
     Http,
@@ -15,7 +16,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 
-import { AuthService } from './auth/shared/auth.service';
+import { AuthService } from '../core/services/auth.service';
 
 @Injectable()
 export class HttpInterceptor extends Http {

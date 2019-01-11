@@ -2,7 +2,7 @@ import { XHRBackend, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
 import { HttpInterceptor } from './http-interceptor';
-import { AuthService } from './auth/shared/auth.service';
+import { AuthService } from '../core/services/auth.service';
 
 export function HttpInterceptorFactory(
   xhrBackend: XHRBackend,

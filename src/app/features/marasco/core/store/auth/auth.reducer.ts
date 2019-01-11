@@ -24,6 +24,8 @@ export function authReducer(
   switch (action.type) {
     case AuthActionTypes.LoginAction:
     case AuthActionTypes.SignupAction:
+    case AuthActionTypes.GoogleSign:
+    case AuthActionTypes.LinkedInSign:
       return {
         ...state,
         loading: true
