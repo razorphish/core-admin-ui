@@ -20,6 +20,7 @@ export class UserInfo implements User {
     dateCreated?: Date;
     displayName?: string = `@${this.username}`;
     token?: TokenModel;
+    updatedExisting?: boolean;
 
     // constructor(init? : {
     //     _id: string; avatar?: string,

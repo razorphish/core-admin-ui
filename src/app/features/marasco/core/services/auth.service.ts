@@ -118,6 +118,39 @@ export class AuthService {
       );
   }
 
+  loginSocial(socialUser:any): Observable<TokenResult> {
+    const params: any = {
+      username: 'social',
+      password: '784#@#sd',
+      client_id: this._clientId,
+      client_secret: this._clientSecret,
+      grant_type: 'password',
+      socialUser: socialUser
+    };
+
+    return this._http
+      .post<TokenResult>(this._authUrl + 'token', params)
+      .pipe(map((credential: TokenResult) => {
+        // login successful if there's a jwt token in the response
+
+        if (credential && credential.access_token) {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+
+          //Inform everyone
+          this._loginSubject.next(true);
+
+          this.userSource = new UserInfo(credential.user);
+          this.userSource.token = credential;
+          this._userSubject.next(this.userSource);
+          this.onAuthStateChanged.next(this.userSource);
+          this.onIdTokenChanged.next(this.userSource);
+          return credential;
+        }
+      }),
+        catchError(this.handleError)
+      );
+  }
+
   refreshToken() {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 

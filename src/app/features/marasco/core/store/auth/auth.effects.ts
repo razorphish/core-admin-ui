@@ -64,8 +64,11 @@ export class AuthEffects {
     ofType(actions.AuthActionTypes.GoogleSign),
     tap((data: any) => {
       this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
-        .then((value: SocialUser) => {
-          console.log(value);
+        .then((socialUser: SocialUser) => {
+          this.auth
+            .loginSocial(socialUser)
+            .subscribe((_: TokenResult) => { _ },
+              (error: any) => { this.dispatchError(error); })
         })
         .catch((error: any) => {
           this.dispatchError(error);
@@ -79,13 +82,33 @@ export class AuthEffects {
     tap((data: any) => {
 
       this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
-        .then((value: SocialUser) => {
-
+        .then((socialUser: SocialUser) => {
+          this.auth
+            .loginSocial(socialUser)
+            .subscribe((_: TokenResult) => { _ },
+              (error: any) => { this.dispatchError(error); })
         })
         .catch((error: any) => {
           this.dispatchError(error);
         });
-      
+    })
+  );
+
+  @Effect({ dispatch: false })
+  linkedInSign$ = this.actions$.pipe(
+    ofType(actions.AuthActionTypes.LinkedInSign),
+    tap((data: any) => {
+
+      this.authService.signIn(LinkedInLoginProvider.PROVIDER_ID)
+        .then((socialUser: SocialUser) => {
+          this.auth
+            .loginSocial(socialUser)
+            .subscribe((_: TokenResult) => { _ },
+              (error: any) => { this.dispatchError(error); })
+        })
+        .catch((error: any) => {
+          this.dispatchError(error);
+        });
     })
   );
 
@@ -130,9 +153,8 @@ export class AuthEffects {
     );
   };
 
-  dispatchErrorNotification (error: any) {
-    console.log(error)
-    if (!error.code){
+  dispatchErrorNotification(error: any) {
+    if (!error.code) {
       this.notify('Fatal Error occurred', 'Please contact your administrator', error);
       return;
     }

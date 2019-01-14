@@ -14,6 +14,9 @@ const googleLoginOptions: LoginOpt = {
   scope: 'profile email'
 }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
  
+const linkedInLoginOptions: LoginOpt = {
+  scope: 'r_emailaddress'
+}; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
 
 let config = new AuthServiceConfig([
   {
@@ -22,12 +25,12 @@ let config = new AuthServiceConfig([
   },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('872380819606437',fbLoginOptions)
+    provider: new FacebookLoginProvider('872380819606437', fbLoginOptions)
   },
-  // {
-  //   id: LinkedInLoginProvider.PROVIDER_ID,
-  //   provider: new LinkedInLoginProvider('LinkedIn-client-Id', false, 'en_US')
-  // }
+  {
+    id: LinkedInLoginProvider.PROVIDER_ID,
+    provider: new LinkedInLoginProvider('86zhw0hrwwcutx', false, 'en_US')
+  }
 ]);
 
 export function provideConfig() {
