@@ -8,8 +8,9 @@ import { MarascoComponent } from './marasco.component';
 @NgModule({
   imports: [
     CommonModule,
+
     FormsModule,
-    MarascoRoutingModule,
+    MarascoRoutingModule
   ],
   declarations: [
     MarascoComponent

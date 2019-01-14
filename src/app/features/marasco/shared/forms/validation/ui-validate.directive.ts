@@ -43,10 +43,10 @@ export class UiValidateDirective {
       },
 
       errorPlacement: (error, element) => {
-        if (element.parent(".input-group").length) {
+        if (element.parent(".input").length) {
           error.insertAfter(element.parent());
         } else {
-          error.insertAfter(element);
+          error.insertAfter(element.parent());
         }
       }
     };

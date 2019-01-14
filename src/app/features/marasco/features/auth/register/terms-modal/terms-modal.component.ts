@@ -9,5 +9,5 @@ export class TermsModalComponent {
   @Output() agree = new EventEmitter()
   @Output() close = new EventEmitter()
 
-  constructor() {}
+  constructor() { }
 }
