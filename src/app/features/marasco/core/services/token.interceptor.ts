@@ -26,9 +26,15 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+
     if (request.url.search(environment.apiUrl + 'auth/logout') === 0) {
       //console.log('interceptedlog');
       return this.handleLogout(request, next);
+    
+    } else if (request.url.search(environment.apiUrl + 'auth/register-with-email-password') === 0) {
+      //console.log('interceptedlog');
+      return next.handle(request);
+    
     } else if (request.url.search(environment.apiUrl) === 0) {
       //console.log('intercepted', request.url);
       // attach token

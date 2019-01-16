@@ -1,4 +1,5 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { UserRegistration } from './../../../core/services/models/userRegistration.model';
+import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -12,23 +13,13 @@ import * as fromAuth from '@app/features/marasco/core/store/auth';
 })
 export class RegisterComponent implements OnInit {
 
-  public model= {
-    _id: '',
-    avatar: '',
-    dateCreated: new Date,
-    email: '',
-    firstName: '',
-    lastName: '',
-    homePhone: '',
-    username: 'test',
-    password: '',
-    confirmPassword: '',
-    salt: ''
-  };
+  public termsAgreed: boolean = false;
+  @ViewChild('registrationForm') registrationForm : any;
 
+  public validationOptions: any = {
 
-  public validationOptions:any = {
-
+    //Custom method
+    store: this._store,
     // Rules for form validation
     rules: {
       username: {
@@ -40,30 +31,28 @@ export class RegisterComponent implements OnInit {
       },
       password: {
         required: true,
-        minlength: 3,
+        minlength: 6,
         maxlength: 20
       },
       passwordConfirm: {
         required: true,
-        minlength: 3,
-        maxlength: 20,
         equalTo: '#password'
       },
-      firstname: {
+      firstName: {
         required: true
       },
-      lastname: {
+      lastName: {
         required: true
       },
-      terms: {
+      termsAgreed: {
         required: true
       }
     },
 
     // Messages for form validation
     messages: {
-      login: {
-        required: 'Please enter your login'
+      username: {
+        required: 'Please enter a username or email'
       },
       email: {
         required: 'Please enter your email address',
@@ -76,39 +65,43 @@ export class RegisterComponent implements OnInit {
         required: 'Please enter your password one more time',
         equalTo: 'Please enter the same password as above'
       },
-      firstname: {
+      firstName: {
         required: 'Please select your first name'
       },
-      lastname: {
+      lastName: {
         required: 'Please select your last name'
       },
-      terms: {
+      termsAgreed: {
         required: 'You must agree with Terms and Conditions'
       }
-    },
-    submitHandler: this.register
-
+    }
+    , submitHandler: this.register
   };
 
   bsModalRef: BsModalRef;
-  //public termsAgreed = false
 
   constructor(
     private _store: Store<any>,
     private modalService: BsModalService) {
-
   }
 
-  ngOnInit() { }
+  ngOnInit() {
 
-  // register(event) {
-  //   event.preventDefault();
-  //   this.router.navigate(['/dashboard'])
-  // }
+   }
 
-  register() {
-    console.log('register');
-    console.log(this.model.username);
+  register($event) {
+    
+    let model: UserRegistration = {
+      email: $event.elements.email.value,
+      firstName: $event.elements.firstName.value,
+      lastName: $event.elements.lastName.value,
+      username: $event.elements.username.value,
+      password: $event.elements.password.value,
+      passwordConfirm: $event.elements.passwordConfirm.value,
+      termsAgreed: $event.elements.termsAgreed.value
+    };
+
+    this['settings'].store.dispatch(new fromAuth.SignupAction(model));
   }
 
   openModal(event, template: TemplateRef<any>) {
@@ -117,11 +110,11 @@ export class RegisterComponent implements OnInit {
   }
 
   onTermsAgree() {
-    //this.termsAgreed.value = true
-    this.bsModalRef.hide()
+    this.termsAgreed = true;
+    this.bsModalRef.hide();
   }
 
   onTermsClose() {
-    this.bsModalRef.hide()
+    this.bsModalRef.hide();
   }
 }

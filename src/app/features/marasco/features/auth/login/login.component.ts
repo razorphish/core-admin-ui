@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-  email = new FormControl('', Validators.required);
+  username = new FormControl('', Validators.required);
   password = new FormControl('', Validators.required);
   forceRefresh = new FormControl('', Validators.required);
 
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     //\\DO NOT DELETE:  THIS IS SUBSCRIBE TO ACTION EXAMPLE */
 
     this.form = formBuilder.group({
-      'email': this.email,
+      'username': this.username,
       'password': this.password,
       'forceRefresh': this.forceRefresh
     });
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login($event) {
     $event.preventDefault();
-    this._store.dispatch(new fromAuth.LoginAction({ username: this.email.value, password: this.password.value, forceRefresh: this.forceRefresh.value }));
+    this._store.dispatch(new fromAuth.LoginAction({ username: this.username.value, password: this.password.value, forceRefresh: this.forceRefresh.value }));
   }
 
   signInWithGoogle(): void {

@@ -62,17 +62,20 @@ export class AuthService {
   //): Promise<UserCredential>;
 
   createUserWithEmailAndPassword(
-    email: string,
-    password: string
-  ): Observable<UserCredential> {
-    var observable = new Observable<UserCredential>(() => {
-    });
+    user: UserInfo
+  ): Observable<any> {
 
-    //Inform everybody
-    //this.tokenSource.next({ token: '' });
-    //this.onIdTokenChanged(new UserService());
-    //this.onIdTokenChanged(null);
-    return observable;
+    const url = this._apiUrl + 'auth/register-with-email-password';
+
+    return this._http
+      .post<any>(url, user)
+      .pipe(map((user: UserInfo) => {
+        // login successful if there's a jwt token in the response
+        console.log(user);
+        return user;
+      }),
+        catchError(this.handleError)
+      );
   };
 
   //confirmPasswordReset(code: string, newPassword: string): Promise<void>;
@@ -118,7 +121,7 @@ export class AuthService {
       );
   }
 
-  loginSocial(socialUser:any): Observable<TokenResult> {
+  loginSocial(socialUser: any): Observable<TokenResult> {
     const params: any = {
       username: 'social',
       password: '784#@#sd',

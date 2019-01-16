@@ -55,18 +55,24 @@
             </header>
             <fieldset>
               <section>
-                <label class="label">E-mail</label>
+                <label class="label">Username/Email</label>
                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                  <input formControlName="email" type="email" name="email" data-smart-validate-input="" data-required=""
-                    data-email="" data-message-required="Please enter your email address" data-message-email="Please enter a VALID email address">
+                  <input formControlName="username" type="text" name="username" id="username" autocomplete="username"
+                    data-smart-validate-input="" 
+                    data-required=""
+                    data-message-required="Please enter your email/username" >
                   <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i>
-                    Please enter email address/username</b></label>
+                    Please enter email/username</b></label>
               </section>
               <section>
                 <label class="label">Password</label>
                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                  <input formControlName="password" type="password" name="password" data-smart-validate-input=""
-                    data-required="" data-minlength="3" data-maxnlength="20" data-message="Please enter your email password">
+                  <input formControlName="password" type="password" name="password" autocomplete="current-password"
+                    data-smart-validate-input=""
+                    data-required="" 
+                    data-minlength="3" 
+                    data-maxnlength="20" 
+                    data-message="Please enter your email password">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter
                     your password</b> </label>
 

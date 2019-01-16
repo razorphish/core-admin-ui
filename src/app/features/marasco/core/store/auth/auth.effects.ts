@@ -49,13 +49,17 @@ export class AuthEffects {
   signup$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.SignupAction),
     tap((data: any) => {
-      // auth
-      //   .createUserWithEmailAndPassword(
-      //     data.payload.username,
-      //     data.payload.password
-      //   )
-      //   .catch(this.dispatchError);
-      console.log('signup');
+
+      this.auth
+        .createUserWithEmailAndPassword(data.payload)
+        .subscribe((_: any) => {
+          if (!!_.error) {
+            this.dispatchErrorNotification(_.error);
+            return;
+          }
+          this.router.navigate([this.loginUrl, _]);
+        },
+          (error: any) => { this.dispatchError(error); })
     })
   );
 
@@ -162,6 +166,9 @@ export class AuthEffects {
     switch (error.code) {
       case 'invalid_grant':
         this.notify('Invalid username and/or password', 'Please re-enter your sign in credentials.', ' ');
+        break;
+      case 11000:
+        this.notify('Oops! Error occurred', !!error.errmsg ? error.errmsg : 'Please contact your administrator');
         break;
       default:
         this.notify('Error occurred', 'Please contact your administrator');

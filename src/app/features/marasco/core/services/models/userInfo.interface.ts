@@ -30,7 +30,8 @@ export interface User {
     dateCreated?: Date;
     token? : TokenModel | null;
     //displayName? : string = `@${this.username}`;
-    updatedExisting? : boolean;
+    //updatedExisting? : boolean;
+    status?: string;
 
     getIdToken();
 }

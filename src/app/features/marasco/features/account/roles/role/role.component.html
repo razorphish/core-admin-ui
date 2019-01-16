@@ -46,7 +46,7 @@
             <div class="widget-body no-padding">
 
               <form 
-                #roleDetailsForm="ngForm" class="smart-form" [saUiValidate]="validationOptions" novalidate="novalidate" (ngSubmit)="save(roleDetailsForm.value)">
+                #roleDetailsForm="ngForm" class="smart-form" [saUiValidate]="validationOptions" novalidate="novalidate" ()="save(roleDetailsForm.value)">
 
                 <fieldset>
                   <section>

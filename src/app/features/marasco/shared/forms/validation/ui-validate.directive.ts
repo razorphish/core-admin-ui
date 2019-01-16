@@ -1,12 +1,17 @@
-import { Directive, Input, ElementRef } from "@angular/core";
+import { Directive, Input, ElementRef, OnInit } from "@angular/core";
 
 @Directive({
   selector: "[saUiValidate]"
 })
-export class UiValidateDirective {
+export class UiValidateDirective implements OnInit {
   @Input() saUiValidate: any;
 
   constructor(private el: ElementRef) {
+    //AM Moved the promise to OnInit because
+    //it was not firing on navigate
+  }
+
+  ngOnInit(){
     Promise.all([
       import("jquery-validation/dist/jquery.validate.js"),
       import("jquery-validation/dist/additional-methods.js")
@@ -75,6 +80,13 @@ export class UiValidateDirective {
         if ($input.data("minlength") != undefined) {
           validateCommonOptions.rules[fieldName].minlength = $input.data(
             "minlength"
+          );
+        }
+
+        //AM Added equal to because it was missing from rules
+        if ($input.data("equalto") != undefined) {
+          validateCommonOptions.rules[fieldName].equalTo = $input.data(
+            "equalto"
           );
         }
 
