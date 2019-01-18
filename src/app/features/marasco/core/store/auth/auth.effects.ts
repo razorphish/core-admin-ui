@@ -21,7 +21,8 @@ import { NotificationService } from '@app/features/marasco/core/services/notific
 export class AuthEffects {
   redirectUrl: string = environment.redirectUrl;
   loginUrl: string = environment.loginUrl;
-
+  forgotPasswordUrl: string = environment.forgotPasswordUrl;
+  registerUrl: string = environment.registerUrl;
 
   @Effect({ dispatch: false })
   login$ = this.actions$.pipe(
@@ -128,8 +129,12 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   authRedirect$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.AuthTokenPayload),
-    filter(_ => this.router.url === this.loginUrl),
+    filter(_ =>
+      (this.router.url === this.loginUrl)
+      || (this.router.url === this.forgotPasswordUrl)
+      || (this.router.url === this.registerUrl)),
     tap((data: any) => {
+      console.log(this.redirectUrl);
       this.router.navigate([this.redirectUrl]);
     })
   );

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { MarascoRoutingModule } from './marasco-routing.module';
-import { MarascoComponent } from './marasco.component';
 
 @NgModule({
   imports: [
@@ -12,8 +11,5 @@ import { MarascoComponent } from './marasco.component';
     FormsModule,
     MarascoRoutingModule
   ],
-  declarations: [
-    MarascoComponent
-  ]
 })
 export class MarascoModule { }
