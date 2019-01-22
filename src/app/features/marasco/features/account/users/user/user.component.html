@@ -165,14 +165,6 @@
                       <a (click)="state.tabs.demo1 = 0"><i class="fa fa-fw fa-lg fa-gear"></i> Roles</a>
                     </li>
 
-                    <li [class.active]="state.tabs.demo1 == 1" *ngIf="isUpdate">
-                      <a (click)="state.tabs.demo1 = 1"><i class="fa fa-fw fa-lg fa-scissors"></i> Salon Services</a>
-                    </li>
-
-                    <li [class.active]="state.tabs.demo1 == 2" *ngIf="isUpdate">
-                      <a (click)="state.tabs.demo1 = 2"> <i class="fa fa-fw fa-lg fa-clock-o"></i>Business Hours</a>
-                    </li>
-
                     <li [class.active]="state.tabs.demo1 == 3" *ngIf="isUpdate">
                       <a (click)="state.tabs.demo1 = 3"> <i class="fa fa-fw fa-lg fa-calendar"></i>Calendars </a>
                     </li>
@@ -233,56 +225,6 @@
                           </tbody>
                         </table>
                       </div> -->
-
-                    </tab>
-
-                    <tab [active]="state.tabs.demo1 == 2">
-
-                      <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                          <thead>
-                            <tr>
-                              <th>Day Of Week</th>
-                              <th>Day Of Week #</th>
-                              <th>Start</th>
-                              <th>End</th>
-                              <th>Id</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let businessHour of user.businessHours">
-                              <td>{{businessHour.dayOfWeek}}</td>
-                              <td>{{businessHour.dow}}</td>
-                              <td>{{businessHour.start}}</td>
-                              <td>{{businessHour.end}}</td>
-                              <td>{{businessHour._id}}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-
-                    </tab>
-
-                    <tab [active]="state.tabs.demo1 == 3">
-
-                      <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                          <thead>
-                            <th>Name</th>
-                            <th>Default?</th>
-                            <th>Created</th>
-                            <th>Id</th>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let calendar of user.calendars">
-                              <td>{{calendar.name}}</td>
-                              <td>{{calendar.isDefault}}</td>
-                              <td>{{calendar.dateCreated | date}}</td>
-                              <td>{{calendar._id}}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
 
                     </tab>
 
