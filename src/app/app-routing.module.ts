@@ -113,7 +113,7 @@ const routes: Routes = [
   {
     path: "auth",
     component: AuthLayoutComponent,
-    loadChildren: "./features/auth/auth.module#AuthModule"
+    loadChildren: "./features/marasco/features/auth/auth.module#AuthModule"
   },
   { path: "**", redirectTo: "miscellaneous/error404" }
 ];

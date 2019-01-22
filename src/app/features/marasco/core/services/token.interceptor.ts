@@ -30,11 +30,11 @@ export class TokenInterceptor implements HttpInterceptor {
     if (request.url.search(environment.apiUrl + 'auth/logout') === 0) {
       //console.log('interceptedlog');
       return this.handleLogout(request, next);
-    
-    } else if (request.url.search(environment.apiUrl + 'auth/register-with-email-password') === 0) {
-      //console.log('interceptedlog');
+
+    } else if (request.url.search(environment.apiUrl + 'auth/register-with-email-password') === 0 ||
+      request.url.search(environment.apiUrl + 'auth/reset-password')) {
       return next.handle(request);
-    
+
     } else if (request.url.search(environment.apiUrl) === 0) {
       //console.log('intercepted', request.url);
       // attach token

@@ -22,7 +22,7 @@ export const environment = {
   redirectUrl: '/dashboard',
   loginUrl:  '/auth/login',
   registerUrl: '/auth/register',
-  forgotPasswordUrl: '/auth/forgot-password',
+  resetPasswordUrl: '/auth/forgot-password',
   clientId: 'core-web-ui',
   clientSecret:
     'E89fZK0oQnEuMWuqRhpNZG5ObexOw81RdnWHnSIuQVjaei3bag4kq' +

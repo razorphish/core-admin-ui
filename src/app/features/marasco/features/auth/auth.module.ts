@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {routing} from "./auth.routing";
+import { routing } from "./auth.routing";
 import { AuthComponent } from './auth.component';
+import { ResetGuard } from './reset/reset.guard';
 
 @NgModule({
   imports: [
@@ -10,6 +11,9 @@ import { AuthComponent } from './auth.component';
 
     routing,
   ],
-  declarations: [ AuthComponent]
+  declarations: [AuthComponent],
+  providers: [
+    ResetGuard
+  ]
 })
 export class AuthModule { }

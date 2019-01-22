@@ -216,6 +216,19 @@ export class AuthService {
     }
   }
 
+  forgotPassword(userInfo: any): Observable<any> {
+
+    const url = this._apiUrl + 'auth/forgot-password';
+
+    return this._http
+      .post<any>(url, userInfo)
+      .pipe(map((credential: any) => {
+
+      }),
+        catchError(this.handleError)
+      );
+  }
+
   addTokens(accessToken: string, refreshToken: string) {
     const user = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -255,6 +268,19 @@ export class AuthService {
         })
       );
   };
+
+  resetPasswordRequest(token: string): Observable<any> {
+
+    const url = `${this._apiUrl}auth/reset-password/${token}`;
+
+    return this._http
+      .get<any>(url)
+      .pipe(map((result: any) => {
+        return result;
+      }),
+        catchError(this.handleError)
+      );
+  }
 
   tokenRequiresRefresh(): boolean {
     if (!this.loggedIn()) {
@@ -297,13 +323,13 @@ export class AuthService {
     else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${errorResponse.status}, ` +
-        `body was:`, errorResponse.error);
+      //console.error(
+      //  `Backend returned code ${errorResponse.status}, ` +
+       // `body was:`, errorResponse.error);
       if (errorResponse.error) {
-        errorInfo.code = errorResponse.error.error;
-        errorInfo.message = errorResponse.error.error_description;
-        console.log(errorResponse.error.error)
+        errorInfo.code = errorResponse.error.error.code || errorResponse.error.error;
+        errorInfo.message = errorResponse.error.error_description || errorResponse.error.error.message;
+        //console.log(errorResponse.error.error)
       }
     }
 

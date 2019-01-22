@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
 
 import { Store } from '@ngrx/store';
 import * as fromAuth from '@app/features/marasco/core/store/auth';
@@ -11,16 +10,51 @@ import * as fromAuth from '@app/features/marasco/core/store/auth';
 })
 export class ForgotComponent implements OnInit {
 
-  constructor(
-    private _store: Store<any>,
-    private router: Router) { }
+  public validationOptions: any = {
+
+    //Custom method
+    store: this._store,
+    // Rules for form validation
+    rules: {
+      username: {
+        // required: function (element) {
+        //   return $("#email").is(':empty');
+        // }
+      },
+      email: {
+        required: function (element) {
+          return !$('#username').val();
+        },
+        email: true
+      }
+    },
+
+    // Messages for form validation
+    messages: {
+      username: {
+        required: 'Please enter a username or email'
+      },
+      email: {
+        required: 'Please enter your email address',
+        email: 'Please enter a VALID email address'
+      }
+    }
+    , submitHandler: this.forgotPasswordSubmit
+  };
+
+  constructor(private _store: Store<any>) { }
 
   ngOnInit() {
   }
 
-  submit(event){
-    event.preventDefault();
-    this.router.navigate(['/dashboard/+analytics'])
+  forgotPasswordSubmit($event) {
+
+    let model = {
+      email: $event.elements.email.value,
+      username: $event.elements.username.value
+    };
+
+    this['settings'].store.dispatch(new fromAuth.ForgotPasswordAction(model));
   }
 
   signInWithGoogle(): void {

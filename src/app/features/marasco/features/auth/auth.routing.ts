@@ -1,9 +1,9 @@
 
-import {ModuleWithProviders} from "@angular/core"
-import {Routes, RouterModule} from "@angular/router";
+import { ModuleWithProviders } from "@angular/core"
+import { Routes, RouterModule } from "@angular/router";
 
 
-export const routes:Routes = [
+export const routes: Routes = [
   {
     path: 'login',
     loadChildren: './login/login.module#LoginModule'
@@ -15,6 +15,10 @@ export const routes:Routes = [
   {
     path: 'forgot-password',
     loadChildren: './forgot/forgot.module#ForgotModule'
+  },
+  {
+    path: 'reset-password/:token',
+    loadChildren: './reset/reset.module#ResetModule'
   },
   {
     path: 'locked',

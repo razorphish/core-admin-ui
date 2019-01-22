@@ -15,13 +15,14 @@ import { environment } from '@env/environment';
 import { AuthService as SocialAuthService, SocialUser } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider, LinkedInLoginProvider } from "angularx-social-login";
 import { NotificationService } from '@app/features/marasco/core/services/notification.service';
+import { _daysInMonth } from 'ngx-bootstrap/chronos/utils/date-getters';
 
 
 @Injectable()
 export class AuthEffects {
   redirectUrl: string = environment.redirectUrl;
   loginUrl: string = environment.loginUrl;
-  forgotPasswordUrl: string = environment.forgotPasswordUrl;
+  resetPasswordUrl: string = environment.resetPasswordUrl;
   registerUrl: string = environment.registerUrl;
 
   @Effect({ dispatch: false })
@@ -38,6 +39,47 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.LogoutAction),
+    tap((data: any) => {
+      this.router.navigate([this.loginUrl]);
+      this.auth
+        .signOut()
+        .subscribe((_: any) => _);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  forgotPassword$ = this.actions$.pipe(
+    ofType(actions.AuthActionTypes.ForgotPasswordAction),
+    tap((data: any) => {
+      this.auth
+        .forgotPassword(data.payload)
+        .subscribe((_: any) => {
+
+          this.notify('Request Forgot Password Sucess',
+            'Please check your email for further instructions.',
+            null,
+            true);
+          this.router.navigate([this.loginUrl, _]);
+        }, (error) => {
+          this.dispatchErrorNotification(error);
+        });
+    })
+  );
+
+  @Effect({ dispatch: false })
+  resetPassword$ = this.actions$.pipe(
+    ofType(actions.AuthActionTypes.ResetPasswordAction),
+    tap((data: any) => {
+      this.router.navigate([this.loginUrl]);
+      this.auth
+        .signOut()
+        .subscribe((_: any) => _);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  resetPasswordRequest$ = this.actions$.pipe(
+    ofType(actions.AuthActionTypes.ResetPasswordRequestAction),
     tap((data: any) => {
       this.router.navigate([this.loginUrl]);
       this.auth
@@ -131,10 +173,9 @@ export class AuthEffects {
     ofType(actions.AuthActionTypes.AuthTokenPayload),
     filter(_ =>
       (this.router.url === this.loginUrl)
-      || (this.router.url === this.forgotPasswordUrl)
+      || (this.router.url === this.resetPasswordUrl)
       || (this.router.url === this.registerUrl)),
     tap((data: any) => {
-      console.log(this.redirectUrl);
       this.router.navigate([this.redirectUrl]);
     })
   );
@@ -176,18 +217,24 @@ export class AuthEffects {
         this.notify('Oops! Error occurred', !!error.errmsg ? error.errmsg : 'Please contact your administrator');
         break;
       default:
-        this.notify('Error occurred', 'Please contact your administrator');
+        if (!!error.message) {
+          this.notify('Error occurred', error.message);
+        } else {
+          this.notify('Error occurred', 'Please contact your administrator');
+        }
         break;
     }
   }
 
-  notify(title, content, number?) {
+  notify(title, content, number?, isMessage?) {
+    var color = isMessage ? '#739E73' : '#C46A69'
+    var icon = isMessage ? 'fa fa-check' : 'fa fa-warning shake animated'
 
     this._notificationService.bigBox({
       title: title,
       content: content,
-      color: '#C46A69',
-      icon: 'fa fa-warning shake animated',
+      color: color,
+      icon: icon,
       number: number || '1',
       timeout: 6000
     });
@@ -201,7 +248,7 @@ export class AuthEffects {
     private router: Router,
     private route: ActivatedRoute,
     private authService: SocialAuthService,
-    private _notificationService: NotificationService,
+    private _notificationService: NotificationService
   ) {
 
     //Login/Logout
@@ -211,13 +258,6 @@ export class AuthEffects {
 
     //Login, Logout, Token Refresh
     this.auth.onIdTokenChanged.subscribe(authUser => {
-      //console.log('\n\n onIdTokenChanged', authUser);
-
-      // if (typeof authUser.getIdToken === "function") {
-      //   console.log('I see it');
-      // } else {
-      //   console.log('I dont see it');
-      // }
 
       if (authUser) {
         this.store.dispatch(new actions.AuthUserChange(authUser));

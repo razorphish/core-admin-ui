@@ -1,5 +1,4 @@
 import { Action } from "@ngrx/store";
-import { TokenResult } from '../../services/models/tokenResult.model';
 
 export enum AuthActionTypes {
   AppInit = "[App] Init",
@@ -9,6 +8,9 @@ export enum AuthActionTypes {
   LogoutAction = "[Auth] Logout Action",
   LoginRedirect = "[Auth] Login Redirect Action",
   SignupAction = "[Auth] Signup Action",
+  ForgotPasswordAction = "[Auth] Forgot Password Action",
+  ResetPasswordAction = "[Auth] Reset Password Action",
+  ResetPasswordRequestAction = "[Auth] Reset Password Request Action",
   GoogleSign = "[Auth] Google Sign Action",
   FacebookSign = "[Auth] Facebook Sign Action",
   LinkedInSign = "[Auth] LinkedIn Sign Action",
@@ -41,6 +43,22 @@ export class LoginAction implements Action {
 
 export class LogoutAction implements Action {
   readonly type = AuthActionTypes.LogoutAction;
+}
+
+export class ForgotPasswordAction implements Action {
+  readonly type = AuthActionTypes.ForgotPasswordAction;
+  constructor(readonly payload: any) { }
+}
+
+
+export class ResetPasswordAction implements Action {
+  readonly type = AuthActionTypes.ResetPasswordAction;
+  constructor(readonly payload: any) { }
+}
+
+export class ResetPasswordRequestAction implements Action {
+  readonly type = AuthActionTypes.ResetPasswordRequestAction;
+  constructor(readonly payload: any) { }
 }
 
 export class LoginRedirect implements Action {
@@ -114,6 +132,9 @@ export type AuthActions =
   | LogoutAction
   | LoginRedirect
   | SignupAction
+  | ForgotPasswordAction
+  | ResetPasswordRequestAction
+  | ResetPasswordAction
   | GoogleSign
   | FacebookSign
   | LinkedInSign

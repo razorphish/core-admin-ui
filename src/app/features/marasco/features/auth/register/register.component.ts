@@ -1,5 +1,5 @@
 import { UserRegistration } from './../../../core/services/models/userRegistration.model';
-import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -14,7 +14,6 @@ import * as fromAuth from '@app/features/marasco/core/store/auth';
 export class RegisterComponent implements OnInit {
 
   public termsAgreed: boolean = false;
-  @ViewChild('registrationForm') registrationForm : any;
 
   public validationOptions: any = {
 
@@ -90,7 +89,7 @@ export class RegisterComponent implements OnInit {
    }
 
   register($event) {
-    
+
     let model: UserRegistration = {
       email: $event.elements.email.value,
       firstName: $event.elements.firstName.value,

@@ -21,8 +21,7 @@
 
           <div class="pull-left login-desc-box-l">
             <h4 class="paragraph-header">
-              Forgot your password? No worries!  Simply enter your username
-              or email address and we will send a reset link to your email address</h4>
+              Reset your password! Enter a new password and make sure to keep it hidden!</h4>
             <div class="login-app-icons">
               <a href="https://www.maras.co"  class="btn btn-primary btn-sm">Find out more</a>
             </div>
@@ -52,32 +51,29 @@
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
         <div class="well no-padding">
           <form 
-            id="form-forgot-password" 
+            id="form-reset-password" 
             class="smart-form client-form"
             [saUiValidate]="validationOptions"
              novalidate="novalidate">
             <header>
-              Forgot Password
+              Reset Password
             </header>
 
             <fieldset>
 
               <section>
-                <label class="label">Enter your email address</label>
+                <label class="label">Password</label>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                  <input type="email" name="email" id="email">
+                  <input type="password" name="password" id="password">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-envelope txt-color-teal"></i> Please enter email address for password reset</b></label>
               </section>
+
               <section>
-										<span class="timeline-seperator text-center text-primary"> <span class="font-sm">OR</span>
-              </span></section>
-              <section>
-                <label class="label">Your Username</label>
+                <label class="label">Password Confirm</label>
                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                  <input type="text" name="username" id="username">
+                  <input type="password" name="passwordConfirm" id="passwordConfirm">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Enter your username</b> </label>
                 <div class="note">
-                  <a routerLink="/auth/login">I remembered my password!</a>
                 </div>
               </section>
 
@@ -88,26 +84,10 @@
               </button>
             </footer>
           </form>
-
+          
         </div>
-
-        <h5 class="text-center"> - Or sign in using -</h5>
-
-        <ul class="list-inline text-center">
-          <li>
-            <a (click)="signInWithFB()" class="btn btn-primary btn-circle"><i class="fa fa-facebook"></i></a>
-          </li>
-          <li>
-            <a (click)="signInWithGoogle()" class="btn btn-info btn-circle"><i class="fa fa-google"></i></a>
-          </li>
-          <li>
-            <a (click)="signInWithLinkedIn()" class="btn btn-warning btn-circle"><i class="fa fa-linkedin"></i></a>
-          </li>
-        </ul>
-
       </div>
     </div>
   </div>
-
 </div>
 
