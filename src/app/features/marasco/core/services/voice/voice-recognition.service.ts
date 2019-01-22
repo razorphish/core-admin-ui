@@ -1,7 +1,7 @@
 import {Injectable, EventEmitter} from '@angular/core';
 
 import {SpeechRecognition} from './speech-recognition.api';
-import {config} from '@app/core/smartadmin.config';
+import {config} from '@app/features/marasco/core/smartadmin.config';
 
 
 @Injectable()

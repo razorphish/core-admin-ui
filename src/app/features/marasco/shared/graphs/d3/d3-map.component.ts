@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 import {LayoutService} from '@app/features/marasco/core/services/layout.service';
-import {config} from '@app/core/smartadmin.config';
+import {config} from '@app/features/marasco/core/smartadmin.config';
 
 //noinspection TypeScriptUnresolvedFunction
 const $script = require('scriptjs');

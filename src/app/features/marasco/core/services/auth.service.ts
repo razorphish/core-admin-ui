@@ -282,6 +282,19 @@ export class AuthService {
       );
   }
 
+  resetPassword(token: string, password: string, confirmPassword: string): Observable<any> {
+
+    const url = `${this._apiUrl}auth/reset-password/${token}`;
+
+    return this._http
+      .post<any>(url, {password: password, confirmPassword: confirmPassword})
+      .pipe(map((result: any) => {
+        return result;
+      }),
+        catchError(this.handleError)
+      );
+  }
+
   tokenRequiresRefresh(): boolean {
     if (!this.loggedIn()) {
       console.log('Token refresh is required');

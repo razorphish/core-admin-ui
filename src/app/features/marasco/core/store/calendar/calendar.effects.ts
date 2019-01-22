@@ -8,9 +8,9 @@ import {
 } from "./calendar.actions";
 import { Store } from "@ngrx/store";
 import { switchMap, map } from "rxjs/operators";
-import { events, samples } from "@app/core/store/calendar/event.mocks";
+import { events, samples } from "@app/features/marasco/core/store/calendar/event.mocks";
 import { of } from "rxjs";
-import { AuthActionTypes } from "@app/core/store/auth";
+import { AuthActionTypes } from "@app/features/marasco/core/store/auth";
 
 @Injectable()
 export class CalendarEffects {

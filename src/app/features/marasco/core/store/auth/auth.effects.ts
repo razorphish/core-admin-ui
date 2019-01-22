@@ -70,10 +70,22 @@ export class AuthEffects {
   resetPassword$ = this.actions$.pipe(
     ofType(actions.AuthActionTypes.ResetPasswordAction),
     tap((data: any) => {
-      this.router.navigate([this.loginUrl]);
       this.auth
-        .signOut()
-        .subscribe((_: any) => _);
+        .resetPassword(
+          data.payload.token,
+          data.payload.password,
+          data.payload.passwordConfirm
+        )
+        .subscribe((_: any) => {
+
+          this.notify('Reset Sucess',
+            'You\'re password has been changed.  Please login at your earliest convenience',
+            null,
+            true);
+          this.router.navigate([this.loginUrl, _]);
+        }, (error) => {
+          this.dispatchErrorNotification(error);
+        });
     })
   );
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
-import {config} from '@app/core/smartadmin.config';
+import {config} from '@app/features/marasco/core/smartadmin.config';
 import {Observable} from "rxjs";
 import { delay, map, catchError } from 'rxjs/operators';
 

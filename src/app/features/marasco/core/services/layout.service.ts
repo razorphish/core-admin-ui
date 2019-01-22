@@ -1,5 +1,5 @@
 import {Component, OnInit, Injectable} from '@angular/core';
-import {config} from '@app/core/smartadmin.config';
+import {config} from '@app/features/marasco/core/smartadmin.config';
 import {NotificationService} from "./notification.service";
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';

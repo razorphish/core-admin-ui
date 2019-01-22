@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import * as fromLayout from '@app/core/store/layout';
+import * as fromLayout from '@app/features/marasco/core/store/layout';
 import { Store } from '@ngrx/store';
 
 @Component({

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import * as fromAuth from '@app/features/marasco/core/store/auth';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-reset',
@@ -10,6 +11,7 @@ import * as fromAuth from '@app/features/marasco/core/store/auth';
 })
 export class ResetComponent implements OnInit {
 
+  public token: string = '';
 
   public validationOptions: any = {
 
@@ -41,7 +43,11 @@ export class ResetComponent implements OnInit {
     , submitHandler: this.resetPasswordSubmit
   };
 
-  constructor(private _store: Store<any>) { }
+  constructor(
+    private _store: Store<any>,
+    private _route: ActivatedRoute) {
+    this.token = this._route.snapshot.paramMap.get('token')
+  }
 
   ngOnInit() {
   }
@@ -49,8 +55,9 @@ export class ResetComponent implements OnInit {
   resetPasswordSubmit($event) {
 
     let model = {
-      email: $event.elements.email.value,
-      username: $event.elements.username.value
+      password: $event.elements.password.value,
+      passwordConfirm: $event.elements.passwordConfirm.value,
+      token: $event.elements.token.value
     };
 
     this['settings'].store.dispatch(new fromAuth.ResetPasswordAction(model));
