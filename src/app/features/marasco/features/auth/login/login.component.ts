@@ -8,7 +8,6 @@
 //\\DO NOT DELETE:  THIS IS SUBSCRIBE TO ACTION EXAMPLE */
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as fromAuth from '@app/features/marasco/core/store/auth';
 
@@ -23,11 +22,31 @@ export class LoginComponent implements OnInit, OnDestroy {
   //destroyed$ = new Subject<boolean>();
   //\\DO NOT DELETE:  THIS IS SUBSCRIBE TO ACTION EXAMPLE */
 
-  form: FormGroup;
+  public validationOptions: any = {
 
-  username = new FormControl('', Validators.required);
-  password = new FormControl('', Validators.required);
-  forceRefresh = new FormControl('', Validators.required);
+    //Custom method
+    store: this._store,
+    // Rules for form validation
+    rules: {
+      username: {
+        required: true
+      },
+      password: {
+        required: true,
+      }
+    },
+
+    // Messages for form validation
+    messages: {
+      username: {
+        required: 'Please enter your username or email'
+      },
+      password: {
+        required: 'Please enter your password'
+      }
+    }
+    , submitHandler: this.login
+  };
 
   // constructor(
   //   updates$: Actions,
@@ -38,7 +57,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   //   ) {
 
   constructor(
-    formBuilder: FormBuilder,
     private _store: Store<any>
   ) {
 
@@ -52,12 +70,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     //   )
     //   .subscribe();
     //\\DO NOT DELETE:  THIS IS SUBSCRIBE TO ACTION EXAMPLE */
-
-    this.form = formBuilder.group({
-      'username': this.username,
-      'password': this.password,
-      'forceRefresh': this.forceRefresh
-    });
   }
 
   ngOnInit() {
@@ -77,8 +89,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   //\\DO NOT DELETE:  THIS IS SUBSCRIBE TO ACTION EXAMPLE */
 
   login($event) {
-    $event.preventDefault();
-    this._store.dispatch(new fromAuth.LoginAction({ username: this.username.value, password: this.password.value, forceRefresh: this.forceRefresh.value }));
+
+    let model: any = {
+      username: $event.elements.username.value,
+      password: $event.elements.password.value,
+      forceRefresh: $event.elements.forceRefresh.value,
+    };
+
+    this['settings'].store.dispatch(new fromAuth.LoginAction(model));
   }
 
   signInWithGoogle(): void {
