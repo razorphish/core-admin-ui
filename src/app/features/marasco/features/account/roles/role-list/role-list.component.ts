@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Http } from '@angular/http';
 
-import { RoleService } from './../shared/role.service';
 import { IRole } from './../shared/IRole';
 
 @Component({
@@ -17,21 +15,17 @@ export class RoleListComponent implements OnInit {
   message: string;
 
   constructor(
-    private _roleService: RoleService,
     private _route: ActivatedRoute,
-    private http: Http,
     private _router: Router
   ) {}
 
   ngOnInit() {
-    console.log('marasco-role-list Init');
     this.roles = this._route.snapshot.data['roles'];
-    // this.roles = this._route.data['roles'];
     this.activate();
   }
 
   toDetails(info: any): void {
-    this._router.navigate(['/marasco/account/roles/details/' + info._id]);
+    this._router.navigate(['/account/roles/details/' + info._id]);
   }
 
   private activate() {
@@ -52,7 +46,7 @@ export class RoleListComponent implements OnInit {
         {
           text: 'Create',
           action: function(e, dt, node, config) {
-            that._router.navigate(['/marasco/account/roles/details/', 0]);
+            that._router.navigate(['/account/roles/details/', 0]);
           },
           className: 'btn btn-primary'
         }

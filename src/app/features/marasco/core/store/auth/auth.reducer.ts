@@ -26,6 +26,7 @@ export function authReducer(
     case AuthActionTypes.SignupAction:
     case AuthActionTypes.GoogleSign:
     case AuthActionTypes.LinkedInSign:
+    case AuthActionTypes.FacebookSign:
       return {
         ...state,
         loading: true
@@ -48,6 +49,7 @@ export function authReducer(
       };
 
     case AuthActionTypes.AuthTokenPayload:
+    case AuthActionTypes.TokenRefreshSuccess:
     case AuthActionTypes.TokenRestore:
       return {
         ...state,

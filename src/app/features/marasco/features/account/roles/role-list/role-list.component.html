@@ -3,10 +3,17 @@
         <sa-big-breadcrumbs [items]="['Roles', 'List']" icon="legal" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
         <sa-stats></sa-stats>
     </div>
+
+  <!-- widget grid -->
+  <sa-widgets-grid>
+
+    <!-- START ROW -->
     <div class="row">
-        <div class="col-sm-12">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12 col-md-12 col-lg-12">
           
-            <sa-widget [editbutton]="false" color="blueDark">
+            <div sa-widget [editbutton]="false" color="darken">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>Roles</h2>
@@ -37,8 +44,16 @@
 
                     </div>
                 </div>
-            </sa-widget>
+            </div>
+            <!-- end widget -->
 
-        </div>
-    </div>
-</div>
+        </article>
+        <!-- END COL -->
+  
+      </div>
+      <!-- END ROW -->
+  
+    </sa-widgets-grid>
+    <!-- end widget grid -->
+  
+  </div>

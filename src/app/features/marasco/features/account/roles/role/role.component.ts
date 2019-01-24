@@ -4,7 +4,7 @@ import { UpperCasePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Third Party Services
-import { NotificationService } from '../../../../shared/utils/notification.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 // Internal
 import { RoleService } from './../shared/role.service';
@@ -23,9 +23,7 @@ export class RoleComponent implements OnInit {
 
   //////////////////Publicly exposed variables///////////
   public defaultItem: IRole = {
-    _id: '',
-    name: '',
-    normalizedName: ''
+    name: ''
   };
 
   public isUpdate = true;
@@ -84,7 +82,7 @@ export class RoleComponent implements OnInit {
   }
 
   public toList() {
-    this._router.navigate(['/marasco/account/roles']);
+    this._router.navigate(['/account/roles']);
   }
 
   /////////////////////////////////////
@@ -117,9 +115,9 @@ export class RoleComponent implements OnInit {
    */
   private insert() {
     this._roleService.insert(this.role).subscribe(
-      response => {
-        if (response.status) {
-          this._activityLogService.addInserts(`Inserted user ${response.data._id}`)
+      role => {
+        if (role) {
+          this._activityLogService.addInserts(`Inserted user ${role._id}`)
           this._notificationService.smallBox({
             title: 'Role created',
             content: 'Role has been created successfully. ',
@@ -129,12 +127,12 @@ export class RoleComponent implements OnInit {
             number: '4'
           });
           this.isUpdate = true;
-          this.role._id = response.data._id;
+          this.role._id = role._id;
         } else {
-          this._activityLogService.addError(response.error);
+          this._activityLogService.addError('Role not returned indicating a fail to insert');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: response.msg,
+            content: 'Insert role did not complete successfully',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
@@ -142,11 +140,11 @@ export class RoleComponent implements OnInit {
           });
         }
       },
-      err => {
-        this._activityLogService.addError(err);
+      errInfo => {
+        this._activityLogService.addError(errInfo);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to create',
-          content: err,
+          content: errInfo.error.message || errInfo.message,
           color: '#C46A69',
           icon: 'fa fa-warning shake animated',
           number: '1',
@@ -164,9 +162,9 @@ export class RoleComponent implements OnInit {
    */
   private update() {
     this._roleService.update(this.role).subscribe(
-      response => {
-        if (response.status) {
-          this._activityLogService.addUpdate(`Updated user ${response.data._id}`);
+      role => {
+        if (role) {
+          this._activityLogService.addUpdate(`Updated user ${role._id}`);
           this._notificationService.smallBox({
             title: 'Role Updated',
             content: 'User has been updated successfully. ',
@@ -176,10 +174,10 @@ export class RoleComponent implements OnInit {
             number: '4'
           });
         } else {
-          this._activityLogService.addError(response.error);
+          this._activityLogService.addError('Update did not return a role indicating a fail to update in database');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: response.msg,
+            content: 'Role failed to update',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',

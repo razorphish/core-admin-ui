@@ -22,6 +22,11 @@ const routes: Routes = [
         loadChildren: "./features/dashboard/dashboard.module#DashboardModule",
         data: { pageTitle: "Dashboard" }
       },
+      {
+        path: "account",
+        loadChildren: "./features/account/account.module#AccountModule",
+        data: { pageTitle: "Account" }
+      },
     ]
   },
   //,

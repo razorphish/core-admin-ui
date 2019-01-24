@@ -22,6 +22,12 @@ import { StorageService } from './storage.service';
 import { UserInfo } from './models/userInfo.model';
 import { TokenResult } from './models/tokenResult.model';
 import { Response } from '@angular/http';
+import { AuthTokenService } from './auth-token.service';
+
+import { Store } from '@ngrx/store';
+
+import { TokenRefresh, TokenRefreshSuccess } from '../store/auth/auth.actions';
+import { AuthState } from '../store/auth/auth.reducer';
 
 const ROLE_ADMIN = 1;
 
@@ -48,12 +54,15 @@ export class AuthService {
   public tokenIsBeingRefreshed: Subject<boolean>;
 
   constructor(
+    public authToken: AuthTokenService,
     private _http: HttpClient,
-    private _storage: StorageService) {
+    private _storage: StorageService,
+    private _store: Store<AuthState>) {
 
     this.lastUrl = '/';
-    console.log('created');
 
+    this.tokenIsBeingRefreshed = new Subject<boolean>();
+    this.tokenIsBeingRefreshed.next(false);
   }
 
   //createUserAndRetrieveDataWithEmailAndPassword(
@@ -85,7 +94,7 @@ export class AuthService {
   }
 
   loggedIn() {
-    return this.tokenNotExpired().then(_ => _);
+    return this.tokenNotExpired();
   }
 
   login(username: string, password: string, forceRefresh: boolean = false): Observable<TokenResult> {
@@ -155,22 +164,12 @@ export class AuthService {
   }
 
   refreshToken() {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-    if (!currentUser) {
-      // This guarantees that a 403 is returned
-      // in the observable which will be handled by
-      // interceptor
-      currentUser = {
-        refresh_token: ''
-      };
-    }
 
     const params: any = {
       client_id: this._clientId,
       client_secret: this._clientSecret,
       grant_type: 'refresh_token',
-      refresh_token: currentUser.refresh_token
+      refresh_token: this.authToken.token.refresh_token
     };
 
     return this._http
@@ -178,14 +177,18 @@ export class AuthService {
       .pipe(map((credential: TokenResult) => {
         // Business as usual
         // login successful if there's a jwt token in the response
-        if (credential.user && credential.access_token) {
+        if (credential && credential.access_token) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          //localStorage.setItem('currentUser', JSON.stringify(user));
-          //localStorage.setItem('access_token', user.access_token);
-          ///this.currentUser.next(JSON.stringify(user));
+
+          //Inform everyone
           this._loginSubject.next(true);
-          this.onIdTokenChanged.next(credential.user);
-          //this.onAuthStateChanged(credential.user);
+
+          this.userSource = new UserInfo(credential.user);
+          this.userSource.token = credential;
+          this._userSubject.next(this.userSource);
+          this.onAuthStateChanged.next(this.userSource);
+          this.onIdTokenChanged.next(this.userSource);
+          this.authToken.token = credential;
           return credential;
         }
       }),
@@ -194,23 +197,16 @@ export class AuthService {
 
   refreshTokenErrorHandler(error) {
     this._loginSubject.next(false);
-    this.signOut();
     this.tokenIsBeingRefreshed.next(false);
-    //this._router.navigate(['/auth/login']);
-    console.log(error);
+    this.onIdTokenChanged.next(null);
   }
 
   refreshTokenSuccessHandler(data) {
     if (data.error) {
       console.log('Removing tokens.');
-      this.signOut();
-      this._loginSubject.next(true);
       this.tokenIsBeingRefreshed.next(false);
-      //this._router.navigateByUrl('/auth/login');
       return false;
     } else {
-      this.addTokens(data.access_token, data.refresh_token);
-      this._loginSubject.next(false);
       this.tokenIsBeingRefreshed.next(false);
       console.log('Refreshed user token');
     }
@@ -287,7 +283,7 @@ export class AuthService {
     const url = `${this._apiUrl}auth/reset-password/${token}`;
 
     return this._http
-      .post<any>(url, {password: password, confirmPassword: confirmPassword})
+      .post<any>(url, { password: password, confirmPassword: confirmPassword })
       .pipe(map((result: any) => {
         return result;
       }),
@@ -338,7 +334,7 @@ export class AuthService {
       // The response body may contain clues as to what went wrong,
       //console.error(
       //  `Backend returned code ${errorResponse.status}, ` +
-       // `body was:`, errorResponse.error);
+      // `body was:`, errorResponse.error);
       if (errorResponse.error) {
         errorInfo.code = errorResponse.error.error.code || errorResponse.error.error;
         errorInfo.message = errorResponse.error.error_description || errorResponse.error.error.message;
@@ -360,26 +356,16 @@ export class AuthService {
   /**
    * Determine if token has expired
    */
-  private tokenNotExpired(): Promise<any> {
-    return this._storage.get(USER_TOKEN)
-      .then(tokenResult => {
-        let token: string = '';
+  private tokenNotExpired(): boolean {
 
-        if (tokenResult) {
-          token = JSON.parse(tokenResult);
-        } else {
-          return false;
-        }
+    let token: TokenResult = this.authToken.token;
 
-        const d1 = new Date();
-        const d2 = new Date(token['.expires']);
+    const d1 = new Date();
+    const d2 = new Date(token.expirationTime);
 
-        if (d1 > d2) {
-          return false;
-        }
-        return true;
-      }).catch(err => {
-        return false;
-      });
+    if (d1 > d2) {
+      return false;
+    }
+    return true;
   }
 }

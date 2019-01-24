@@ -60,7 +60,8 @@ export class AuthTokenService {
           this.token = token;
 
           this.token$
-            .pipe(switchMap(this.dumpToken),
+            .pipe(
+              switchMap(this.dumpToken),
               switchMap(this.updateLoggedOnce))
             .subscribe(() => { });
 

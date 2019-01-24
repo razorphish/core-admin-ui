@@ -5,6 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
+
 import { Observable, throwError } from 'rxjs';
 import { AuthTokenService } from './auth-token.service';
 
@@ -31,8 +32,9 @@ export class TokenInterceptor implements HttpInterceptor {
       //console.log('interceptedlog');
       return this.handleLogout(request, next);
 
-    } else if (request.url.search(environment.apiUrl + 'auth/register-with-email-password') === 0 ||
-      request.url.search(environment.apiUrl + 'auth/reset-password')) {
+    } else if (
+      request.url.search(environment.apiUrl + 'auth/register-with-email-password') === 0 ||
+      request.url.search(environment.apiUrl + 'auth/reset-password') === 0) {
       return next.handle(request);
 
     } else if (request.url.search(environment.apiUrl) === 0) {

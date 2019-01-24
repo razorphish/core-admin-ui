@@ -7,7 +7,6 @@ import { SmartadminValidationModule } from '../../../shared/forms/validation/sma
 import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-input.module';
 
 import { RoleService } from '../roles';
-import { AuthHttpService } from '../../../core/services/auth-http.service';
 
 import {
   UsersComponent,
@@ -38,8 +37,7 @@ import {
     UserResolve,
     UserFactory,
     RoleService,
-    UpperCasePipe,
-    AuthHttpService
+    UpperCasePipe
   ]
 })
 export class UsersModule { }

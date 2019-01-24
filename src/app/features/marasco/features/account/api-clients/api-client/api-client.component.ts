@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { NotificationService } from '../../../../shared/utils/notification.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
 import { IApiClient } from '../shared/IApiClient';
@@ -202,11 +202,11 @@ export class ApiClientComponent implements OnInit {
           });
         }
       },
-      err => {
-        this._activityLogService.addError(err);
+      errInfo => {
+        this._activityLogService.addError(errInfo);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to create',
-          content: err,
+          content: errInfo.error.message || errInfo.message,
           color: '#C46A69',
           icon: 'fa fa-warning shake animated',
           number: '1',

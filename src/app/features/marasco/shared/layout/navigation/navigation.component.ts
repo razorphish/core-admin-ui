@@ -9,10 +9,22 @@ import {LoginInfoComponent} from "../../user/login-info/login-info.component";
 })
 export class NavigationComponent implements OnInit {
 
+  public user:any;
   constructor() {
   }
 
   ngOnInit() {
   }
 
+  isInRole(role) {
+    let foundRole = false;
+
+    for (let i = 0; i < this.user.roles.length; i++) {
+      if (this.user.roles[i].normalizedName === role) {
+        foundRole = true;
+      }
+    }
+
+    return foundRole;
+  }
 }

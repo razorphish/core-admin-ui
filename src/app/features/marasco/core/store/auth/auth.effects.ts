@@ -59,7 +59,7 @@ export class AuthEffects {
             'Please check your email for further instructions.',
             null,
             true);
-          this.router.navigate([this.loginUrl, _]);
+          this.router.navigate([this.loginUrl]);
         }, (error) => {
           this.dispatchErrorNotification(error);
         });
@@ -112,6 +112,11 @@ export class AuthEffects {
             this.dispatchErrorNotification(_.error);
             return;
           }
+
+          this.notify('Registration Sucess',
+            'You have been registered in our system.  Please login at your earliest convenience',
+            null,
+            true);
           this.router.navigate([this.loginUrl, _]);
         },
           (error: any) => { this.dispatchError(error); })
@@ -270,7 +275,7 @@ export class AuthEffects {
 
     //Login, Logout, Token Refresh
     this.auth.onIdTokenChanged.subscribe(authUser => {
-
+      console.log('\n\n onIdTokenChanged', authUser)
       if (authUser) {
         this.store.dispatch(new actions.AuthUserChange(authUser));
       } else {

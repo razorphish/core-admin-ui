@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-// import { AccountComponent } from './account.component';
 
 const routes: Routes = [
   {
@@ -11,17 +10,17 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    loadChildren: 'app/features/marasco/features/account/users/users.module#UsersModule',
+    loadChildren: './users/users.module#UsersModule',
     data: { pageTitle: 'Users' }
   },
   {
     path: 'roles',
-    loadChildren: 'app/features/marasco/features/account/roles/roles.module#RolesModule',
+    loadChildren: './roles/roles.module#RolesModule',
     data: { pageTitle: 'Roles' }
   },
   {
     path: 'api-clients',
-    loadChildren: 'app/features/marasco/features/account/api-clients/api-clients.module#ApiClientsModule',
+    loadChildren: './api-clients/api-clients.module#ApiClientsModule',
     data: { pageTitle: 'Api Clients' }
   }
 ];
@@ -30,6 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AccountRoutingModule {}
-
-// export const routedComponents = [AccountComponent];
+export class routing { }

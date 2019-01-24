@@ -5,20 +5,6 @@
     <sa-stats></sa-stats>
   </div>
 
-  <!--<div class="row">
-    <div class="col-sm-12">
-
-      <div class="well" dismisser="">
-        <!--<button class="close" data-dismiss="alert">-->
-  <!--×-->
-  <!--</button>
-        <h1 class="semi-bold">Edit User details</h1>
-        <p>
-          Some content if applicable
-        </p>
-      </div>
-    </div>
-  </div>-->
 
   <!-- widget grid -->
   <sa-widgets-grid>
@@ -30,7 +16,7 @@
       <article class="col-sm-12 col-md-12 col-lg-12">
 
         <!-- Widget ID (each widget will need unique ID)-->
-        <sa-widget [colorbutton]="false" [editbutton]="false" [custombutton]="false">
+        <div sa-widget [colorbutton]="false" [editbutton]="false" [custombutton]="false">
 
           <header>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
@@ -46,7 +32,7 @@
             <div class="widget-body no-padding">
 
               <form 
-                #roleDetailsForm="ngForm" class="smart-form" [saUiValidate]="validationOptions" novalidate="novalidate" ()="save(roleDetailsForm.value)">
+                #roleDetailsForm="ngForm" class="smart-form" [saUiValidate]="validationOptions" novalidate="novalidate" (ngSubmit)="save(roleDetailsForm.value)">
 
                 <fieldset>
                   <section>
@@ -73,7 +59,7 @@
           </div>
           <!-- end widget div -->
 
-        </sa-widget>
+        </div>
         <!-- end widget -->
 
       </article>

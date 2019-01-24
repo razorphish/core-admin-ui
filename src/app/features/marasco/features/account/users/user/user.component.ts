@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { NotificationService } from '../../../../shared/utils/notification.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
 import { IUser } from './../shared/IUser';
@@ -12,6 +12,7 @@ import { UserFactory } from './../shared/user.factory';
 
 import { RoleService } from './../../roles/shared/role.service';
 import { IRole } from './../../roles/shared/IRole';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'marasco-user',
@@ -95,7 +96,7 @@ export class UserComponent implements OnInit {
     }
   };
 
-  @Input() options;
+  @Input() options = [];;
   // @Input() filter = "ion ([7-9]|[1][0-2])";
   @Input() filter = '';
 
@@ -153,7 +154,7 @@ export class UserComponent implements OnInit {
   }
 
   public toList() {
-    this._router.navigate(['/marasco/account/users']);
+    this._router.navigate(['/account/users']);
   }
 
   /////////////////////////////////////
@@ -227,10 +228,10 @@ export class UserComponent implements OnInit {
   private insert() {
 
     this._userService.insert(this.user).subscribe(
-      response => {
-        if (response.status) {
+      user => {
+        if (user) {
           this._activityLogService.addInserts(
-            `Inserted user ${response.data._id}`
+            `Inserted user ${user._id}`
           );
           this._notificationService.smallBox({
             title: 'User created',
@@ -241,12 +242,12 @@ export class UserComponent implements OnInit {
             number: '4'
           });
           this.isUpdate = true;
-          this.user._id = response.data._id;
+          this.user._id = user._id;
         } else {
-          this._activityLogService.addError(response.error);
+          this._activityLogService.addError('User not returned from database on insert');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: response.msg,
+            content: 'User was not returned indicating that user was not in fact updated',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
@@ -254,11 +255,11 @@ export class UserComponent implements OnInit {
           });
         }
       },
-      err => {
-        this._activityLogService.addError(err);
+      errInfo => {
+        this._activityLogService.addError(errInfo);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to create',
-          content: err,
+          content: errInfo.error.message || errInfo.message,
           color: '#C46A69',
           icon: 'fa fa-warning shake animated',
           number: '1',
@@ -276,10 +277,10 @@ export class UserComponent implements OnInit {
    */
   private update() {
     this._userService.update(this.user).subscribe(
-      response => {
-        if (response.status) {
+      user => {
+        if (user) {
           this._activityLogService.addUpdate(
-            `Updated user ${response.data._id}`
+            `Updated user ${user._id}`
           );
           this._notificationService.smallBox({
             title: 'User Updated',
@@ -290,10 +291,10 @@ export class UserComponent implements OnInit {
             number: '4'
           });
         } else {
-          this._activityLogService.addError(response.error);
+          this._activityLogService.addError('No user present: Update Faile');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: response.msg,
+            content: 'No user returned which means that user was not updated',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',

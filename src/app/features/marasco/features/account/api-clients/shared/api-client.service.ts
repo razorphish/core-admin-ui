@@ -6,11 +6,10 @@ import { Observable } from 'rxjs';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { map } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { environment } from '../../../../../../../environments/environment';
-import { IApiResponse } from '../../../../shared/IApiResponse';
+import { IApiResponse } from '../../../../core/services/models/IApiResponse';
 import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
 import { IApiClient } from '../../api-clients';
@@ -33,50 +32,45 @@ export class ApiClientService {
     });
   }
 
-  all(): Observable<IApiClient[]> {
-    return (
-      this._authHttp
+  all(): Observable<any> {
+    return this._authHttp
         .get(this._url)
-        .pipe(map((response: Response) => <IApiClient[]>response.json()),
-        // .do(
-        //   data => console.log('All: ' + JSON.stringify(data))
-        // )
-        catchError(this.handleError))
-    );
+        .pipe(map((apiClients: any) => apiClients),
+        catchError(this.handleError));
   }
 
   delete(id: number): Observable<any> {
     return this._authHttp
       .delete(this._url + id)
-      .pipe(map((response: Response) => <any>response.json()),
+      .pipe(map((result: any) => result),
         catchError(this.handleError));
   }
 
   get(id: string): Observable<IApiClient> {
     return this._authHttp
       .get(this._url + id)
-      .pipe(map((response: Response) => <IApiClient>response.json()),
+      .pipe(map((client: any) => client),
       catchError(this.handleError));
   }
 
   insert(apiClient: IApiClient): Observable<IApiResponse> {
     return this._authHttp
       .post(this._url, JSON.stringify(apiClient))
-      .pipe(map((response: Response) => { return response.json(); }),
+      .pipe(map((client: any) => client),
         catchError(this.handleError));
   }
 
   refreshToken(id: string): Observable<IApiResponse> {
     return this._authHttp
       .post(this._url + id + '/rt', null)
-      .pipe(map((response: Response) => { return response.json(); }),
+      .pipe(map((token: any) => token),
         catchError(this.handleError));
   }
 
   update(apiClient: IApiClient): Observable<IApiResponse> {
     return this._authHttp
       .put(this._url + apiClient._id, JSON.stringify(apiClient))
-      .pipe(map((response: Response) => { return response.json(); }),
+      .pipe(map((token: any) => token),
         catchError(this.handleError));
   }
 

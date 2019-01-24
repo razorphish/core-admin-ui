@@ -6,8 +6,6 @@ import { SmartadminDatatableModule } from '../../../shared/ui/datatable/smartadm
 import { SmartadminValidationModule } from '../../../shared/forms/validation/smartadmin-validation.module';
 import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-input.module';
 
-import { AuthHttpService } from '../../../core/services/auth-http.service';
-
 import { ApiClientsRoutingModule } from './api-clients-routing.module';
 import { ApiClientFactory } from './shared/api-client.factory';
 import { ApiClientResolve } from './api-client/api-client.resolve';
@@ -36,8 +34,7 @@ import { ApiClientsComponent } from './api-clients.component';
     ApiClientFactory,
     ApiClientListResolve,
     ApiClientResolve,
-    ApiClientFactory,
-    AuthHttpService
+    ApiClientFactory
   ]
 })
 export class ApiClientsModule {}

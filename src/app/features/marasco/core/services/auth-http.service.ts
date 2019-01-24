@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
-import { AuthHttp } from './auth-ng2-bearer';
 import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthHttpService {
     constructor(
-        private authHttp: AuthHttp,
+        private authHttp: HttpClient,
         private authService: AuthService,
         private router: Router
     ) { }
@@ -20,19 +20,17 @@ export class AuthHttpService {
                 .refreshToken()
                 .pipe(switchMap(data => {
                     this.authService.refreshTokenSuccessHandler(data);
-                    if (this.authService.loggedIn()) {
-                        this.authService.tokenIsBeingRefreshed.next(false);
+                    if (!!data) {
                         return this.deleteInternal(endpoint);
                     } else {
-                        this.authService.tokenIsBeingRefreshed.next(false);
                         this.router.navigate(['/auth/login']);
-                        return Observable.throw(data);
+                        return throwError(data);
                     }
                 }),
-                catchError(e => {
-                    this.authService.refreshTokenErrorHandler(e);
-                    return Observable.throw(e);
-                }));
+                    catchError(e => {
+                        this.authService.refreshTokenErrorHandler(e);
+                        return throwError(e);
+                    }));
         } else {
             return this.deleteInternal(endpoint, options);
         }
@@ -45,19 +43,17 @@ export class AuthHttpService {
                 .refreshToken()
                 .pipe(switchMap(data => {
                     this.authService.refreshTokenSuccessHandler(data);
-                    if (this.authService.loggedIn()) {
-                        this.authService.tokenIsBeingRefreshed.next(false);
+                    if (!!data) {
                         return this.getInternal(endpoint);
                     } else {
-                        this.authService.tokenIsBeingRefreshed.next(false);
                         this.router.navigate(['/auth/login']);
-                        return Observable.throw(data);
+                        return throwError(data);
                     }
                 }),
-                catchError(e => {
-                    this.authService.refreshTokenErrorHandler(e);
-                    return Observable.throw(e);
-                }));
+                    catchError(e => {
+                        this.authService.refreshTokenErrorHandler(e);
+                        return throwError(e);
+                    }));
         } else {
             return this.getInternal(endpoint, options);
         }
@@ -70,19 +66,17 @@ export class AuthHttpService {
                 .refreshToken()
                 .pipe(switchMap(data => {
                     this.authService.refreshTokenSuccessHandler(data);
-                    if (this.authService.loggedIn()) {
-                        this.authService.tokenIsBeingRefreshed.next(false);
+                    if (!!data) {
                         return this.postInternal(endpoint, body);
                     } else {
-                        this.authService.tokenIsBeingRefreshed.next(false);
                         this.router.navigate(['/auth/login']);
-                        return Observable.throw(data);
+                        return throwError(data);
                     }
                 }),
-                catchError(e => {
-                    this.authService.refreshTokenErrorHandler(e);
-                    return Observable.throw(e);
-                }));
+                    catchError(e => {
+                        this.authService.refreshTokenErrorHandler(e);
+                        return throwError(e);
+                    }));
         } else {
             return this.postInternal(endpoint, body, options);
         }
@@ -95,19 +89,17 @@ export class AuthHttpService {
                 .refreshToken()
                 .pipe(switchMap(data => {
                     this.authService.refreshTokenSuccessHandler(data);
-                    if (this.authService.loggedIn()) {
-                        this.authService.tokenIsBeingRefreshed.next(false);
+                    if (!!data) {
                         return this.putInternal(endpoint, body);
                     } else {
-                        this.authService.tokenIsBeingRefreshed.next(false);
                         this.router.navigate(['/auth/login']);
-                        return Observable.throw(data);
+                        return throwError(data);
                     }
                 }),
-                catchError(e => {
-                    this.authService.refreshTokenErrorHandler(e);
-                    return Observable.throw(e);
-                }));
+                    catchError(e => {
+                        this.authService.refreshTokenErrorHandler(e);
+                        return throwError(e);
+                    }));
         } else {
             return this.putInternal(endpoint, body, options);
         }

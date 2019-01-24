@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Http } from '@angular/http';
-
 import * as moment from 'moment';
 
 import { IUser } from './../shared/IUser';
-import { UserService } from './../shared/user.service';
 
 @Component({
   selector: 'marasco-account-user-list',
@@ -20,21 +17,17 @@ export class UserListComponent implements OnInit {
   message: string;
 
   constructor(
-    private _userService: UserService,
     private _route: ActivatedRoute,
-    private http: Http,
     private _router: Router
   ) {}
 
   ngOnInit() {
-    console.log('marasco-user-list Init');
     this.users = this._route.snapshot.data['users'];
-    // this.users = this._route.data['users'];
     this.activate();
   }
 
   toDetails(info: any): void {
-    this._router.navigate(['/marasco/account/users/details/' + info._id]);
+    this._router.navigate(['/account/users/details/' + info._id]);
   }
 
   private activate() {
@@ -63,7 +56,7 @@ export class UserListComponent implements OnInit {
         {
           text: 'Create',
           action: function(e, dt, node, config) {
-            that._router.navigate(['/marasco/account/users/details/', 0]);
+            that._router.navigate(['/account/users/details/', 0]);
           },
           className: 'btn btn-primary'
         }
