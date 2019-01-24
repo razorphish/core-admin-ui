@@ -53,21 +53,21 @@ export class ApiClientService {
       catchError(this.handleError));
   }
 
-  insert(apiClient: IApiClient): Observable<IApiResponse> {
+  insert(apiClient: IApiClient): Observable<IApiClient> {
     return this._authHttp
       .post(this._url, JSON.stringify(apiClient))
       .pipe(map((client: any) => client),
         catchError(this.handleError));
   }
 
-  refreshToken(id: string): Observable<IApiResponse> {
+  refreshToken(id: string): Observable<IApiClient> {
     return this._authHttp
       .post(this._url + id + '/rt', null)
       .pipe(map((token: any) => token),
         catchError(this.handleError));
   }
 
-  update(apiClient: IApiClient): Observable<IApiResponse> {
+  update(apiClient: IApiClient): Observable<IApiClient> {
     return this._authHttp
       .put(this._url + apiClient._id, JSON.stringify(apiClient))
       .pipe(map((token: any) => token),

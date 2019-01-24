@@ -14,7 +14,6 @@ export class ApiClientListResolve implements Resolve<IApiClient[]> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    // return this._ApiClientService.all(route.paramMap.get('id'));
     this._activityLogService.addGet('Get all api clients');
     return this._apiClientService.all();
   }

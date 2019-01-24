@@ -8,5 +8,8 @@ export interface IApiClient {
   allowedOrigins: any;
   tokenLifeTime: number;
   refreshTokenLifeTime: number;
-  dateCreated: Date
+  dateCreated: Date,
+  tokenProtocol: '',
+  redirectUrl: '',
+  tokenHash? : ''
 }

@@ -14,12 +14,15 @@ import { AuthGuard } from "./guards/auth.guard";
 import { services, AuthTokenFactory, AuthTokenService, TokenInterceptor } from '@app/features/marasco/core/services'
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
     // HotkeysModule.forRoot(),
 
     StoreModule.forRoot(fromStore.reducers, {

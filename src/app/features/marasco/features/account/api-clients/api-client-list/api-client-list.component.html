@@ -3,53 +3,67 @@
         <sa-big-breadcrumbs [items]="['API Clients', 'List']" icon="lock" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
         <sa-stats></sa-stats>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            
-            <sa-widget [editbutton]="false" color="blueDark">
-                <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>Api Clients</h2>
-                </header>
-                <div>
-                    <div class="widget-body no-padding">
 
-                        <sa-datatable 
-                            [options]="options" 
-                            tableClass="table table-striped table-bordered table-hover" paginationLength=true>
-                            <thead>
-                                <tr>
-                                    <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
-                                    <th [style.width]="'8%'" data-hide="mobile-p">Name</th>
-                                    <th [style.width]="'8%'">Client Id</th>
-                                    <th [style.width]="'4%'">Trusted</th>
-                                    <th [style.width]="'8%'">Type</th>
-                                    <th [style.width]="'8%'">Origins</th>
-                                    <th [style.width]="'6%'">Lifetime</th>
-                                    <th [style.width]="'6%'">Refresh</th>
-                                    <th data-class="expand">Created</th>
-                                </tr>
-                            </thead>
+    <!-- widget grid -->
+    <sa-widgets-grid>
 
-                            <tfoot>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Client Id</th>
-                                    <th>Trusted</th>
-                                    <th>Type</th>
-                                    <th>Origins</th>
-                                    <th>Lifetime</th>
-                                    <th>Refresh</th>
-                                    <th>Created</th>
-                                </tr>
-                            </tfoot>
-                        </sa-datatable>
+        <!-- START ROW -->
+        <div class="row">
 
+            <!-- NEW COL START -->
+            <article class="col-sm-12 col-md-12 col-lg-12">
+
+                <div sa-widget [editbutton]="false" color="blueDark">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Api Clients</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+
+                            <sa-datatable 
+                                [options]="options" 
+                                tableClass="table table-striped table-bordered table-hover"
+                                paginationLength=true>
+                                <thead>
+                                    <tr>
+                                        <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
+                                        <th [style.width]="'8%'" data-hide="mobile-p">Name</th>
+                                        <th [style.width]="'8%'">Client Id</th>
+                                        <th [style.width]="'4%'">Trusted</th>
+                                        <th [style.width]="'8%'">Type</th>
+                                        <th [style.width]="'8%'">Redirect</th>
+                                        <th [style.width]="'8%'">Protocol</th>
+                                        <th [style.width]="'6%'">Lifetime</th>
+                                        <th [style.width]="'6%'">Refresh</th>
+                                        <th data-class="expand">Created</th>
+                                    </tr>
+                                </thead>
+
+                                <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Client Id</th>
+                                        <th>Trusted</th>
+                                        <th>Type</th>
+                                        <th>Redirect</th>
+                                        <th>Protocol</th>
+                                        <th>Lifetime</th>
+                                        <th>Refresh</th>
+                                        <th>Created</th>
+                                    </tr>
+                                </tfoot>
+                            </sa-datatable>
+
+                        </div>
                     </div>
                 </div>
-            </sa-widget>
 
+            </article>
         </div>
-    </div>
+
+    </sa-widgets-grid>
+    <!-- end widget grid -->
+
 </div>

@@ -30,7 +30,7 @@ export class ApiClientListComponent implements OnInit {
   }
 
   toDetails(info: any): void {
-    this._router.navigate(['/marasco/account/api-clients/details/' + info._id]);
+    this._router.navigate(['/account/api-clients/details/' + info._id]);
   }
 
   private activate() {
@@ -44,7 +44,8 @@ export class ApiClientListComponent implements OnInit {
         { data: 'clientId'},
         { data: 'isTrusted' },
         { data: 'applicationType' },
-        { data: 'allowedOrigins' },
+        { data: 'redirectUrl' },
+        { data: 'tokenProtocol' },
         { data: 'tokenLifeTime'},
         { data: 'refreshTokenLifeTime' },
         {
@@ -62,7 +63,7 @@ export class ApiClientListComponent implements OnInit {
         {
           text: 'Create',
           action: function(e, dt, node, config) {
-            that._router.navigate(['/marasco/account/api-clients/details/', 0]);
+            that._router.navigate(['/account/api-clients/details/', 0]);
           },
           className: 'btn btn-primary'
         }

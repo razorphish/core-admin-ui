@@ -5,22 +5,6 @@
     <sa-stats></sa-stats>
   </div>
 
-  <!--**KEEP THIS
-    <div class="row">
-    <div class="col-sm-12">
-
-      <div class="well" dismisser="">
-        <!--<button class="close" data-dismiss="alert">-->
-  <!--×-->
-  <!--</button>
-        <h1 class="semi-bold">Edit User details</h1>
-        <p>
-          Some content if applicable
-        </p>
-      </div>
-    </div>
-  </div>
-
   <!-- widget grid -->
   <sa-widgets-grid>
 
@@ -31,7 +15,7 @@
       <article class="col-sm-12 col-md-12 col-lg-12">
 
         <!-- Widget ID (each widget will need unique ID)-->
-        <sa-widget [colorbutton]="false" [editbutton]="false" [custombutton]="false">
+        <div sa-widget [colorbutton]="false" [editbutton]="false" [custombutton]="false">
 
           <header>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
@@ -51,62 +35,86 @@
 
                   <fieldset>
                     <section>
+                      Name
                       <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                    <input type="text" name="name" placeholder="Name" [(ngModel)]="apiClient.name"/>
-                    <b class="tooltip tooltip-bottom-right">Client name needed</b> </label>
+                        <input type="text" name="name" placeholder="Name" [(ngModel)]="apiClient.name" />
+                        <b class="tooltip tooltip-bottom-right">Client name needed</b> </label>
                     </section>
                   </fieldset>
 
                   <fieldset>
                     <div class="row">
                       <section class="col col-6">
-                        <label class="input">
-                      <input type="text" name="clientId" placeholder="Client Id" [(ngModel)]="apiClient.clientId"
-                      />
-                    </label>
+                        Client Id:
+                        <label class="input"><i class="icon-append fa fa-user"></i>
+                          <input type="text" name="clientId" placeholder="Client Id" [(ngModel)]="apiClient.clientId" />
+                        </label>
                       </section>
                       <section class="col col-6">
-                        <label class="input">
-                      <input type="text" name="clientSecret" placeholder="Client Secret" [(ngModel)]="apiClient.clientSecret"
-                      />
-                    </label>
+                        Client Secret:
+                        <label class="input"><i class="icon-append fa fa-key"></i>
+                          <input type="text" name="clientSecret" placeholder="Client Secret" [(ngModel)]="apiClient.clientSecret" />
+                        </label>
                       </section>
                     </div>
                   </fieldset>
 
                   <fieldset>
+
                     <section>
-                      <label class="input"> 
-                        <input type="text" name="applicationType" placeholder="Application Type [Native or ClientConfidential]" [(ngModel)]="apiClient.applicationType"/>
-                     </label>
+                      Application Type
+                      <label class="input">
+                        <input type="text" name="applicationType" placeholder="Application Type [Native or ClientConfidential]"
+                          [(ngModel)]="apiClient.applicationType" />
+                      </label>
                     </section>
 
                     <section>
+                      Allowed Origins
                       <label class="input"> <i class="icon-append fa fa-globe"></i>
-                        <input type="text" name="allowedOrigins" id="allowedOrigins" placeholder="Allowed Origins [* - for all, comma delimited]" [(ngModel)]="apiClient.allowedOrigins"/>
-                      <b class="tooltip tooltip-bottom-right">Allowed Origins (Comma delimited, no spaces)</b> </label>
+                        <input type="text" name="allowedOrigins" id="allowedOrigins" placeholder="Allowed Origins [* - for all, comma delimited]"
+                          [(ngModel)]="apiClient.allowedOrigins" />
+                        <b class="tooltip tooltip-bottom-right">Allowed Origins (Comma delimited, no spaces)</b>
+                      </label>
                     </section>
 
                     <section>
+                      Token Lifetime (in minutes)
                       <label class="input"> <i class="icon-append fa fa-clock-o"></i>
-                        <input type="number" name="tokenLifeTime" placeholder="Token Lifetime in Minutes" [(ngModel)]="apiClient.tokenLifeTime"/>
-                      <b class="tooltip tooltip-bottom-right">Token Lifetime</b> </label>
+                        <input type="number" name="tokenLifeTime" placeholder="Token Lifetime in Minutes" [(ngModel)]="apiClient.tokenLifeTime" />
+                        <b class="tooltip tooltip-bottom-right">Token Lifetime</b> </label>
                     </section>
 
                     <section>
+                      Refresh Token Lifetime (in minutes)
                       <label class="input"> <i class="icon-append fa fa-clock-o"></i>
-                    <input type="number" name="refreshTokenLifeTime" placeholder="Refresh Token Lifetime in Minutes" id="refreshTokenLifeTime" [(ngModel)]="apiClient.refreshTokenLifeTime"/>
-                    <b class="tooltip tooltip-bottom-right">Refresh Token Lifetime</b> </label>
+                        <input type="number" name="refreshTokenLifeTime" placeholder="Refresh Token Lifetime in Minutes"
+                          id="refreshTokenLifeTime" [(ngModel)]="apiClient.refreshTokenLifeTime" />
+                        <b class="tooltip tooltip-bottom-right">Refresh Token Lifetime</b> </label>
                     </section>
+
+                    <section>
+                      Protocol [http|jwt]
+                      <label class="input"> <i class="icon-append fa fa-key"></i>
+                        <input type="text" name="tokenProtocol" placeholder="tokenProtocol" [(ngModel)]="apiClient.tokenProtocol" />
+                        <b class="tooltip tooltip-bottom-right">Token Protocol</b> </label>
+                    </section>
+
+                    <section>
+                        Redirect Url
+                        <label class="input"> <i class="icon-append fa fa-globe"></i>
+                          <input type="text" name="redirectUrl" placeholder="Redirect Url" [(ngModel)]="apiClient.redirectUrl" />
+                          <b class="tooltip tooltip-bottom-right">After authrization redirect to</b> </label>
+                      </section>
 
                     <section>
                       <label class="label"> </label>
                       <div class="row">
                         <div class="col col-4">
                           <label class="checkbox">
-                              <input type="checkbox" name="isTrusted" [checked]="apiClient.isTrusted">
-                              <i></i>Is Trusted
-                            </label>
+                            <input type="checkbox" name="isTrusted" [checked]="apiClient.isTrusted">
+                            <i></i>Is Trusted
+                          </label>
                         </div>
                       </div>
                     </section>
@@ -143,7 +151,7 @@
           </div>
           <!-- end widget div -->
 
-        </sa-widget>
+        </div>
         <!-- end widget -->
 
       </article>

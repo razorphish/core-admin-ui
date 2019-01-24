@@ -39,7 +39,9 @@ export class ApiClientComponent implements OnInit {
     applicationType: '',
     allowedOrigins: [],
     tokenLifeTime: 0,
-    refreshTokenLifeTime: 0
+    refreshTokenLifeTime: 0,
+    tokenProtocol: '',
+    redirectUrl: ''
   };
 
   public apiClient: IApiClient = this.defaultApiClient;
@@ -118,8 +120,6 @@ export class ApiClientComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('marasco-api-client-details Init');
-
     const id = this._route.snapshot.params['id'];
     if (id !== '0') {
       this.apiClient = this._route.snapshot.data['apiClient'];
@@ -146,7 +146,7 @@ export class ApiClientComponent implements OnInit {
   }
 
   public toList() {
-    this._router.navigate(['/marasco/account/api-clients']);
+    this._router.navigate(['/account/api-clients']);
   }
 
   /////////////////////////////////////
@@ -175,10 +175,10 @@ export class ApiClientComponent implements OnInit {
    */
   private insert() {
     this._ApiClientService.insert(this.apiClient).subscribe(
-      response => {
-        if (response.status) {
+      apiClient => {
+        if (apiClient) {
           this._activityLogService.addInserts(
-            `Inserted api client ${response.data._id}`
+            `Inserted api client ${apiClient._id}`
           );
           this._notificationService.smallBox({
             title: 'apiClient created',
@@ -189,12 +189,12 @@ export class ApiClientComponent implements OnInit {
             number: '4'
           });
           this.isUpdate = true;
-          this.apiClient._id = response.data._id;
+          this.apiClient._id = apiClient._id;
         } else {
-          this._activityLogService.addError(response.error);
+          this._activityLogService.addError('Api client not returned indicating a fail to insert');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: response.msg,
+            content: 'Insert api client did not complete successfully',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
@@ -224,12 +224,12 @@ export class ApiClientComponent implements OnInit {
    */
   private refreshToken() {
     this._ApiClientService.refreshToken(this.apiClient._id).subscribe(
-      response => {
-        if (response.status) {
+      apiClient => {
+        if (apiClient) {
 
           // Set client correctly
-          this.apiClient.clientSecret = response.data.clientSecret;
-          this.tokenHash = response.data.tokenHash
+          this.apiClient.clientSecret = apiClient.clientSecret;
+          this.tokenHash = apiClient.tokenHash
 
           this._activityLogService.addInserts(
             `Refreshed api client ${this.apiClient._id} token`
@@ -243,10 +243,10 @@ export class ApiClientComponent implements OnInit {
             number: '4'
           });
         } else {
-          this._activityLogService.addError(response.error);
+          this._activityLogService.addError('Refresh token not returned indicating a fail to insert');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: response.msg,
+            content: 'Refresh token did not complete successfully',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
@@ -254,11 +254,11 @@ export class ApiClientComponent implements OnInit {
           });
         }
       },
-      err => {
-        this._activityLogService.addError(err);
+      errInfo => {
+        this._activityLogService.addError(errInfo);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to refresh token',
-          content: err,
+          content: errInfo.error.message || errInfo.message,
           color: '#C46A69',
           icon: 'fa fa-warning shake animated',
           number: '1',
@@ -276,10 +276,10 @@ export class ApiClientComponent implements OnInit {
    */
   private update() {
     this._ApiClientService.update(this.apiClient).subscribe(
-      response => {
-        if (response.status) {
+      apiClient => {
+        if (apiClient) {
           this._activityLogService.addInserts(
-            `Inserted api client ${response.data._id}`
+            `Inserted api client ${apiClient._id}`
           );
           this._notificationService.smallBox({
             title: 'apiClient Updated',
@@ -290,10 +290,10 @@ export class ApiClientComponent implements OnInit {
             number: '4'
           });
         } else {
-          this._activityLogService.addError(response.error);
+          this._activityLogService.addError('apiClient not returned indicating a fail to update');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: response.msg,
+            content: 'Update apiClient did not complete successfully',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
@@ -301,11 +301,11 @@ export class ApiClientComponent implements OnInit {
           });
         }
       },
-      err => {
-        this._activityLogService.addError(err);
+      errInfo => {
+        this._activityLogService.addError(errInfo);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to update',
-          content: err,
+          content: errInfo.error.message || errInfo.message,
           color: '#C46A69',
           icon: 'fa fa-warning shake animated',
           number: '1',
