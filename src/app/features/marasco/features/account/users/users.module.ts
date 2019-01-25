@@ -8,12 +8,14 @@ import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-in
 
 import { RoleService } from '../roles';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 import {
   UsersComponent,
   UsersRoutingModule,
   UserListComponent,
   UserComponent,
-  UserService,
+  UsersService,
   UserListResolve,
   UserResolve,
   UserGuard,
@@ -26,12 +28,13 @@ import {
     SmartadminDatatableModule,
     SmartadminValidationModule,
     SmartadminInputModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [],
   declarations: [UsersComponent, UserListComponent, UserComponent],
   providers: [
-    UserService,
+    UsersService,
     UserGuard,
     UserListResolve,
     UserResolve,

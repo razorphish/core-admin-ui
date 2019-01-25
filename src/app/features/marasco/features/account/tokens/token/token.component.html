@@ -1,0 +1,184 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+  <div class="row">
+    <sa-big-breadcrumbs [items]="['Token', 'Details']" icon="pencil-square-o" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+    <sa-stats></sa-stats>
+  </div>
+
+  <!-- widget grid -->
+  <sa-widgets-grid>
+
+    <!-- START ROW -->
+    <div class="row">
+
+      <!-- NEW COL START -->
+      <article class="col-sm-12 col-md-12 col-lg-12">
+
+        <!-- Widget ID (each widget will need unique ID)-->
+        <div sa-widget [editbutton]="false" [custombutton]="false" [deletebutton]="false">
+          <header>
+            <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+
+            <h2>{{isUpdate ? "Edit" : "Create A New Token"}}</h2>
+
+          </header>
+
+          <!-- widget div-->
+          <div>
+
+            <form #tokenDetailsForm="ngForm" [saUiValidate]="validationOptions" novalidate="novalidate" (ngSubmit)="save(tokenDetailsForm.value)">
+
+              <div class="smart-form">
+                <!-- widget content -->
+                <div class="widget-body no-padding">
+
+                  <fieldset>
+                    <div class="row">
+                      <section class="col col-6">
+                        Token User First Name
+                        <label class="input">
+                          <input type="text" name="firstname" placeholder="First name" [(ngModel)]="token.userId.firstName" [disabled]="true"/>
+                        </label>
+                      </section>
+                      <section class="col col-6">
+                        Token User Last Name
+                        <label class="input">
+                          <input type="text" name="lastname" placeholder="Last name" [(ngModel)]="token.userId.lastName"  [disabled]="true"/>
+                        </label>
+                      </section>
+                    </div>
+
+                    <div class="row">
+                      <section class="col col-6">
+                        Token user Email
+                        <label class="input">
+                          <input type="text" name="email" placeholder="Token user email" id="email" [(ngModel)]="token.userId.email" [disabled]="true"/>
+                          <b class="tooltip tooltip-bottom-right">Token User Email</b>
+                        </label>
+                      </section>
+                      <section class="col col-6">
+                        Token User username
+                        <label class="input">
+                          <input type="text" name="username" placeholder="Token useranme" [(ngModel)]="token.userId.username" [disabled]="true"/>
+                          <b class="tooltip tooltip-bottom-right">Confirm your Password</b>
+                        </label>
+                      </section>
+                    </div>
+                  </fieldset>
+
+                  <fieldset>
+                    <div class="row">
+                      <section class="col col-6">
+                        Value
+                        <label class="input">
+                          <input type="text" name="value" placeholder="Value" [(ngModel)]="token.value" [disabled]="true"/>
+                          <b class="tooltip tooltip-bottom-right">Token Value (hashed)</b>
+                        </label>
+                      </section>
+                      <section class="col col-6">
+                        Origin
+                        <label class="input">
+                          <input type="text" name="origin" id="origin" placeholder="Origin" [(ngModel)]="token.origin" [disabled]="true"/>
+                          <b class="tooltip tooltip-bottom-right">Origin of user</b>
+                        </label>
+                      </section>
+                    </div>
+
+                    <div class="row">
+                      <section class="col col-3">
+                        Name
+                        <label class="input">
+                          <input type="text" name="name" placeholder="Name" [(ngModel)]="token.name" />
+                          <b class="tooltip tooltip-bottom-right">Name of token</b>
+                        </label>
+                      </section>
+                      <section class="col col-3">
+                        Type
+                        <label class="input">
+                          <input type="text" name="type" placeholder="Token Type" [(ngModel)]="token.type" />
+                          <b class="tooltip tooltip-bottom-right">Token Type</b>
+                        </label>
+                      </section>
+                      <section class="col col-3">
+                        Token Protocol
+                        <label class="input">
+                          <input type="text" name="protocol" placeholder="Token protocol [http|jwt]" [(ngModel)]="token.protocol" />
+                          <b class="tooltip tooltip-bottom-right">Token Protocol</b>
+                        </label>
+                      </section>
+                      <section class="col col-3">
+                        Login Provider
+                        <label class="input">
+                          <input type="text" name="loginProvider" id="loginProvider" placeholder="loginProvider"
+                            [(ngModel)]="token.loginProvider" [disabled]="true"/>
+                          <b class="tooltip tooltip-bottom-right">Login Provider</b>
+                        </label>
+                      </section>
+                    </div>
+
+                    <div class="row">
+                      <section class="col col-3">
+                        Expires in (seconds)
+                        <label class="input">
+                          <input type="number" name="expiresIn" placeholder="Expires in Minutes" [(ngModel)]="token.expiresIn" [disabled]="true"/>
+                          <b class="tooltip tooltip-bottom-right">Expires in (seconds)</b>
+                        </label>
+                      </section>
+                      <section class="col col-3">
+                        Expires
+                        <label class="input">
+                          <input type="text" name="dateExpire" placeholder="Expiration Date" [(ngModel)]="token.dateExpire" />
+                          <b class="tooltip tooltip-bottom-right">Expiration Date</b>
+                        </label>
+                      </section>
+                      <section class="col col-3">
+                        Scope
+                        <label class="input">
+                          <input type="text" name="scope" placeholder="Scope" [(ngModel)]="token.scope" [disabled]="true"/>
+                          <b class="tooltip tooltip-bottom-right">Scope</b>
+                        </label>
+                      </section>
+                      <section class="col col-3">
+                        Force Refresh?
+                        <label class="checkbox">
+                          <input type="checkbox" name="forceRefresh" [checked]="token.forceRefresh">
+                          <i></i>
+                        </label>
+                      </section>
+                    </div>
+
+                  </fieldset>
+
+                  <footer>
+                    <button type="button" class="btn btn-default" (click)="toList()">
+                      Back to list
+                    </button>
+                    <button type="button" *ngIf="isUpdate" disabled class="btn btn-danger" (click)="deleteToken()">
+                      Delete Token
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Save
+                    </button>
+                  </footer>
+
+                </div>
+                <!-- end widget content -->
+              </div>
+
+            </form>
+          </div>
+          <!-- end widget div -->
+
+        </div>
+        <!-- end widget -->
+
+      </article>
+      <!-- END COL -->
+
+    </div>
+    <!-- END ROW -->
+
+  </sa-widgets-grid>
+  <!-- end widget grid -->
+
+</div>

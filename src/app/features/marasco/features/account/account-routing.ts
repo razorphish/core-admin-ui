@@ -22,6 +22,11 @@ const routes: Routes = [
     path: 'api-clients',
     loadChildren: './api-clients/api-clients.module#ApiClientsModule',
     data: { pageTitle: 'Api Clients' }
+  },
+  {
+    path: 'tokens',
+    loadChildren: './tokens/tokens.module#TokensModule',
+    data: { pageTitle: 'Tokens' }
   }
 ];
 

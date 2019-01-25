@@ -1,34 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Response, Headers, RequestOptions } from '@angular/http';
-import { Observable, throwError } from 'rxjs';
+import { Response, Headers } from '@angular/http';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 
 import { map, catchError } from 'rxjs/operators';
 
-import { environment } from './../../../../../../../environments/environment';
+import { environment } from '../../../../../../../environments/environment';
 import { IApiResponse } from '../../../../core/services/models/IApiResponse';
 import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
-import { IUser } from '../../users';
+import { UserInfo } from '../../../../core/services/models/userInfo.model';
+import { User } from '../../../../core/services/models/userInfo.interface';
+
+
+
 
 @Injectable()
-export class UserService {
+export class UsersService {
+
   private _url: string = environment.apiUrl + 'user/';
-  private _headers: Headers;
-  //private _options: RequestOptions;
 
   constructor(private _authHttp: AuthHttpService) {
-    this._headers = new Headers({
-      'Content-Type': 'application/json',
-      Accept: 'q=0.8;application/json;q=0.9.1'
-    });
-
-    // this._options = new RequestOptions({
-    //   headers: this._headers,
-    //   withCredentials: true
-    // });
   }
 
-  all(): Observable<IUser[]> {
+  all(): Observable<User[]> {
     return (
       this._authHttp
         .get(this._url)
@@ -47,21 +41,21 @@ export class UserService {
         catchError(this.handleError));
   }
 
-  get(id: string): Observable<IUser> {
+  get(id: string): Observable<User> {
     return this._authHttp
       .get(this._url + id)
       .pipe(map((user: any) => user),
         catchError(this.handleError));
   }
 
-  insert(user: IUser): Observable<IUser> {
+  insert(user: User): Observable<User> {
     return this._authHttp
       .post(this._url, JSON.stringify(user))
       .pipe(map((response: Response) => { return response.json(); }),
         catchError(this.handleError))
   }
 
-  update(user: IUser): Observable<IUser> {
+  update(user: User): Observable<User> {
     return this._authHttp
       .put(this._url + user._id, JSON.stringify(user))
       .pipe(map((user: any) => user),

@@ -5,30 +5,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
-import { User } from '../../../../core/services/models/userInfo.interface';
-import { UsersService } from '../shared/users.service';
-import { UserFactory } from './../shared/user.factory';
+import { IToken } from './../shared/IToken';
+import { TokenService } from './../shared/token.service';
+import { TokenFactory } from './../shared/token.factory';
 
-import { RoleService } from './../../roles/shared/role.service';
-import { IRole } from './../../roles/shared/IRole';
+import { RoleService } from '../../roles/shared/role.service';
+import { IRole } from '../../roles/shared/IRole';
 
 @Component({
-  selector: 'marasco-user',
-  templateUrl: 'user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'marasco-token',
+  templateUrl: 'token.component.html',
+  styleUrls: ['./token.component.css']
 })
-export class UserComponent implements OnInit {
+export class TokenComponent implements OnInit {
   //////////////////Private variables///////////
-  private _roles: IRole[];
-
-  private _addressesModel = [
-    { address: '', city: '', state: '', zip: '' },
-    { address: '', city: '', state: '', zip: '' }
-  ];
 
   //////////////////Publicly exposed variables///////////
-  public dropdownSettings = {};
-
   public isUpdate = true;
 
   public state: any = {
@@ -37,22 +29,22 @@ export class UserComponent implements OnInit {
     }
   };
 
-  public defaultUser: User = {
+  public defaultToken: IToken = {
     _id: '',
-    avatar: '',
-    firstName: '',
-    lastName: '',
-    dateCreated: null,
-    email: '',
-    homePhone: '',
-    username: '',
-    addresses: this._addressesModel,
-    password: '',
-    confirmPassword: '',
-    roles: []
+    userId: null,
+    loginProvider: '',
+    name: '',
+    value: '',
+    scope: '',
+    type: '',
+    protocol: '',
+    expiresIn: 0
   };
 
-  public user: User = this.defaultUser;
+  public token: IToken = this.defaultToken;
+
+
+  @ViewChild('tokenDetailsForm') tokenDetailsForm;
 
   public validationOptions: any = {
     // Rules for form validation
@@ -96,39 +88,24 @@ export class UserComponent implements OnInit {
     }
   };
 
-  public options = [];
-  // @Input() filter = "ion ([7-9]|[1][0-2])";
-  @Input() filter = '';
-
-  @ViewChild('userDetailsForm') userDetailsForm;
-
-  onItemSelect(item: any) {
-    // Clear out current user roles
-    console.log(item);
-
-  }
-  
-  onSelectAll(items: any) {
-    console.log(items);
-  }
 
   constructor(
-    private _userService: UsersService,
+    private _TokenService: TokenService,
     private _route: ActivatedRoute,
     private _notificationService: NotificationService,
     private _router: Router,
-    private _factory: UserFactory,
+    private _factory: TokenFactory,
     private _roleService: RoleService,
     private _activityLogService: ActivityLogSubjectService
   ) { }
 
-  public disableUser() { }
+  public deleteToken() { }
 
   ngOnInit() {
 
     const id = this._route.snapshot.params['id'];
     if (id !== '0') {
-      this.user = this._route.snapshot.data['user'];
+      this.token = this._route.snapshot.data['token'];
     } else {
       this.isUpdate = false;
     }
@@ -136,7 +113,7 @@ export class UserComponent implements OnInit {
     this.activate();
   }
 
-  public save(userDetailsForm: any) {
+  public save(tokenDetailsForm: any) {
     if (this.validate()) {
       if (this.isUpdate) {
         this.update();
@@ -147,7 +124,7 @@ export class UserComponent implements OnInit {
   }
 
   public toList() {
-    this._router.navigate(['/account/users']);
+    this._router.navigate(['/account/tokens']);
   }
 
   /////////////////////////////////////
@@ -157,24 +134,7 @@ export class UserComponent implements OnInit {
    * Activate the component
    */
   private activate() {
-    this.getRoles();
 
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: '_id',
-      textField: 'name',
-      selectAllText: 'Select All Roles',
-      unSelectAllText: 'UnSelect All Roles',
-      itemsShowLimit: 20,
-      allowSearchFilter: true
-    };
-
-    this._addressesModel.forEach((address, index) => {
-      if (this.user.addresses && this.user.addresses[index]) {
-      } else {
-        this.user.addresses[index] = this._addressesModel[index];
-      }
-    });
   }
 
   private displayErrors(errors: string[]): void {
@@ -190,58 +150,32 @@ export class UserComponent implements OnInit {
     });
   }
 
-  private getRoles() {
-    this._roleService.all().subscribe(
-      (roles: IRole[]) => {
-        this._roles = roles;
-      },
-      err => { },
-      () => {
-        // Init Dual List
-        this.initDualList();
-      }
-    );
-  }
-
-  private initDualList(): void {
-    const roleOptions: any[] = [];
-
-    this._roles.forEach((role, index) => {
-      roleOptions.push({
-        _id: role._id,
-        name: role.name
-      });
-    });
-
-    this.options = roleOptions;
-  }
-
   /**
    * Insert an item in the database
    */
   private insert() {
 
-    this._userService.insert(this.user).subscribe(
-      user => {
-        if (user) {
+    this._TokenService.insert(this.token).subscribe(
+      token => {
+        if (token) {
           this._activityLogService.addInserts(
-            `Inserted user ${user._id}`
+            `Inserted Token ${token._id}`
           );
           this._notificationService.smallBox({
-            title: 'User created',
-            content: 'User has been created successfully. ',
+            title: 'Token created',
+            content: 'Token has been created successfully. ',
             color: '#739E73',
             timeout: 4000,
             icon: 'fa fa-check',
             number: '4'
           });
           this.isUpdate = true;
-          this.user._id = user._id;
+          this.token._id = token._id;
         } else {
-          this._activityLogService.addError('User not returned from database on insert');
+          this._activityLogService.addError('Token not returned from database on insert');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: 'User was not returned indicating that user was not in fact updated',
+            content: 'Token was not returned indicating that Token was not in fact updated',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
@@ -270,25 +204,25 @@ export class UserComponent implements OnInit {
    * Update item
    */
   private update() {
-    this._userService.update(this.user).subscribe(
-      user => {
-        if (user) {
+    this._TokenService.update(this.token).subscribe(
+      token => {
+        if (token) {
           this._activityLogService.addUpdate(
-            `Updated user ${user._id}`
+            `Updated Token ${token._id}`
           );
           this._notificationService.smallBox({
-            title: 'User Updated',
-            content: 'User has been updated successfully. ',
+            title: 'Token Updated',
+            content: 'Token has been updated successfully. ',
             color: '#739E73',
             timeout: 4000,
             icon: 'fa fa-check',
             number: '4'
           });
         } else {
-          this._activityLogService.addError('No user present: Update Faile');
+          this._activityLogService.addError('No Token present: Update Faile');
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: 'No user returned which means that user was not updated',
+            content: 'No Token returned which means that Token was not updated',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
@@ -317,6 +251,6 @@ export class UserComponent implements OnInit {
    * Validate the item
    */
   private validate(): boolean {
-    return this._factory.validate(this.user, this.displayErrors);
+    return this._factory.validate(this.token, this.displayErrors);
   }
 }

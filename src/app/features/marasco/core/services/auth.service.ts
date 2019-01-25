@@ -26,32 +26,37 @@ import { AuthTokenService } from './auth-token.service';
 
 import { Store } from '@ngrx/store';
 
-import { TokenRefresh, TokenRefreshSuccess } from '../store/auth/auth.actions';
 import { AuthState } from '../store/auth/auth.reducer';
-
-const ROLE_ADMIN = 1;
+import { User } from './models/userInfo.interface';
 
 const USER_TOKEN = 'token';
 const USER_LOGGED_ONCE = 'logged_once';
+
+const defaultUser : User = new UserInfo(); 
+  defaultUser._id = '';
+  defaultUser.username = 'Guest';
+  defaultUser.firstName= 'Guest';
+  defaultUser.lastName= '';
+  defaultUser.email= '@';
 
 @Injectable()
 export class AuthService {
   private userSource: UserInfo;
 
   private _loginSubject = new BehaviorSubject<boolean>(this.hasToken());
-  private _userSubject = new BehaviorSubject<UserInfo>(this.userSource);
-  public onAuthStateChanged = new BehaviorSubject<UserInfo>(this.userSource);
-  public onIdTokenChanged = new BehaviorSubject<UserInfo>(this.userSource);
 
   private _authUrl: string = environment.apiUrlAuth;
   private _apiUrl: string = environment.apiUrl;
   private _clientId = environment.clientId;
   private _clientSecret = environment.clientSecret;
 
+  public onAuthStateChanged = new BehaviorSubject<UserInfo>(this.userSource);
+  public onIdTokenChanged = new BehaviorSubject<UserInfo>(this.userSource);
+
   public lastUrl: string;
-  // store the URL so we can redirect after logging in
   public redirectUrl: string;
   public tokenIsBeingRefreshed: Subject<boolean>;
+  public user$ = new BehaviorSubject<User>({ ...defaultUser });
 
   constructor(
     public authToken: AuthTokenService,
@@ -101,6 +106,7 @@ export class AuthService {
     const params: any = {
       username: username,
       password: password,
+      forceRefresh: forceRefresh,
       client_id: this._clientId,
       client_secret: this._clientSecret,
       grant_type: 'password'
@@ -120,7 +126,7 @@ export class AuthService {
           this.userSource = new UserInfo(credential.user);
           this.userSource.token = credential;
           this.userSource.token.forceRefresh = forceRefresh;
-          this._userSubject.next(this.userSource);
+          this.user$.next(this.userSource);
           this.onAuthStateChanged.next(this.userSource);
           this.onIdTokenChanged.next(this.userSource);
           return credential;
@@ -153,7 +159,7 @@ export class AuthService {
 
           this.userSource = new UserInfo(credential.user);
           this.userSource.token = credential;
-          this._userSubject.next(this.userSource);
+          this.user$.next(this.userSource);
           this.onAuthStateChanged.next(this.userSource);
           this.onIdTokenChanged.next(this.userSource);
           return credential;
@@ -185,7 +191,7 @@ export class AuthService {
 
           this.userSource = new UserInfo(credential.user);
           this.userSource.token = credential;
-          this._userSubject.next(this.userSource);
+          this.user$.next(this.userSource);
           this.onAuthStateChanged.next(this.userSource);
           this.onIdTokenChanged.next(this.userSource);
           this.authToken.token = credential;
@@ -254,7 +260,7 @@ export class AuthService {
 
         //Notify listeners
         this._loginSubject.next(false);
-        this._userSubject.next(null);
+        this.user$.next(null);
         this.onAuthStateChanged.next(null);
         this.onIdTokenChanged.next(null);
       }),

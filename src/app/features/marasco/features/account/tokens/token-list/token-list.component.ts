@@ -3,44 +3,53 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import * as moment from 'moment';
 
-import { User } from '../../../../core/services/models/userInfo.interface';
+import { IToken } from './../shared/IToken';
 
 @Component({
-  selector: 'marasco-account-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  selector: 'marasco-account-token-list',
+  templateUrl: './token-list.component.html',
+  styleUrls: ['./token-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class TokenListComponent implements OnInit {
   errorMessage: string;
-  users: User[] = [];
+  tokens: IToken[] = [];
   options: {};
   message: string;
 
   constructor(
     private _route: ActivatedRoute,
     private _router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.users = this._route.snapshot.data['users'];
+    this.tokens = this._route.snapshot.data['tokens'];
     this.activate();
   }
 
   toDetails(info: any): void {
-    this._router.navigate(['/account/users/details/' + info._id]);
+    this._router.navigate(['/account/tokens/details/' + info._id]);
   }
 
   private activate() {
     const that = this;
     this.options = {
       dom: 'Bfrtip',
-      data: this.users,
+      data: this.tokens,
       columns: [
         { data: '_id', title: 'Id' },
-        { data: 'firstName', defaultContent: '<i>Not Set</i>' },
-        { data: 'lastName', defaultContent: '<i>Not Set</i>' },
-        { data: 'username' },
-        { data: 'email' },
+        { data: 'userId.firstName', defaultContent: '<i>Not Set</i>' },
+        { data: 'userId.lastName', defaultContent: '<i>Not Set</i>' },
+        { data: 'userId.username' },
+        { data: 'userId.email' },
+        { data: 'name' },
+        { data: 'origin' },
+        { data: 'expiresIn', title: 'Expires In' },
+        {
+          data: 'dateExpire', title: 'Expires',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        },
         {
           data: 'dateCreated',
           render: (data, type, row, meta) => {
@@ -55,8 +64,8 @@ export class UserListComponent implements OnInit {
         'print',
         {
           text: 'Create',
-          action: function(e, dt, node, config) {
-            that._router.navigate(['/account/users/details/', 0]);
+          action: function (e, dt, node, config) {
+            that._router.navigate(['/account/tokens/details/', 0]);
           },
           className: 'btn btn-primary'
         }

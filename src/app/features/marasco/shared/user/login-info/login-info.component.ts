@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import { UserService } from "@app/features/marasco/core/services/user.service";
 import { LayoutService } from '@app/features/marasco/core/services/layout.service';
+import { AuthService } from '@app/features/marasco/core/services/auth.service';
 
 @Component({
 
@@ -11,8 +11,8 @@ export class LoginInfoComponent implements OnInit {
 
 
   constructor(
-    public us: UserService,
-              private layoutService: LayoutService) {
+    public us: AuthService,
+    private layoutService: LayoutService) {
   }
 
   ngOnInit() {

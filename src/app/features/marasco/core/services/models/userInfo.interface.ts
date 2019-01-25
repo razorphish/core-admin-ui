@@ -29,9 +29,9 @@ export interface User {
     instagram?: string;
     dateCreated?: Date;
     token? : TokenModel | null;
+    password? : string;
+    confirmPassword? : string;
     //displayName? : string = `@${this.username}`;
     //updatedExisting? : boolean;
     status?: string;
-
-    getIdToken();
 }

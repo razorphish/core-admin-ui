@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotificationService } from "@app/features/marasco/core/services/notification.service";
 
-import { UserService } from "@app/features/marasco/core/services/user.service";
+import { AuthService } from "@app/features/marasco/core/services/auth.service";
 import { Store } from "@ngrx/store";
 
 import * as fromAuth from "@app/features/marasco/core/store/auth";
@@ -21,7 +21,7 @@ export class LogoutComponent implements OnInit {
   public user
 
   constructor(
-    private userService: UserService,
+    private authService: AuthService,
     private router: Router,
     private notificationService: NotificationService,
     private _store: Store<any>
@@ -32,7 +32,7 @@ export class LogoutComponent implements OnInit {
     this.notificationService.smartMessageBox(
       {
         title:
-          "<i class='fa fa-sign-out txt-color-orangeDark'></i> Logout <span class='txt-color-orangeDark'><strong>" + this.userService.user$.value.username + "</strong></span> ?",
+          "<i class='fa fa-sign-out txt-color-orangeDark'></i> Logout <span class='txt-color-orangeDark'><strong>" + this.authService.user$.value.username + "</strong></span> ?",
         content:
           "You can improve your security further after logging out by closing this opened browser",
         buttons: "[No][Yes]"

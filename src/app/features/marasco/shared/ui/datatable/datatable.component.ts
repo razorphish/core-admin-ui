@@ -97,7 +97,7 @@ export class DatatableComponent implements OnInit {
         .parent()
         .find(".dt-toolbar")
         .append(
-          '<div class="text-right"><img src="assets/img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>'
+          '<div class="text-right"><img src="assets/img/268x67.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>'
         );
     }
 

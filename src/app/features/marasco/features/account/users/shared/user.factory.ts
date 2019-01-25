@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { IUser } from '../../users';
+import { User } from '../../../../core/services/models/userInfo.interface';
+import { UpperCasePipe } from '@angular/common';
 
 @Injectable()
 export class UserFactory {
   ////////// Private variables//////////
-  // private _user: IUser;
+  // private _user: User;
 
   //////////Publicly exposed properties//////////
 
@@ -13,9 +14,11 @@ export class UserFactory {
   /**
      * These should be singleton objects
      */
-  constructor() {}
+  constructor(
+    private _upperCasePipe: UpperCasePipe
+  ) {}
 
-  public validate(user: IUser, callback?: (errors: string[]) => void): boolean {
+  public validate(user: User, callback?: (errors: string[]) => void): boolean {
     const errors: string[] = [];
 
     if (!user) {
@@ -74,6 +77,14 @@ export class UserFactory {
       if (user.password !== user.confirmPassword) {
         errors.push(`Confirm password should be entered the same as password`);
       }
+    }
+
+    if (user.roles){
+      user.roles.forEach((item, key) => {
+        if (!item.normalizedName) {
+          item.normalizedName = this._upperCasePipe.transform(item.name)
+        }
+      });
     }
 
     // Set errors

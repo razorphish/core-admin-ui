@@ -225,6 +225,7 @@ export class LayoutService {
     if(state.isMobile){
       $body.addClass("mobile-detected");
     } else {
+      //AM
       $body.addClass("desktop-detected");
     }
 

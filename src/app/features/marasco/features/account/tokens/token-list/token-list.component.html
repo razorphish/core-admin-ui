@@ -1,6 +1,6 @@
 <div id="content">
     <div class="row">
-        <sa-big-breadcrumbs [items]="['Users', 'List']" icon="users" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <sa-big-breadcrumbs [items]="['Tokens', 'List']" icon="key" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
         <sa-stats></sa-stats>
     </div>
 
@@ -12,7 +12,7 @@
                 <div sa-widget [editbutton]="false" [deletebutton]="false" color="darken">
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Admin Users</h2>
+                        <h2>Tokens</h2>
                     </header>
                     <div>
                         <div class="widget-body no-padding">
@@ -23,11 +23,15 @@
                                 paginationLength=true>
                                 <thead>
                                     <tr>
-                                        <th [style.width]="'250px'" data-hide="mobile-p">ID</th>
+                                        <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
                                         <th [style.width]="'8%'" data-hide="mobile-p">First Name</th>
                                         <th [style.width]="'8%'">Last Name</th>
                                         <th [style.width]="'8%'">Username</th>
                                         <th [style.width]="'8%'">Email</th>
+                                        <th [style.width]="'8%'">Name</th>
+                                        <th [style.width]="'8%'">Origin</th>
+                                        <th [style.width]="'75px'">Expires In</th>
+                                        <th [style.width]="'175px'">Expires</th>
                                         <th data-class="expand">Created</th>
                                     </tr>
                                 </thead>
@@ -39,6 +43,10 @@
                                         <th>Last Name</th>
                                         <th>Username</th>
                                         <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Origin</th>
+                                        <th>Expires In</th>
+                                        <th>Expires</th>
                                         <th>Created</th>
                                     </tr>
                                 </tfoot>
