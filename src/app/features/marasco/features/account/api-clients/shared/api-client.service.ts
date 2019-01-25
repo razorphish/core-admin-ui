@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 // import 'rxjs/add/operator/do';
 // import 'rxjs/add/operator/map';
@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { environment } from '../../../../../../../environments/environment';
-import { IApiResponse } from '../../../../core/services/models/IApiResponse';
 import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
 import { IApiClient } from '../../api-clients';
@@ -91,10 +90,8 @@ export class ApiClientService {
       } catch (err) {
         errMessage = error.statusText;
       }
-      return Observable.throw(errMessage);
-      // Use the following instead if using lite-server
-      // return Observable.throw(err.text() || 'backend server error');
+      return throwError(errMessage);
     }
-    return Observable.throw(error || 'Node.js server error');
+    return throwError(error || 'Node.js server error');
   }
 }

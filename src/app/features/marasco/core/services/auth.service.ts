@@ -330,9 +330,7 @@ export class AuthService {
         errMessage = errorResponse.statusText;
       }
 
-      return Observable.throw(errMessage);
-      // Use the following instead if using lite-server
-      // return Observable.throw(err.text() || 'backend server error');
+      return throwError(errMessage);
     }
 
     else {

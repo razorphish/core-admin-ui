@@ -44,16 +44,22 @@
 
                   <fieldset>
                     <div class="row">
-                      <section class="col col-6">
+                      <section class="col col-4">
                         Client Id:
                         <label class="input"><i class="icon-append fa fa-user"></i>
                           <input type="text" name="clientId" placeholder="Client Id" [(ngModel)]="apiClient.clientId" />
                         </label>
                       </section>
-                      <section class="col col-6">
-                        Client Secret:
+                      <section class="col col-4">
+                        Hash:  **COPY THIS**
                         <label class="input"><i class="icon-append fa fa-key"></i>
-                          <input type="text" name="clientSecret" placeholder="Client Secret" [(ngModel)]="apiClient.clientSecret" />
+                          <input type="text" name="hash" placeholder="Token Hash" [(ngModel)]="apiClient.hash" [disabled] = "true" />
+                        </label>
+                      </section>
+                      <section class="col col-4">
+                        Secret: 
+                        <label class="input"><i class="icon-append fa fa-key"></i>
+                          <input type="text" name="clientSecret" placeholder="Client Secret" [(ngModel)]="apiClient.clientSecret" [disabled] = "true" />
                         </label>
                       </section>
                     </div>
@@ -79,14 +85,14 @@
                     </section>
 
                     <section>
-                      Token Lifetime (in minutes)
+                      Token Lifetime (in seconds - Default 30 mins)
                       <label class="input"> <i class="icon-append fa fa-clock-o"></i>
                         <input type="number" name="tokenLifeTime" placeholder="Token Lifetime in Minutes" [(ngModel)]="apiClient.tokenLifeTime" />
                         <b class="tooltip tooltip-bottom-right">Token Lifetime</b> </label>
                     </section>
 
                     <section>
-                      Refresh Token Lifetime (in minutes)
+                      Refresh Token Lifetime (in seconds: Default 6 months)
                       <label class="input"> <i class="icon-append fa fa-clock-o"></i>
                         <input type="number" name="refreshTokenLifeTime" placeholder="Refresh Token Lifetime in Minutes"
                           id="refreshTokenLifeTime" [(ngModel)]="apiClient.refreshTokenLifeTime" />
@@ -119,12 +125,12 @@
                       </div>
                     </section>
 
-                    <section *ngIf="tokenHash">
+                    <section *ngIf="apiClient.hash">
                       <label class="label">Token</label>
                       <div class="row">
                         <div class="col col-4">
                           <label class="textarea">
-                            <textarea [(ngModel)]="tokenHash" rows="4" name="tokenHash" id="tokenHash"></textarea>
+                            <textarea [(ngModel)]="apiClient.hash" rows="4" name="hash" id="hash"></textarea>
                           </label>
                         </div>
                       </div>

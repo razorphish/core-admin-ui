@@ -34,9 +34,9 @@ export class ApiClientFactory {
       errors.push('Please enter a client id');
     }
 
-    if (!apiClient.isTrusted) {
-      errors.push('Please enter trust');
-    }
+    // if (!apiClient.isTrusted) {
+    //   errors.push('Please enter trust');
+    // }
 
     if (!apiClient.applicationType) {
       errors.push('Please enter a applicationType');

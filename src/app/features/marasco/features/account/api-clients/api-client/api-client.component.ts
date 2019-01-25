@@ -27,21 +27,17 @@ export class ApiClientComponent implements OnInit {
     }
   };
 
-  public tokenHash: string;
-
   public defaultApiClient: IApiClient = {
-    _id: '',
     name: '',
     clientId: '',
-    clientSecret: '',
-    dateCreated: null,
-    isTrusted: false,
-    applicationType: '',
+    clientSecret: this.getUid(256),
+    isTrusted: true,
+    applicationType: 'ClientConfidential',
     allowedOrigins: [],
-    tokenLifeTime: 0,
-    refreshTokenLifeTime: 0,
-    tokenProtocol: '',
-    redirectUrl: ''
+    tokenLifeTime: 1800,
+    refreshTokenLifeTime: 262000,
+    tokenProtocol: 'http',
+    redirectUrl: '/home'
   };
 
   public apiClient: IApiClient = this.defaultApiClient;
@@ -131,7 +127,7 @@ export class ApiClientComponent implements OnInit {
   }
 
   public save(apiClientDetailsForm: any) {
-    this.apiClient.allowedOrigins = this.apiClient.allowedOrigins.join(',');
+    //this.apiClient.allowedOrigins = this.apiClient.allowedOrigins.join(',');
     if (this.validate()) {
       if (this.isUpdate) {
         this.update();
@@ -229,7 +225,7 @@ export class ApiClientComponent implements OnInit {
 
           // Set client correctly
           this.apiClient.clientSecret = apiClient.clientSecret;
-          this.tokenHash = apiClient.tokenHash
+          this.apiClient.hash = apiClient.hash;
 
           this._activityLogService.addInserts(
             `Refreshed api client ${this.apiClient._id} token`
@@ -305,7 +301,7 @@ export class ApiClientComponent implements OnInit {
         this._activityLogService.addError(errInfo);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to update',
-          content: errInfo.error.message || errInfo.message,
+          content: errInfo.message || errInfo.error.message,
           color: '#C46A69',
           icon: 'fa fa-warning shake animated',
           number: '1',
@@ -316,6 +312,23 @@ export class ApiClientComponent implements OnInit {
         // Clean up
       }
     );
+  }
+
+  getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  getUid(length) {
+    let uid = '';
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charsLength = chars.length;
+
+    for (let i = 0; i < length; ++i) {
+      uid += chars[this.getRandomInt(0, charsLength - 1)];
+    }
+
+    return uid;
   }
 
   /**

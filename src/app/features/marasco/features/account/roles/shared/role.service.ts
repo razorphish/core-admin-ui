@@ -93,8 +93,7 @@ export class RoleService {
         errMessage = error.statusText;
       }
       return throwError(errMessage);
-      // Use the following instead if using lite-server
-      // return Observable.throw(err.text() || 'backend server error');
+
     }
     return throwError(error || 'Node.js server error');
   }
