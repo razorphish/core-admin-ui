@@ -15,6 +15,7 @@ import { TokenModel } from './token.model';
 
 export interface User {
     _id: string;
+    applicationId?: string;
     avatar?: string;
     email: string;
     firstName: string;
@@ -34,4 +35,5 @@ export interface User {
     //displayName? : string = `@${this.username}`;
     //updatedExisting? : boolean;
     status?: string;
+    tokens?: any;
 }

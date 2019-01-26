@@ -21,9 +21,9 @@ export const environment = {
   },
 
   notificationStatus: ['pending', 'opened', 'archived'],
-
   apiUrl: 'http://localhost:3000/api/',
   apiUrlAuth: 'http://localhost:3000/oauth/',
+  application: '5c4b1303fc13ae60b4000003',
   redirectUrl: '/dashboard',
   loginUrl:  '/auth/login',
   registerUrl: '/auth/register',

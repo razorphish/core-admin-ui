@@ -34,107 +34,106 @@
                 <div class="widget-body no-padding">
 
                   <fieldset>
-                    <section>
-                      Name
-                      <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                        <input type="text" name="name" placeholder="Name" [(ngModel)]="apiClient.name" />
-                        <b class="tooltip tooltip-bottom-right">Client name needed</b> </label>
-                    </section>
-                  </fieldset>
-
-                  <fieldset>
                     <div class="row">
-                      <section class="col col-4">
+                      <section class="col col-3">
+                        Name
+                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                          <input type="text" name="name" placeholder="Name" [(ngModel)]="apiClient.name" />
+                          <b class="tooltip tooltip-bottom-right">Client name needed</b> </label>
+                      </section>
+                      <section class="col col-3">
                         Client Id:
                         <label class="input"><i class="icon-append fa fa-user"></i>
                           <input type="text" name="clientId" placeholder="Client Id" [(ngModel)]="apiClient.clientId" />
                         </label>
                       </section>
-                      <section class="col col-4">
-                        Hash:  **COPY THIS**
+
+                      <section class="col col-3">
+                        Hash: **COPY THIS**
                         <label class="input"><i class="icon-append fa fa-key"></i>
-                          <input type="text" name="hash" placeholder="Token Hash" [(ngModel)]="apiClient.hash" [disabled] = "true" />
+                          <input type="text" name="hash" placeholder="Token Hash" [(ngModel)]="apiClient.hash"
+                            [disabled]="true" />
                         </label>
                       </section>
-                      <section class="col col-4">
-                        Secret: 
+                      <section class="col col-3">
+                        Secret:
                         <label class="input"><i class="icon-append fa fa-key"></i>
-                          <input type="text" name="clientSecret" placeholder="Client Secret" [(ngModel)]="apiClient.clientSecret" [disabled] = "true" />
+                          <input type="text" name="clientSecret" placeholder="Client Secret" [(ngModel)]="apiClient.clientSecret"
+                            [disabled]="true" />
                         </label>
                       </section>
                     </div>
                   </fieldset>
 
+
                   <fieldset>
+                    <div class="row">
+                      <section class="col col-3">
+                        Application Type
+                        <label class="input">
+                          <input type="text" name="applicationType" placeholder="Application Type [Native or ClientConfidential]"
+                            [(ngModel)]="apiClient.applicationType" />
+                        </label>
+                      </section>
 
-                    <section>
-                      Application Type
-                      <label class="input">
-                        <input type="text" name="applicationType" placeholder="Application Type [Native or ClientConfidential]"
-                          [(ngModel)]="apiClient.applicationType" />
-                      </label>
-                    </section>
+                      <section class="col col-3">
+                        Allowed Origins
+                        <label class="input"> <i class="icon-append fa fa-globe"></i>
+                          <input type="text" name="allowedOrigins" id="allowedOrigins" placeholder="Allowed Origins [* - for all, comma delimited]"
+                            [(ngModel)]="apiClient.allowedOrigins" />
+                          <b class="tooltip tooltip-bottom-right">Allowed Origins (Comma delimited, no spaces)</b>
+                        </label>
+                      </section>
 
-                    <section>
-                      Allowed Origins
-                      <label class="input"> <i class="icon-append fa fa-globe"></i>
-                        <input type="text" name="allowedOrigins" id="allowedOrigins" placeholder="Allowed Origins [* - for all, comma delimited]"
-                          [(ngModel)]="apiClient.allowedOrigins" />
-                        <b class="tooltip tooltip-bottom-right">Allowed Origins (Comma delimited, no spaces)</b>
-                      </label>
-                    </section>
+                      <section class="col col-3">
+                        Token Lifetime (in seconds - Default 30 mins)
+                        <label class="input"> <i class="icon-append fa fa-clock-o"></i>
+                          <input type="number" name="tokenLifeTime" placeholder="Token Lifetime in Minutes" [(ngModel)]="apiClient.tokenLifeTime" />
+                          <b class="tooltip tooltip-bottom-right">Token Lifetime</b> </label>
+                      </section>
 
-                    <section>
-                      Token Lifetime (in seconds - Default 30 mins)
-                      <label class="input"> <i class="icon-append fa fa-clock-o"></i>
-                        <input type="number" name="tokenLifeTime" placeholder="Token Lifetime in Minutes" [(ngModel)]="apiClient.tokenLifeTime" />
-                        <b class="tooltip tooltip-bottom-right">Token Lifetime</b> </label>
-                    </section>
+                      <section class="col col-3">
+                        Refresh Token Lifetime (in seconds: Default 6 months)
+                        <label class="input"> <i class="icon-append fa fa-clock-o"></i>
+                          <input type="number" name="refreshTokenLifeTime" placeholder="Refresh Token Lifetime in Minutes"
+                            id="refreshTokenLifeTime" [(ngModel)]="apiClient.refreshTokenLifeTime" />
+                          <b class="tooltip tooltip-bottom-right">Refresh Token Lifetime</b> </label>
+                      </section>
+                    </div>
+                  </fieldset>
 
-                    <section>
-                      Refresh Token Lifetime (in seconds: Default 6 months)
-                      <label class="input"> <i class="icon-append fa fa-clock-o"></i>
-                        <input type="number" name="refreshTokenLifeTime" placeholder="Refresh Token Lifetime in Minutes"
-                          id="refreshTokenLifeTime" [(ngModel)]="apiClient.refreshTokenLifeTime" />
-                        <b class="tooltip tooltip-bottom-right">Refresh Token Lifetime</b> </label>
-                    </section>
+                  <fieldset>
+                    <div class="row">
+                      <section class="col col-3">
+                        Protocol [http|jwt]
+                        <label class="input"> <i class="icon-append fa fa-key"></i>
+                          <input type="text" name="tokenProtocol" placeholder="tokenProtocol" [(ngModel)]="apiClient.tokenProtocol" />
+                          <b class="tooltip tooltip-bottom-right">Token Protocol</b> </label>
+                      </section>
 
-                    <section>
-                      Protocol [http|jwt]
-                      <label class="input"> <i class="icon-append fa fa-key"></i>
-                        <input type="text" name="tokenProtocol" placeholder="tokenProtocol" [(ngModel)]="apiClient.tokenProtocol" />
-                        <b class="tooltip tooltip-bottom-right">Token Protocol</b> </label>
-                    </section>
-
-                    <section>
+                      <section class="col col-3">
                         Redirect Url
                         <label class="input"> <i class="icon-append fa fa-globe"></i>
                           <input type="text" name="redirectUrl" placeholder="Redirect Url" [(ngModel)]="apiClient.redirectUrl" />
                           <b class="tooltip tooltip-bottom-right">After authrization redirect to</b> </label>
                       </section>
 
-                    <section>
-                      <label class="label"> </label>
-                      <div class="row">
-                        <div class="col col-4">
-                          <label class="checkbox">
-                            <input type="checkbox" name="isTrusted" [checked]="apiClient.isTrusted">
-                            <i></i>Is Trusted
-                          </label>
-                        </div>
-                      </div>
-                    </section>
+                      <section class="col col-3">
+                        &nbsp;
+                        <label class="checkbox">
+                          <input type="checkbox" name="isTrusted" [checked]="apiClient.isTrusted">
+                          <i></i>Is Trusted
+                        </label>
+                      </section>
 
-                    <section *ngIf="apiClient.hash">
-                      <label class="label">Token</label>
-                      <div class="row">
-                        <div class="col col-4">
-                          <label class="textarea">
-                            <textarea [(ngModel)]="apiClient.hash" rows="4" name="hash" id="hash"></textarea>
-                          </label>
-                        </div>
-                      </div>
-                    </section>
+                      <section *ngIf="apiClient.hash" class="col col-3">
+                        Token
+                        <label class="textarea">
+                          <textarea [(ngModel)]="apiClient.hash" rows="4" name="hash" id="hash"></textarea>
+                        </label>
+                      </section>
+
+                    </div>
                   </fieldset>
 
                   <footer>
@@ -154,6 +153,8 @@
               </div>
 
             </form>
+            <!-- end form -->
+
           </div>
           <!-- end widget div -->
 
@@ -164,7 +165,6 @@
       <!-- END COL -->
 
     </div>
-
     <!-- END ROW -->
 
   </sa-widgets-grid>

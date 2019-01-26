@@ -11,4 +11,5 @@ export interface UserRegistration {
     password: string;
     passwordConfirm: string;
     termsAgreed: boolean;
+    applicationId: string;
 }

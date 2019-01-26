@@ -6,6 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { Store } from '@ngrx/store';
 import * as fromAuth from '@app/features/marasco/core/store/auth';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-register',
@@ -97,7 +98,8 @@ export class RegisterComponent implements OnInit {
       username: $event.elements.username.value,
       password: $event.elements.password.value,
       passwordConfirm: $event.elements.passwordConfirm.value,
-      termsAgreed: $event.elements.termsAgreed.value
+      termsAgreed: $event.elements.termsAgreed.value,
+      applicationId: environment.application
     };
 
     this['settings'].store.dispatch(new fromAuth.SignupAction(model));

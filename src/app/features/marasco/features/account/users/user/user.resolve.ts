@@ -22,6 +22,6 @@ export class UserResolve implements Resolve<any> {
     if (id === "0") {
       return of("0");
     }
-    return this._userService.get(id);
+    return this._userService.details(id);
   }
 }

@@ -19,6 +19,7 @@ export const environment = {
 
   apiUrl: 'https://api.maras.co/api/',
   apiUrlAuth: 'https://api.maras.co/oauth/',
+  application: '5c4b1303fc13ae60b4000003',
   redirectUrl: '/dashboard',
   loginUrl:  '/auth/login',
   registerUrl: '/auth/register',

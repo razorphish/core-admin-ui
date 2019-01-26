@@ -33,8 +33,7 @@ import { ApiClientsComponent } from './api-clients.component';
     ApiClientService,
     ApiClientFactory,
     ApiClientListResolve,
-    ApiClientResolve,
-    ApiClientFactory
+    ApiClientResolve
   ]
 })
 export class ApiClientsModule {}

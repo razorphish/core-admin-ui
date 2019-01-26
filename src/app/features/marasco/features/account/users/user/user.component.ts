@@ -10,7 +10,11 @@ import { UsersService } from '../shared/users.service';
 import { UserFactory } from './../shared/user.factory';
 
 import { RoleService } from './../../roles/shared/role.service';
+import { ApplicationService } from '../../../account/applications/shared/application.service';
 import { IRole } from './../../roles/shared/IRole';
+import { IToken } from '../../tokens/shared/IToken';
+import { Application } from './../../applications/shared/application.interface';
+import * as moment from 'moment';
 
 @Component({
   selector: 'marasco-user',
@@ -19,24 +23,17 @@ import { IRole } from './../../roles/shared/IRole';
 })
 export class UserComponent implements OnInit {
   //////////////////Private variables///////////
-  private _roles: IRole[];
+  private _applications: Application[];
 
   private _addressesModel = [
     { address: '', city: '', state: '', zip: '' },
     { address: '', city: '', state: '', zip: '' }
   ];
+  private _roles: IRole[];
+  //\\\END Private variables ////////
 
   //////////////////Publicly exposed variables///////////
-  public dropdownSettings = {};
-
-  public isUpdate = true;
-
-  public state: any = {
-    tabs: {
-      demo1: 0
-    }
-  };
-
+  public applicationOptions = [];
   public defaultUser: User = {
     _id: '',
     avatar: '',
@@ -52,6 +49,18 @@ export class UserComponent implements OnInit {
     roles: []
   };
 
+  public dropdownSettings = {};
+  public dropdownSettingsApplication = {};
+  public isUpdate = true;
+  public options = [];
+  public selectedApplication = [];
+  public state: any = {
+    tabs: {
+      demo1: 0
+    }
+  };
+  public tokens: IToken[] = [];
+  public optionsTokenTable : any = {};
   public user: User = this.defaultUser;
 
   public validationOptions: any = {
@@ -96,21 +105,10 @@ export class UserComponent implements OnInit {
     }
   };
 
-  public options = [];
   // @Input() filter = "ion ([7-9]|[1][0-2])";
   @Input() filter = '';
 
   @ViewChild('userDetailsForm') userDetailsForm;
-
-  onItemSelect(item: any) {
-    // Clear out current user roles
-    console.log(item);
-
-  }
-  
-  onSelectAll(items: any) {
-    console.log(items);
-  }
 
   constructor(
     private _userService: UsersService,
@@ -119,22 +117,42 @@ export class UserComponent implements OnInit {
     private _router: Router,
     private _factory: UserFactory,
     private _roleService: RoleService,
+    private _applicationService: ApplicationService,
     private _activityLogService: ActivityLogSubjectService
   ) { }
 
   public disableUser() { }
+
+  /////////////////////////////////////
+  // Events
+  /////////////////////////////////////
 
   ngOnInit() {
 
     const id = this._route.snapshot.params['id'];
     if (id !== '0') {
       this.user = this._route.snapshot.data['user'];
+      this.selectedApplication.push(this.user.applicationId);
     } else {
       this.isUpdate = false;
     }
 
     this.activate();
   }
+
+  onItemSelect(item: any) {
+    // Clear out current user roles
+    //console.log(item);
+
+  }
+
+  onSelectAll(items: any) {
+    //console.log(items);
+  }
+
+  /////////////////////////////////////
+  // Public Metods
+  /////////////////////////////////////
 
   public save(userDetailsForm: any) {
     if (this.validate()) {
@@ -157,7 +175,10 @@ export class UserComponent implements OnInit {
    * Activate the component
    */
   private activate() {
+    this.activateTokenTable();
     this.getRoles();
+    this.getApplications();
+    this.getTokens();
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -169,12 +190,67 @@ export class UserComponent implements OnInit {
       allowSearchFilter: true
     };
 
+    this.dropdownSettingsApplication = {
+      singleSelection: true,
+      idField: '_id',
+      textField: 'name',
+      allowSearchFilter: true
+    };
+
     this._addressesModel.forEach((address, index) => {
       if (this.user.addresses && this.user.addresses[index]) {
       } else {
         this.user.addresses[index] = this._addressesModel[index];
       }
     });
+  }
+
+  private activateTokenTable() {
+    const that = this;
+    this.optionsTokenTable = {
+      dom: 'Bfrtip',
+      data: this.user.tokens,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'origin' },
+        { data: 'expiresIn', title: 'Expires In' },
+        {
+          data: 'dateExpire', title: 'Expires',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'excel',
+        'pdf',
+        'print',
+        {
+          text: 'Delete All',
+          action: function (e, dt, node, config) {
+            //that._router.navigate(['/account/tokens/details/', 0]);
+          },
+          className: 'btn btn-primary'
+        }
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        // const self = this;
+        // // Unbind first in order to avoid any duplicate handler
+        // // (see https://github.com/l-lin/angular-datatables/issues/87)
+        // jQuery('td', row).unbind('click');
+        // jQuery('td', row).bind('click', () => {
+        //   self.toDetails(data);
+        // });
+        return row;
+      }
+    };
   }
 
   private displayErrors(errors: string[]): void {
@@ -190,6 +266,19 @@ export class UserComponent implements OnInit {
     });
   }
 
+  private getApplications() {
+    this._applicationService.all().subscribe(
+      (applications: Application[]) => {
+        this._applications = applications;
+      },
+      err => { },
+      () => {
+        // Init Dual List
+        this.initDualListApplication();
+      }
+    );
+  }
+
   private getRoles() {
     this._roleService.all().subscribe(
       (roles: IRole[]) => {
@@ -198,12 +287,35 @@ export class UserComponent implements OnInit {
       err => { },
       () => {
         // Init Dual List
-        this.initDualList();
+        this.initDualListRole();
       }
     );
   }
 
-  private initDualList(): void {
+  private getTokens() {
+    this._userService.tokens(this.user._id).subscribe(
+      (tokens: IToken[]) => {
+        this.tokens = tokens;
+      },
+      err => { },
+      () => {
+      }
+    );
+  }
+  private initDualListApplication(): void {
+    const applicationOptions: any[] = [];
+
+    this._applications.forEach((application, index) => {
+      applicationOptions.push({
+        _id: application._id,
+        name: application.name
+      });
+    });
+
+    this.applicationOptions = applicationOptions;
+  }
+
+  private initDualListRole(): void {
     const roleOptions: any[] = [];
 
     this._roles.forEach((role, index) => {
@@ -220,7 +332,7 @@ export class UserComponent implements OnInit {
    * Insert an item in the database
    */
   private insert() {
-
+    this.user.applicationId = this.selectedApplication[0]._id;
     this._userService.insert(this.user).subscribe(
       user => {
         if (user) {
@@ -270,6 +382,7 @@ export class UserComponent implements OnInit {
    * Update item
    */
   private update() {
+    this.user.applicationId = this.selectedApplication[0]._id;
     this._userService.update(this.user).subscribe(
       user => {
         if (user) {

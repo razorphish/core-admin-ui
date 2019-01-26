@@ -1,3 +1,4 @@
+import { ApplicationService } from './../applications/shared/application.service';
 import { NgModule } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 
@@ -40,7 +41,8 @@ import {
     UserResolve,
     UserFactory,
     RoleService,
-    UpperCasePipe
+    UpperCasePipe,
+    ApplicationService
   ]
 })
 export class UsersModule { }

@@ -19,6 +19,11 @@ const routes: Routes = [
     data: { pageTitle: 'Roles' }
   },
   {
+    path: 'applications',
+    loadChildren: './applications/applications.module#ApplicationsModule',
+    data: { pageTitle: 'Applications' }
+  },
+  {
     path: 'api-clients',
     loadChildren: './api-clients/api-clients.module#ApiClientsModule',
     data: { pageTitle: 'Api Clients' }
