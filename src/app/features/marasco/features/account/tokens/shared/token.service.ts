@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { environment } from '../../../../../../../environments/environment';
-import { IApiResponse } from '../../../../core/services/models/IApiResponse';
+import { IApiResponse } from '../../../../core/interfaces/IApiResponse.interface';
 import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
 import { IToken } from '../../tokens';

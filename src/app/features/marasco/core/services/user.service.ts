@@ -3,11 +3,11 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { JsonApiService } from "@app/features/marasco/core/services/json-api.service";
 
-import { TokenResult } from './models/tokenResult.model';
-import { UserInfo } from './models/userInfo.model';
-import { User } from './models/userInfo.interface';
-import { UserCredential } from './models/userCredential.model';
-import { AuthCredential } from './models/authCredential.model';
+import { TokenResult } from '../models/tokenResult.model';
+import { UserInfo } from '../models/userInfo.model';
+import { User } from '../interfaces/UserInfo.interface';
+import { UserCredential } from '../models/userCredential.model';
+import { AuthCredential } from '../models/authCredential.model';
 
 const defaultUser : User = new UserInfo(); 
   defaultUser._id = '';

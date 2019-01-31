@@ -48,7 +48,7 @@ export class ApplicationService {
   update(application: Application): Observable<Application> {
     return this._authHttp
       .put(this._url + application._id, JSON.stringify(application))
-      .pipe(map((token: any) => token),
+      .pipe(map((application: any) => application),
         catchError(this.handleError));
   }
 

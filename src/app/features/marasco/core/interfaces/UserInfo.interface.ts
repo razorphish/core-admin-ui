@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 //     providerId: string;
 //     uid: string;
 // }
-import { Role } from './role.model';
-import { Address } from './address.model';
-import { TokenModel } from './token.model';
+import { Role } from '../models/role.model';
+import { Address } from '../models/address.model';
+import { TokenModel } from '../models/token.model';
 
 export interface User {
     _id: string;

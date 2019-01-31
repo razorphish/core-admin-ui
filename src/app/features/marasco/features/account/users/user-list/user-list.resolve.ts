@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 // Local libraries
-import { User } from '../../../../core/services/models/userInfo.interface';
+import { User } from '../../../../core/interfaces/UserInfo.interface';
 import { UsersService } from '../shared/users.service';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 

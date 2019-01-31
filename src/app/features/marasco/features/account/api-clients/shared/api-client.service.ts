@@ -48,14 +48,14 @@ export class ApiClientService {
   get(id: string): Observable<IApiClient> {
     return this._authHttp
       .get(this._url + id)
-      .pipe(map((client: any) => client),
+      .pipe(map((apiClient: any) => apiClient),
       catchError(this.handleError));
   }
 
   insert(apiClient: IApiClient): Observable<IApiClient> {
     return this._authHttp
       .post(this._url, JSON.stringify(apiClient))
-      .pipe(map((client: any) => client),
+      .pipe(map((apiClient: any) => apiClient),
         catchError(this.handleError));
   }
 
@@ -69,7 +69,7 @@ export class ApiClientService {
   update(apiClient: IApiClient): Observable<IApiClient> {
     return this._authHttp
       .put(this._url + apiClient._id, JSON.stringify(apiClient))
-      .pipe(map((token: any) => token),
+      .pipe(map((apiClient: any) => apiClient),
         catchError(this.handleError));
   }
 

@@ -1,4 +1,4 @@
-import { User } from './userInfo.interface';
+import { User } from '../interfaces/UserInfo.interface';
 import { Address } from './address.model';
 import { Role } from './role.model';
 import { TokenModel } from './token.model';

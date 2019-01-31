@@ -17,17 +17,17 @@ import { map, catchError, share } from 'rxjs/operators';
 
 import { environment } from '../../../../../environments/environment';
 
-import { UserCredential } from './models/userCredential.model';
+import { UserCredential } from '../models/userCredential.model';
 import { StorageService } from './storage.service';
-import { UserInfo } from './models/userInfo.model';
-import { TokenResult } from './models/tokenResult.model';
+import { UserInfo } from '../models/userInfo.model';
+import { TokenResult } from '../models/tokenResult.model';
 import { Response } from '@angular/http';
 import { AuthTokenService } from './auth-token.service';
 
 import { Store } from '@ngrx/store';
 
 import { AuthState } from '../store/auth/auth.reducer';
-import { User } from './models/userInfo.interface';
+import { User } from '../interfaces/UserInfo.interface';
 
 const USER_TOKEN = 'token';
 const USER_LOGGED_ONCE = 'logged_once';

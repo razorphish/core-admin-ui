@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthTokenService } from '../../services/auth-token.service';
 import { AuthService } from '../../services/auth.service';
 import * as actions from './auth.actions';
-import { TokenResult } from '../../services/models/tokenResult.model';
+import { TokenResult } from '../../models/tokenResult.model';
 import { environment } from '@env/environment';
 
 import { AuthService as SocialAuthService, SocialUser } from "angularx-social-login";

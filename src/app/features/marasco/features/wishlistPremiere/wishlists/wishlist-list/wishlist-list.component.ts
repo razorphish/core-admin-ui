@@ -3,16 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import * as moment from 'moment';
 
-import { User } from '../../../../core/interfaces/UserInfo.interface';
+import { Wishlist } from '../shared/Wishlist.interface';
 
 @Component({
-  selector: 'marasco-account-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  selector: 'marasco-wishlistPremiere-wishlist-list',
+  templateUrl: './wishlist-list.component.html',
+  styleUrls: ['./wishlist-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class WishlistListComponent implements OnInit {
   errorMessage: string;
-  users: User[] = [];
+  wishlists: Wishlist[] = [];
   options: {};
   message: string;
 
@@ -22,25 +22,29 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.users = this._route.snapshot.data['users'];
+    this.wishlists = this._route.snapshot.data['wishlists'];
     this.activate();
   }
 
   toDetails(info: any): void {
-    this._router.navigate(['/account/users/details/' + info._id]);
+    this._router.navigate(['/wishlistPremiere/wishlists/details/' + info._id]);
   }
 
   private activate() {
     const that = this;
     this.options = {
       dom: 'Bfrtip',
-      data: this.users,
+      data: this.wishlists,
       columns: [
         { data: '_id', title: 'Id' },
-        { data: 'firstName', defaultContent: '<i>Not Set</i>' },
-        { data: 'lastName', defaultContent: '<i>Not Set</i>' },
-        { data: 'username' },
-        { data: 'email' },
+        { data: 'name', title: 'Name', defaultContent: '<i>Not Set</i>' },
+        { data: 'userId', title: 'User',
+          render: (data, type,row, meta) => {
+            return `${data.firstName} ${data.lastName}`
+          }
+        },
+        { data: 'userId.username' },
+        { data: 'userId.email' },
         {
           data: 'dateCreated',
           render: (data, type, row, meta) => {
@@ -56,7 +60,7 @@ export class UserListComponent implements OnInit {
         {
           text: 'Create',
           action: function(e, dt, node, config) {
-            that._router.navigate(['/account/users/details/', 0]);
+            that._router.navigate(['/wishlistPremiere/wishlists/details/', 0]);
           },
           className: 'btn btn-primary'
         }

@@ -5,14 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
-import { User } from '../../../../core/services/models/userInfo.interface';
+import { User } from '../../../../core/interfaces/UserInfo.interface';
 import { UsersService } from '../shared/users.service';
 import { UserFactory } from './../shared/user.factory';
 
 import { RoleService } from './../../roles/shared/role.service';
 import { ApplicationService } from '../../../account/applications/shared/application.service';
 import { IRole } from './../../roles/shared/IRole';
-import { IToken } from '../../tokens/shared/IToken';
 import { Application } from './../../applications/shared/application.interface';
 import * as moment from 'moment';
 
@@ -59,7 +58,7 @@ export class UserComponent implements OnInit {
       demo1: 0
     }
   };
-  public tokens: IToken[] = [];
+
   public optionsTokenTable : any = {};
   public user: User = this.defaultUser;
 
@@ -178,7 +177,6 @@ export class UserComponent implements OnInit {
     this.activateTokenTable();
     this.getRoles();
     this.getApplications();
-    this.getTokens();
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -236,6 +234,48 @@ export class UserComponent implements OnInit {
           text: 'Delete All',
           action: function (e, dt, node, config) {
             //that._router.navigate(['/account/tokens/details/', 0]);
+            that._notificationService.smartMessageBox({
+              title: "Delete All Tokens",
+              content: `Are you sure you want to delete ${that.user.firstName} ${that.user.lastName} tokens?`,
+              buttons: '[No][Yes]'
+            }, (ButtonPressed) => {
+              if (ButtonPressed === "Yes") {
+                that._userService
+                  .deleteTokens(that.user._id)
+                  .subscribe((result) => {
+                    if (result) {
+                      that._notificationService.smallBox({
+                        title: "Success!",
+                        content: "<i class='fa fa-clock-o'></i> <i>Tokens deleted successfully</i>",
+                        color: "#659265",
+                        iconSmall: "fa fa-check fa-2x fadeInRight animated",
+                        timeout: 4000
+                      });
+                    }
+                  }, (error) => {
+                    that._notificationService.bigBox({
+                      title: 'Oops! the database has returned an error',
+                      content: 'We were not able to delete the tokens at this time',
+                      color: '#C46A69',
+                      icon: 'fa fa-warning shake animated',
+                      number: error,
+                      timeout: 6000 // 6 seconds
+                    });
+                  });
+
+              }
+              if (ButtonPressed === "No") {
+                that._notificationService.smallBox({
+                  title: "Delete Cancelled",
+                  content: "<i class='fa fa-clock-o'></i> <i>Tokens were not deleted</i>",
+                  color: "#C46A69",
+                  iconSmall: "fa fa-times fa-2x fadeInRight animated",
+                  timeout: 4000
+                });
+              }
+        
+            });
+
           },
           className: 'btn btn-primary'
         }
@@ -292,16 +332,6 @@ export class UserComponent implements OnInit {
     );
   }
 
-  private getTokens() {
-    this._userService.tokens(this.user._id).subscribe(
-      (tokens: IToken[]) => {
-        this.tokens = tokens;
-      },
-      err => { },
-      () => {
-      }
-    );
-  }
   private initDualListApplication(): void {
     const applicationOptions: any[] = [];
 

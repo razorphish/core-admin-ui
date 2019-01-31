@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { User } from '../../../../core/services/models/userInfo.interface';
+import { User } from '../../../../core/interfaces/UserInfo.interface';
 import { UpperCasePipe } from '@angular/common';
 
 @Injectable()

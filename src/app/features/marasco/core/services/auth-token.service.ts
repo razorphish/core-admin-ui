@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { TokenRestore, AuthInit, LoggedOnce } from '../store/auth/auth.actions';
 import { AuthState } from '../store/auth/auth.reducer';
-import { TokenResult } from './models/tokenResult.model';
+import { TokenResult } from '../models/tokenResult.model';
 
 const ROLE_ADMIN = 1;
 

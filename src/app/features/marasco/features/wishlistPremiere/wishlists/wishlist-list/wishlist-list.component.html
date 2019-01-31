@@ -1,0 +1,55 @@
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Wishlist', 'List']" icon="gift" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <sa-stats></sa-stats>
+    </div>
+
+    <sa-widgets-grid>
+
+        <div class="row">
+            <article class="col-sm-12">
+                
+                <div sa-widget [editbutton]="false" [deletebutton]="false" color="darken">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Wishlists</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+
+                            <sa-datatable 
+                                [options]="options" 
+                                tableClass="table table-striped table-bordered table-hover" 
+                                paginationLength=true>
+                                <thead>
+                                    <tr>
+                                        <th [style.width]="'250px'" data-hide="mobile-p">ID</th>
+                                        <th [style.width]="'8%'" data-hide="mobile-p">Name</th>
+                                        <th [style.width]="'8%'">User</th>
+                                        <th [style.width]="'8%'">Username</th>
+                                        <th [style.width]="'8%'">Email</th>
+                                        <th data-class="expand">Created</th>
+                                    </tr>
+                                </thead>
+
+                                <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>User</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Created</th>
+                                    </tr>
+                                </tfoot>
+                            </sa-datatable>
+
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+        </div>
+
+    </sa-widgets-grid>
+</div>

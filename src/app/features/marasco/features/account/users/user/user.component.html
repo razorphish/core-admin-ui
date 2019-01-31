@@ -19,7 +19,7 @@
           <header>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 
-            <h2>{{isUpdate ? "Edit" : "Create A New User"}}</h2>
+            <h2>{{isUpdate ? "Edit"  : "Create A New User"}}</h2>
 
           </header>
 
@@ -34,12 +34,20 @@
 
                   <fieldset>
                     <div class="row">
-                      <section class="col col-6">
+                      <section class="col col-4">
+                        Id:
+                        <label class="input">
+                          <input type="text" name="_id" [(ngModel)]="user._id" [disabled]="true" />
+                        </label>
+                      </section>
+                      <section class="col col-4">
+                        First Name:
                         <label class="input">
                           <input type="text" name="firstname" placeholder="First name" [(ngModel)]="user.firstName" />
                         </label>
                       </section>
-                      <section class="col col-6">
+                      <section class="col col-4">
+                        Last Name:
                         <label class="input">
                           <input type="text" name="lastname" placeholder="Last name" [(ngModel)]="user.lastName" />
                         </label>
@@ -50,12 +58,14 @@
                   <fieldset>
                     <div class="row">
                       <section class="col col-6">
+                        Email:
                         <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                           <input type="email" name="email" placeholder="Email address" [(ngModel)]="user.email" />
                           <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
                         </label>
                       </section>
                       <section class="col col-6">
+                        Username:
                         <label class="input"> <i class="icon-append fa fa-user"></i>
                           <input type="text" name="username" id="username" placeholder="Username" [(ngModel)]="user.username" />
                           <b class="tooltip tooltip-bottom-right">Username to login to admin</b>
@@ -67,12 +77,14 @@
                   <fieldset>
                     <div class="row">
                       <section class="col col-6">
+                        Password:
                         <label class="input"> <i class="icon-append fa fa-lock"></i>
                           <input type="password" name="password" placeholder="Password" id="password" [(ngModel)]="user.password" />
                           <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
                         </label>
                       </section>
                       <section class="col col-6">
+                        Password Conform:
                         <label class="input"> <i class="icon-append fa fa-lock"></i>
                           <input type="password" name="passwordConfirm" placeholder="Confirm password" [(ngModel)]="user.confirmPassword" />
                           <b class="tooltip tooltip-bottom-right">Confirm your Password</b>
@@ -84,24 +96,28 @@
                   <fieldset>
                     <div class="row">
                       <section class="col col-3">
+                        Home Phone
                         <label class="input"> <i class="icon-append fa fa-phone"></i>
                           <input type="homePhone" name="homePhone" placeholder="Phone Number" [(ngModel)]="user.homePhone" />
                           <b class="tooltip tooltip-bottom-right">Phone Number</b>
                         </label>
                       </section>
                       <section class="col col-3">
+                        Twitter Handle
                         <label class="input"> <i class="icon-append fa fa-twitter"></i>
                           <input type="text" name="twitter" placeholder="Twitter Handle" [(ngModel)]="user.twitter" />
                           <b class="tooltip tooltip-bottom-right">Twitter Handle</b>
                         </label>
                       </section>
                       <section class="col col-3">
+                        Facebook Handle
                         <label class="input"> <i class="icon-append fa fa-facebook"></i>
                           <input type="text" name="facebook" placeholder="Facebook Handle" [(ngModel)]="user.facebook" />
                           <b class="tooltip tooltip-bottom-right">Facebook Handle</b>
                         </label>
                       </section>
                       <section class="col col-3">
+                        Instagram Handle
                         <label class="input"> <i class="icon-append fa fa-instagram"></i>
                           <input type="text" name="instagram" placeholder="Instagram Handle" [(ngModel)]="user.instagram" />
                           <b class="tooltip tooltip-bottom-right">Instagram Handle</b>
@@ -115,6 +131,7 @@
                     <section>
                       <label class="input">
                         <i class="icon-append fa fa-user"></i>
+                        Avatar
                         <input type="text" name="avatar" placeholder="Avatar" [(ngModel)]="user.avatar" />
                         <b class="tooltip tooltip-bottom-right">Your AVATAR</b>
                       </label>
@@ -137,6 +154,7 @@
                 </div>
                 <!-- end widget content -->
               </div>
+            </form>
               <br />
               <!-- widget content -->
               <div class="widget-body">
@@ -189,11 +207,13 @@
                       <tab [active]="state.tabs.demo1 == 4" class="smart-form">
                         <div class="row">
                           <section class="col col-6">
+                            Address:
                             <label class="input">
                               <input type="text" name="address0" placeholder="Address" [(ngModel)]="user.addresses[0] && user.addresses[0].address" />
                             </label>
                           </section>
                           <section class="col col-6">
+                            City:
                             <label class="input">
                               <input type="text" name="city0" placeholder="City" [(ngModel)]="user.addresses[0] && user.addresses[0].city" />
                             </label>
@@ -201,11 +221,13 @@
                         </div>
                         <div class="row">
                           <section class="col col-6">
+                            State:
                             <label class="input">
                               <input type="text" name="state0" placeholder="State" [(ngModel)]="user.addresses[0] && user.addresses[0].state" />
                             </label>
                           </section>
                           <section class="col col-6">
+                            Zip:
                             <label class="input">
                               <input type="text" name="zip0" placeholder="Zip" [(ngModel)]="user.addresses[0] && user.addresses[0].zip" />
                             </label>
@@ -216,11 +238,13 @@
                       <tab [active]="state.tabs.demo1 == 5" class="smart-form">
                         <div class="row">
                           <section class="col col-6">
+                            Address:
                             <label class="input">
                               <input type="text" name="address1" placeholder="Address" [(ngModel)]="user.addresses[1] && user.addresses[1].address" />
                             </label>
                           </section>
                           <section class="col col-6">
+                            City:
                             <label class="input">
                               <input type="text" name="city1" placeholder="City" [(ngModel)]="user.addresses[1] && user.addresses[1].city" />
                             </label>
@@ -228,11 +252,13 @@
                         </div>
                         <div class="row">
                           <section class="col col-6">
+                            State:
                             <label class="input">
                               <input type="text" name="state1" placeholder="State" [(ngModel)]="user.addresses[1] && user.addresses[1].state" />
                             </label>
                           </section>
                           <section class="col col-6">
+                            Zip:
                             <label class="input">
                               <input type="text" name="zip1" placeholder="Zip" [(ngModel)]="user.addresses[1] && user.addresses[1].zip" />
                             </label>
@@ -250,8 +276,8 @@
            
                       </tab>
 
-                      <tab [active]="state.tabs.demo1 == 7" class="smart-form">
-                          <div class="widget-body no-padding">
+                      <tab [active]="state.tabs.demo1 == 7">
+                          <div class="widget-body">
                             <sa-datatable 
                               [options]="optionsTokenTable" 
                               tableClass="table table-striped table-bordered table-hover"
@@ -285,7 +311,7 @@
                 </fieldset>
               </div>
               <!-- end widget content -->
-            </form>
+
           </div>
           <!-- end widget div -->
 

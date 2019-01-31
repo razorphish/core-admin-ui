@@ -27,31 +27,13 @@ const routes: Routes = [
         loadChildren: "./features/account/account.module#AccountModule",
         data: { pageTitle: "Account" }
       },
+      {
+        path: "wishlistPremiere",
+        loadChildren: "./features/wishlistPremiere/wishlistPremiere.module#WishlistPremiereModule",
+        data: { pageTitle: "Wishlist" }
+      },
     ]
   },
-  //,
-  // {
-  //   path: 'my-services',
-  //   loadChildren: 'app/features/features/marasco/my-services/my-services.module#MyServicesModule',
-  //   data: { pageTitle: 'My Services' }
-  // },
-  // {
-  //   path: 'calendar',
-  //   loadChildren: 'app/features/features/marasco/calendar/calendar.module#CalendarModule',
-  //   data: { pageTitle: 'Calendar' }
-  // },
-  // {
-  //   path: 'notifications',
-  //   loadChildren:
-  //     'app/features/marasco/features/notifications/notifications.module#NotificationsModule',
-  //   data: { pageTitle: 'Notifications' }
-  // },
-  // {
-  //   path: 'settings',
-  //   loadChildren:
-  //     'app/features/marasco/features/settings/settings.module#SettingsModule',
-  //   data: { pageTitle: 'Settings' }
-  // }
   {
     path: "auth",
     component: AuthLayoutComponent,

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Response, Headers } from '@angular/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { Response } from '@angular/http';
+import { Observable, throwError } from 'rxjs';
 
 import { map, catchError } from 'rxjs/operators';
 
 import { environment } from '../../../../../../../environments/environment';
-import { IApiResponse } from '../../../../core/services/models/IApiResponse';
+import { IApiResponse } from '../../../../core/interfaces/IApiResponse.interface';
 import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
-import { User } from '../../../../core/services/models/userInfo.interface';
+import { User } from '../../../../core/interfaces/UserInfo.interface';
 import { IToken } from '../../tokens/shared/IToken';
 
 @Injectable()
@@ -31,14 +31,21 @@ export class UsersService {
     );
   }
 
-  delete(id: number): Observable<IApiResponse> {
+  delete(id: any): Observable<IApiResponse> {
     return this._authHttp
       .delete(this._url + id)
-      .pipe(map((response: Response) => <any>response.json()),
+      .pipe(map((result: any) => result),
         catchError(this.handleError));
   }
 
-  details(userId: string): Observable<User> {
+  deleteTokens(userId: any): Observable<any> {
+    return this._authHttp
+      .delete(`${this._url}${userId}/tokens`)
+      .pipe(map((result: any) => result),
+        catchError(this.handleError));
+  }
+
+  details(userId: any): Observable<User> {
     return this._authHttp
       .get(`${this._url}${userId}/details`)
       .pipe(map((user: any) => user),

@@ -8,15 +8,14 @@ import { Observable, throwError } from 'rxjs';
 
 import { map, catchError } from 'rxjs/operators';
 
-import { environment } from './../../../../../../../environments/environment';
-import { IApiResponse } from '../../../../core/interfaces/IApiResponse.interface';
+import { environment } from '../../../../../../../environments/environment';
 import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
-import { IRole } from '../../roles';
+import { Wishlist } from './Wishlist.interface'
 
 @Injectable()
-export class RoleService {
-  private _url: string = environment.apiUrl + 'role/';
+export class WishlistsService {
+  private _url: string = environment.apiUrl + 'wishlist/';
   private _headers: Headers;
   private _options: RequestOptions;
 
@@ -34,44 +33,52 @@ export class RoleService {
     });
   }
 
-  all(): Observable<IRole[]> {
+  all(): Observable<Wishlist[]> {
     return this._authHttp
       .get(this._url)
-      .pipe(map((roles: any) => roles),
+      .pipe(map((wishlists: any) => wishlists),
+      catchError(this.handleError));
+  }
+
+  allDetails(): Observable<Wishlist[]> {
+    return this._authHttp
+      .get(`${this._url}details`)
+      .pipe(map((wishlists: any) => wishlists),
       catchError(this.handleError));
   }
 
   delete(id: string): Observable<any> {
     return this._authHttp
-      .delete(this._url + id)
+      .delete(`${this._url}${id}`)
       .pipe(map((result: any) => result),
         catchError(this.handleError))
   }
 
-  get(id: string): Observable<IRole> {
-    // return this._http.get(this._url + '/' + id)
+  get(id: string): Observable<Wishlist> {
     return this._authHttp
-      .get(this._url + id)
-      .pipe(map((role: any) => role),
+      .get(`${this._url}${id}`)
+      .pipe(map((wishlist: any) => wishlist),
       catchError(this.handleError));
-
-    //    return this.http.get(this._heroesUrl)
-    // .map(res => (<Hero[]>res.json().data).filter(hero => hero.id === id))
-    // .do(data => console.log(data))
-    // .catch(this.handleError);
   }
 
-  insert(role: IRole): Observable<IRole> {
+  getDetails(id: string): Observable<Wishlist> {
     return this._authHttp
-      .post(this._url, JSON.stringify(role))
-      .pipe(map((role: IRole) => role),
+      .get(`${this._url}${id}/details`)
+      .pipe(map((wishlist: any) => wishlist),
+      catchError(this.handleError));
+  }
+
+  insert(wishlist: Wishlist): Observable<Wishlist> {
+    return this._authHttp
+      .post(this._url, JSON.stringify(wishlist))
+      .pipe(map((wishlist: Wishlist) => wishlist),
         catchError(this.handleError));
   }
 
-  update(role: IRole): Observable<IRole> {
+  update(wishlist: Wishlist): Observable<Wishlist> {
     return this._authHttp
-      .put(this._url + role._id, JSON.stringify(role))
-      .pipe(map((role: IRole) => role),
+      .put(`${this._url}${wishlist._id}`, JSON.stringify(wishlist))
+      .pipe(map((wishlist: Wishlist) => wishlist),
         catchError(this.handleError));
   }
 

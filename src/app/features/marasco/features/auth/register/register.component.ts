@@ -1,4 +1,4 @@
-import { UserRegistration } from './../../../core/services/models/userRegistration.model';
+import { UserRegistration } from './../../../core/models/userRegistration.model';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
