@@ -31,6 +31,18 @@ export class UsersService {
     );
   }
 
+  allDetails(): Observable<User[]> {
+    return (
+      this._authHttp
+        .get(`${this._url}details`)
+        .pipe(map((users: any) => users),
+          // .do(
+          //   data => console.log('All: ' + JSON.stringify(data))
+          // )
+          catchError(this.handleError))
+    );
+  }
+
   delete(id: any): Observable<IApiResponse> {
     return this._authHttp
       .delete(this._url + id)

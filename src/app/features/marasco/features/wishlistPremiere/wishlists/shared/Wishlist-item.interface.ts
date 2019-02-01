@@ -10,6 +10,7 @@ export interface WishlistItem {
     purchased?: boolean;
     images?: Image[];
     statusId?: string; //created|deleted
+    sort? : number;
     dateCreated?: Date;
     dateModifed?: Date
 }

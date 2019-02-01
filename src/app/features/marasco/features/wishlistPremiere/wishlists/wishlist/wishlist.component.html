@@ -105,24 +105,29 @@
 
                 <ul id="myTab1" class="nav nav-tabs bordered">
 
-                  <li [class.active]="state.tabs.demo1 === '0'" class="active">
-                    <a (click)="state.tabs.demo1 = '0'"><i class="fa fa-fw fa-lg fa-gear"></i> Items</a>
+                  <li [class.active]="state.tabs.demo1 === 0">
+                    <a (click)="state.tabs.demo1 = 0"><i class="fa fa-fw fa-lg fa-gift"></i> Items</a>
                   </li>
 
                   <li [class.active]="state.tabs.demo1 === 1">
                     <a (click)="state.tabs.demo1 = 1"><i class="fa fa-fw fa-lg fa-gear"></i> Preferences</a>
                   </li>
 
+                  <li [class.active]="state.tabs.demo1 === 2">
+                    <a (click)="state.tabs.demo1 = 2"><i class="fa fa-fw fa-lg fa-share"></i> Shares</a>
+                  </li>
+
                 </ul>
 
                 <tabset class="padding-10">
 
-                  <tab [active]="state.tabs.demo1=='0'">
+                  <tab [active]="state.tabs.demo1===0">
                       <sa-datatable [options]="optionsTokenTable"
                         tableClass="table table-striped table-bordered table-hover" paginationLength=true>
                         <thead>
                           <tr>
                             <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
+                            <th [style.width]="'8%'">Sort</th>
                             <th [style.width]="'8%'">Name</th>
                             <th [style.width]="'8%'">Category</th>
                             <th [style.width]="'8%'">Price</th>
@@ -136,6 +141,7 @@
                         <tfoot>
                           <tr>
                             <th>Id</th>
+                            <th>Sort</th>
                             <th>Name</th>
                             <th>Category</th>
                             <th>Price</th>
@@ -148,7 +154,7 @@
                       </sa-datatable>
                   </tab>
 
-                  <tab [active]="state.tabs.demo1== 1" class="smart-form">
+                  <tab [active]="state.tabs.demo1===1" class="smart-form">
                     <div class="row">
                       <div class="col col-3">
                         <label class="checkbox">
@@ -176,6 +182,37 @@
                       </div>
                     </div>
                   </tab>
+
+                  <tab [active]="state.tabs.demo1===2">
+                    <sa-datatable 
+                      [options]="optionsTokenTable"
+                      tableClass="table table-striped table-bordered table-hover" 
+                      paginationLength=true>
+                      <thead>
+                        <tr>
+                          <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
+                          <th [style.width]="'8%'">Type</th>
+                          <th [style.width]="'8%'">Status</th>
+                          <th [style.width]="'8%'">Name</th>
+                          <th [style.width]="'8%'">Email</th>
+                          <th [style.width]="'8%'">Status</th>
+                          <th data-class="expand">Created</th>
+                        </tr>
+                      </thead>
+
+                      <tfoot>
+                        <tr>
+                          <th>Id</th>
+                          <th>Type</th>
+                          <th>Status</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Status</th>
+                          <th>Created</th>
+                        </tr>
+                      </tfoot>
+                    </sa-datatable>
+                </tab>
 
                 </tabset>
 

@@ -208,10 +208,13 @@ export class UserComponent implements OnInit {
     this.optionsTokenTable = {
       dom: 'Bfrtip',
       data: this.user.tokens,
+      order: [[3, 'desc']],
+      ordering: true,
       columns: [
         { data: '_id', title: 'Id' },
         { data: 'origin' },
         { data: 'expiresIn', title: 'Expires In' },
+        { data: 'dateExpire', title: 'Date Expire', visible: false },
         {
           data: 'dateExpire', title: 'Expires',
           render: (data, type, row, meta) => {

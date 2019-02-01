@@ -39,6 +39,7 @@ export class UserListComponent implements OnInit {
         { data: '_id', title: 'Id' },
         { data: 'firstName', defaultContent: '<i>Not Set</i>' },
         { data: 'lastName', defaultContent: '<i>Not Set</i>' },
+        { data: 'applicationId.name', defaultContent: '<i>Not Set</i>' },
         { data: 'username' },
         { data: 'email' },
         {

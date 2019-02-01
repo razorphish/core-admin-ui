@@ -16,6 +16,6 @@ export class UserListResolve implements Resolve<User[]> {
   resolve(route: ActivatedRouteSnapshot) {
     // return this._userService.all(route.paramMap.get('id'));
     this._activityLogService.addGet('Get all users');
-    return this._userService.all();
+    return this._userService.allDetails();
   }
 }
