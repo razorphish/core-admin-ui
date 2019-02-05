@@ -24,7 +24,7 @@ export const environment = {
   loginUrl:  '/auth/login',
   registerUrl: '/auth/register',
   resetPasswordUrl: '/auth/forgot-password',
-  clientId: 'core-web-ui',
+  clientId: 'admin-web-ui',
   clientSecret:
     'E89fZK0oQnEuMWuqRhpNZG5ObexOw81RdnWHnSIuQVjaei3bag4kq' +
     'nSyPXIrAi5gpYQcPU98leY1J5eL1sQUrUCRjS3SdZlMK1vSSv1kORtDqaxdYslVMe8uCBxk4Np' +
