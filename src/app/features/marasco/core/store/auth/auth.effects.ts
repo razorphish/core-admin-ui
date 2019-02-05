@@ -275,7 +275,6 @@ export class AuthEffects {
 
     //Login, Logout, Token Refresh
     this.auth.onIdTokenChanged.subscribe(authUser => {
-      console.log('\n\n onIdTokenChanged', authUser)
       if (authUser) {
         this.store.dispatch(new actions.AuthUserChange(authUser));
       } else {
