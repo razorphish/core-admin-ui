@@ -85,7 +85,6 @@ export class AuthService {
       .post<any>(url, user)
       .pipe(map((user: UserInfo) => {
         // login successful if there's a jwt token in the response
-        console.log(user);
         return user;
       }),
         catchError(this.handleError)
@@ -209,12 +208,10 @@ export class AuthService {
 
   refreshTokenSuccessHandler(data) {
     if (data.error) {
-      console.log('Removing tokens.');
       this.tokenIsBeingRefreshed.next(false);
       return false;
     } else {
       this.tokenIsBeingRefreshed.next(false);
-      console.log('Refreshed user token');
     }
   }
 
@@ -265,7 +262,6 @@ export class AuthService {
         this.onIdTokenChanged.next(null);
       }),
         catchError(error => {
-          console.log(error);
           return throwError(error);
         })
       );
@@ -299,7 +295,7 @@ export class AuthService {
 
   tokenRequiresRefresh(): boolean {
     if (!this.loggedIn()) {
-      console.log('Token refresh is required');
+
     }
 
     return !this.loggedIn();

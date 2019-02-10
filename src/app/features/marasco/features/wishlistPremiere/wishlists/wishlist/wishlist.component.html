@@ -117,6 +117,10 @@
                     <a (click)="state.tabs.demo1 = 2"><i class="fa fa-fw fa-lg fa-share"></i> Shares</a>
                   </li>
 
+                  <li [class.active]="state.tabs.demo1 === 3">
+                    <a (click)="state.tabs.demo1 = 3"><i class="fa fa-fw fa-lg fa-bell"></i> Notifications</a>
+                  </li>
+
                 </ul>
 
                 <tabset class="padding-10">
@@ -212,7 +216,34 @@
                         </tr>
                       </tfoot>
                     </sa-datatable>
-                </tab>
+                  </tab>
+
+                  <tab [active]="state.tabs.demo1===3">
+                    <sa-datatable 
+                      [options]="optionsNotificationTable"
+                      tableClass="table table-striped table-bordered table-hover" 
+                      paginationLength=true>
+                      <thead>
+                        <tr>
+                          <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
+                          <th data-class="expand">Endpoint</th>
+                          <th [style.width]="'8%'">Expiration Time</th>
+                          <th [style.width]="'8%'">Keys</th>
+                          <th [style.width]="'8%'">Created</th>
+                        </tr>
+                      </thead>
+
+                      <tfoot>
+                        <tr>
+                          <th>Id</th>
+                          <th>Endpoint</th>
+                          <th>Expiration Time</th>
+                          <th>Keys</th>
+                          <th>Created</th>
+                        </tr>
+                      </tfoot>
+                    </sa-datatable>
+                  </tab>
 
                 </tabset>
 

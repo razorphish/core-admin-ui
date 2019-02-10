@@ -25,26 +25,26 @@ export class WishlistComponent implements OnInit {
   //////////////////Publicly exposed variables///////////
   public statusOptions = [
     {
-      _id : 'active',
+      _id: 'active',
       name: 'active'
     },
     {
-      _id : 'inactive',
+      _id: 'inactive',
       name: 'inactive'
     }, {
-      _id : 'disabled',
+      _id: 'disabled',
       name: 'disabled'
     }, {
-      _id : 'pending',
+      _id: 'pending',
       name: 'pending'
     }, {
-      _id : 'archived',
+      _id: 'archived',
       name: 'archived'
     }, {
-      _id : 'suspended',
+      _id: 'suspended',
       name: 'suspended'
     }, {
-      _id : 'deleted',
+      _id: 'deleted',
       name: 'deleted'
     }
   ]
@@ -71,7 +71,8 @@ export class WishlistComponent implements OnInit {
     }
   };
 
-  public optionsTokenTable : any = {};
+  public optionsTokenTable: any = {};
+  public optionsNotificationTable: any = {};
   public wishlist: Wishlist = this.defaultWishlist;
 
   public validationOptions: any = {
@@ -135,12 +136,12 @@ export class WishlistComponent implements OnInit {
 
   onItemSelect(item: any) {
     // Clear out current wishlist roles
-    console.log(item);
+    //console.log(item);
 
   }
 
   onSelectAll(items: any) {
-    console.log(items);
+    //console.log(items);
   }
 
   /////////////////////////////////////
@@ -173,6 +174,43 @@ export class WishlistComponent implements OnInit {
       singleSelection: true,
       idField: '_id',
       textField: 'name'
+    };
+
+    this.optionsNotificationTable = {
+      dom: 'Bfrtip',
+      data: this.wishlist.notifications,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'endpoint', title: 'Endpoint' },
+        { data: 'expirationTime', title: 'Expiration Time', defaultContent: '<i>Not Set</i>' },
+        {
+          data: 'keys', title: 'Keys',
+          render: (data, type, row, meta) => {
+            return `auth:${data.auth} p256dh:${data.p256dh}`
+          }
+        },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'pdf',
+        'print'
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        // const self = this;
+        // // Unbind first in order to avoid any duplicate handler
+        // // (see https://github.com/l-lin/angular-datatables/issues/87)
+        // jQuery('td', row).unbind('click');
+        // jQuery('td', row).bind('click', () => {
+        //   self.toDetails(data);
+        // });
+        return row;
+      }
     };
   }
 

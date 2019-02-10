@@ -24,7 +24,6 @@ export class ApiClientListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('marasco-api-client-list Init');
     this.apiClients = this._route.snapshot.data['apiClients'];
     this.activate();
   }

@@ -24,7 +24,7 @@ For Windows users [git-bash](https://git-scm.com/downloads) is perfect **termina
 3. To start whole app template (this means a lot of initial compilation) in local dev server run
   * `npm run server`
   * or checkout *cookbook* section for some starting tips
-4. Point your browser to [http://localhost:4200](http://localhost:4200)
+4. Point your browser to [http://localhost:4201](http://localhost:4201)
 
 #### tip 
 quick way to speed up builds when testing 
@@ -174,7 +174,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4201/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 

@@ -9,4 +9,6 @@ export interface Wishlist {
     privacy?: string;
     dateCreated?: Date;
     dateModified?: Date;
+    shares?: any;
+    notifications?: any;
 }
