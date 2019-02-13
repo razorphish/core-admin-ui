@@ -1,7 +1,7 @@
 <!-- MAIN CONTENT -->
 <div id="content">
   <div class="row">
-    <sa-big-breadcrumbs [items]="['Wishlist', 'Details']" icon="pencil-square-o"
+    <sa-big-breadcrumbs [items]="['Wishlist', 'Details', wishlist._id]" icon="pencil-square-o"
       class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
     <sa-stats></sa-stats>
   </div>
@@ -37,21 +37,25 @@
                   <fieldset>
                     <div class="row">
                       <section class="col col-4">
+                        Name
                         <label class="input">
                           <input type="text" name="name" placeholder="Name" [(ngModel)]="wishlist.name" />
                         </label>
                       </section>
                       <section class="col col-4" *ngIf="isUpdate">
+                        User Id
                         <label class="input">
                           <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId._id" />
                         </label>
                       </section>
                       <section class="col col-4" *ngIf="!isUpdate">
+                        User Id
                         <label class="input">
                           <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId" [disabled]="true"/>
                         </label>
                       </section>
                       <section class="col col-3">
+                        Status
                             <ng-multiselect-dropdown 
                               name="Application" 
                               [placeholder]="'Select Status'"
@@ -63,21 +67,25 @@
                     </div>
                     <div class="row" *ngIf="isUpdate">
                       <section class="col col-4">
+                        First Name
                         <label class="input">
                           <input type="text" name="firstName" placeholder="First Name" [(ngModel)]="wishlist.userId.firstName" [disabled]="true"/>
                         </label>
                       </section>
                       <section class="col col-4" *ngIf="isUpdate">
+                        Last Name
                         <label class="input">
                           <input type="text" name="lastName" placeholder="Last Name" [(ngModel)]="wishlist.userId.lastName" />
                         </label>
                       </section>
                       <section class="col col-4" *ngIf="!isUpdate">
+                         Email
                           <label class="input">
                             <input type="email" name="email" placeholder="Email" [(ngModel)]="wishlist.userId.email" [disabled]="true"/>
                           </label>
                         </section>
                       <section class="col col-3">
+                        Username
                         <label class="input">
                           <input type="text" name="username" placeholder="Username" [(ngModel)]="wishlist.userId.username" [disabled]="true"/>
                         </label>

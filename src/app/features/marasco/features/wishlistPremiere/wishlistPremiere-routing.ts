@@ -12,6 +12,11 @@ const routes: Routes = [
     path: 'wishlists',
     loadChildren: './wishlists/wishlists.module#WishlistsModule',
     data: { pageTitle: 'Wishlist' }
+  },
+  {
+    path: 'settings',
+    loadChildren: './app/wishlist-app.module#WishlistAppModule',
+    data: { pageTitle: 'Wishlist App Settings' }
   }
 ];
 
