@@ -8,6 +8,8 @@ export interface MarascoNotificationAction {
 
 export interface MarascoNotification{
     _id?: string;
+    name?: string;
+    title?: string;
     actions?: MarascoNotificationAction[];
     badge?: string;
     body?: string;
