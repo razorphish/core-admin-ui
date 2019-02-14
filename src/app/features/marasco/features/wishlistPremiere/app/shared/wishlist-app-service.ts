@@ -1,3 +1,4 @@
+import { MarascoNotificationAction, MarascoNotification } from '@app/features/marasco/core/interfaces/NotificationOptions.interface';
 import { Injectable } from '@angular/core';
 import { Response, Headers, RequestOptions } from '@angular/http';
 import { Observable, throwError } from 'rxjs';
@@ -37,7 +38,7 @@ export class WishlistAppService {
     return this._authHttp
       .get(this._url)
       .pipe(map((wishlists: any) => wishlists),
-      catchError(this.handleError));
+        catchError(this.handleError));
   }
 
   delete(id: string): Observable<any> {
@@ -51,7 +52,7 @@ export class WishlistAppService {
     return this._authHttp
       .get(`${this._url}${id}`)
       .pipe(map((wishlist: any) => wishlist),
-      catchError(this.handleError));
+        catchError(this.handleError));
   }
 
   insert(wishlist: WishlistAppSettings): Observable<WishlistAppSettings> {
@@ -65,6 +66,27 @@ export class WishlistAppService {
     return this._authHttp
       .put(`${this._url}${wishlist._id}`, JSON.stringify(wishlist))
       .pipe(map((wishlist: WishlistAppSettings) => wishlist),
+        catchError(this.handleError));
+  }
+
+  updateNotification(
+    id: string,
+    notificationId: string,
+    notification: MarascoNotification): Observable<WishlistAppSettings> {
+    return this._authHttp
+      .put(`${this._url}${id}/notification/${notificationId}`, JSON.stringify(notification))
+      .pipe(map((result: WishlistAppSettings) => result),
+        catchError(this.handleError));
+  }
+
+  updateNotificationAction(
+    id: string,
+    notificationId: string,
+    actionId: string,
+    action: MarascoNotificationAction): Observable<WishlistAppSettings> {
+    return this._authHttp
+      .put(`${this._url}${id}/notification/${notificationId}/action/${actionId}`, JSON.stringify(action))
+      .pipe(map((result: WishlistAppSettings) => result),
         catchError(this.handleError));
   }
 

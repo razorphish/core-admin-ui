@@ -1,5 +1,14 @@
-export interface MarascoNotificationOptions{
-    actions?: NotificationAction[];
+
+export interface MarascoNotificationAction {
+    _id: string;
+    action: string;
+    icon?: string;
+    title: string;
+}
+
+export interface MarascoNotification{
+    _id?: string;
+    actions?: MarascoNotificationAction[];
     badge?: string;
     body?: string;
     data?: any;
@@ -12,5 +21,5 @@ export interface MarascoNotificationOptions{
     silent?: boolean;
     tag?: string;
     timestamp?: number;
-    vibrate?: VibratePattern;
+    vibrate?: string[];
 }

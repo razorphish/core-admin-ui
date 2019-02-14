@@ -1,3 +1,5 @@
+import { MarascoNotification } from '@app/features/marasco/core/interfaces/NotificationOptions.interface';
+import { JqueryUiModule } from './../../../../shared/ui/jquery-ui/jquery-ui.module';
 
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -10,6 +12,7 @@ import { WishlistAppSettings } from '../shared/WishlistAppSettings.interface';
 import { WishlistAppService } from '../shared/wishlist-app-service';
 
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'marasco-wishlist-app-settings',
@@ -57,7 +60,8 @@ export class WishlistAppSettingsComponent implements OnInit {
 
   public dropdownSettingsStatus = {};
   public isUpdate = true;
-  public notification : any = {};
+  public notification: MarascoNotification = {};
+  public action: any = {};
   public options = [];
   public state: any = {
     tabs: {
@@ -65,8 +69,8 @@ export class WishlistAppSettingsComponent implements OnInit {
     }
   };
 
-  public optionsTokenTable: any = {};
   public optionsNotificationTable: any = {};
+  public wishlistAppSettingsActionsOptions: any = {};
   public wishlistAppSettings: WishlistAppSettings = this._defaultWishlistAppSettings;
 
   public validationOptions: any = {
@@ -130,6 +134,7 @@ export class WishlistAppSettingsComponent implements OnInit {
 
   @ViewChild('wishlistDetailsForm') wishlistDetailsForm;
   @ViewChild('wishlistAppNotificationForm') wishlistAppNotificationForm;
+  @ViewChild('wishlistAppNotificationActionForm') wishlistAppNotificationActionForm;
 
   constructor(
     private _wishlistAppService: WishlistAppService,
@@ -167,13 +172,24 @@ export class WishlistAppSettingsComponent implements OnInit {
 
   @ViewChild('lgModal') public lgModal: ModalDirective;
 
-  public showChildModal(data:any): void {
+  public showChildModal(data: any): void {
     this.notification = data;
-    console.log(this.notification);
     this.lgModal.show();
+    this.wishlistAppSettingsActionsOptions.data = this.notification.actions;
   }
 
   public hideChildModal(): void {
+    this.lgModal.hide();
+  }
+
+  @ViewChild('smModal') public smModal: ModalDirective;
+
+  public showGrandchildModal(action: any): void {
+    this.action = action;
+    this.smModal.show();
+  }
+
+  public hideGrancchildModal(): void {
     this.lgModal.hide();
   }
 
@@ -181,6 +197,69 @@ export class WishlistAppSettingsComponent implements OnInit {
     //if (this.validate()) {
     this.update();
     //}
+  }
+
+  public saveNotification(body: any) {
+
+    this.notification.vibrate = this.notification.vibrate.toString().split(',');
+
+    this._wishlistAppService.updateNotification(
+      this.wishlistAppSettings._id,
+      this.notification._id,
+      this.notification
+    ).subscribe((wishlistAppSettings) => {
+      this.wishlistAppSettings = wishlistAppSettings;
+
+      this._activityLogService.addUpdate(
+        `Updated notification action ${this.action._id}`
+      );
+      this._notificationService.smallBox({
+        title: 'Notification action Updated',
+        content: 'Notificaiton action has been updated successfully. ',
+        color: '#739E73',
+        timeout: 4000,
+        icon: 'fa fa-check',
+        number: '4'
+      });
+
+      this._router.navigateByUrl('/wishlistPremiere', { skipLocationChange: false })
+      .then(() =>
+        this._router.navigate(['/wishlistPremiere/settings/settings']));
+    },
+      (error) => {
+        this.displayServerErrors(error);
+      });
+  }
+
+  public saveNotificationAction(body: any) {
+
+    this._wishlistAppService.updateNotificationAction(
+      this.wishlistAppSettings._id,
+      this.notification._id,
+      this.action._id,
+      this.action
+    ).subscribe((wishlistAppSettings) => {
+      this.wishlistAppSettings = wishlistAppSettings;
+
+      this._activityLogService.addUpdate(
+        `Updated notification action ${this.action._id}`
+      );
+      this._notificationService.smallBox({
+        title: 'Notification action Updated',
+        content: 'Notificaiton action has been updated successfully. ',
+        color: '#739E73',
+        timeout: 4000,
+        icon: 'fa fa-check',
+        number: '4'
+      });
+
+      this._router.navigateByUrl('/wishlistPremiere', { skipLocationChange: false })
+      .then(() =>
+        this._router.navigate(['/wishlistPremiere/settings/settings']));
+    },
+      (error) => {
+        this.displayServerErrors(error);
+      });
   }
 
   /////////////////////////////////////
@@ -197,6 +276,13 @@ export class WishlistAppSettingsComponent implements OnInit {
       textField: 'name'
     };
 
+    this.activateDataTables();
+  }
+
+  /**
+   * Activate all data tables
+   */
+  private activateDataTables() {
     this.optionsNotificationTable = {
       dom: 'Bfrtip',
       data: this.wishlistAppSettings.notifications,
@@ -232,6 +318,28 @@ export class WishlistAppSettingsComponent implements OnInit {
         return row;
       }
     };
+
+    this.wishlistAppSettingsActionsOptions = {
+      searching: false,
+      paging: false,
+      info: false,
+      columns: [
+        { data: '_id', title: 'Id', visible: false },
+        { data: 'action', title: 'Action' },
+        { data: 'title', title: 'Title' },
+        { data: 'icon', title: 'Icon' }
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        // Unbind first in order to avoid any duplicate handler
+        // (see https://github.com/l-lin/angular-datatables/issues/87)
+        jQuery('td', row).unbind('click');
+        jQuery('td', row).bind('click', () => {
+          self.showGrandchildModal(data);
+        });
+        return row;
+      }
+    };
   }
 
   private displayErrors(errors: string[]): void {
@@ -240,6 +348,19 @@ export class WishlistAppSettingsComponent implements OnInit {
     notificationService.bigBox({
       title: 'Oops!  There are some validation errors',
       content: errors.join('<br>').toString(),
+      color: '#C46A69',
+      icon: 'fa fa-warning shake animated',
+      number: '1',
+      timeout: 6000 // 6 seconds
+    });
+  }
+
+  private displayServerErrors(error: HttpErrorResponse): void {
+    // event.errors.join("<br>").toString()
+    const notificationService = new NotificationService();
+    notificationService.bigBox({
+      title: error.statusText,
+      content: error.error.errmsg,
       color: '#C46A69',
       icon: 'fa fa-warning shake animated',
       number: '1',

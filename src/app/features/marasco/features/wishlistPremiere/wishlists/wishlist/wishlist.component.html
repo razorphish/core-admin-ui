@@ -45,13 +45,13 @@
                       <section class="col col-4" *ngIf="isUpdate">
                         User Id
                         <label class="input">
-                          <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId._id" />
+                          <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId._id" [disabled]="true" />
                         </label>
                       </section>
                       <section class="col col-4" *ngIf="!isUpdate">
                         User Id
                         <label class="input">
-                          <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId" [disabled]="true"/>
+                          <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId" />
                         </label>
                       </section>
                       <section class="col col-3">

@@ -128,15 +128,13 @@
     <!-- end widget grid -->
 
 <!-- Modal -->
-
-
 <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
   aria-hidden="true">
   <form 
                 #wishlistAppNotificationForm="ngForm" 
                 [saUiValidate]="validationOptions2" 
                 novalidate="novalidate"
-                (ngSubmit)="save(wishlistAppNotificationForm.value)">
+                (ngSubmit)="saveNotification(wishlistAppNotificationForm.value)">
 <div class="modal-dialog modal-lg">
  <div class="modal-content">
    <div class="modal-header">
@@ -244,17 +242,32 @@
       </div>
     </div>
      <div class="row">
-       <div class="col-md-6">
+       <div class="col-md-4">
          <div class="form-group">
            <label for="data"> Data</label>
            <textarea class="form-control" placeholder="Data" id="data" rows="3" required name="data" [(ngModel)]="notification.data"></textarea>
          </div>
        </div>
-       <div class="col-md-6">
-         <div class="form-group">
-           <label for="tags"> Actions</label>
-           <input type="text" class="form-control" id="tags" placeholder="Tags">
-         </div>
+       <div class="col-md-8">
+        <div class="widget-body no-padding">
+          <label for="data"> Actions</label>
+          <sa-datatable *ngIf="this.wishlistAppSettingsActionsOptions.data"
+              [options]="wishlistAppSettingsActionsOptions"
+              tableClass="table table-striped table-bordered table-hover" 
+              paginationLength="false"
+              id="actionDataTable"
+              name="actionDataTable">
+              <thead>
+                  <tr>
+                      <th [style.width]="'8%'">Id</th>
+                      <th [style.width]="'8%'">Action</th>
+                      <th [style.width]="'8%'">Title</th>
+                      <th [style.width]="'8%'">Icon</th>
+                  </tr>
+              </thead>
+          </sa-datatable>
+
+      </div>
        </div>
      </div>
 
@@ -263,8 +276,60 @@
      <button type="button" class="btn btn-default" (click)="lgModal.hide()">
        Cancel
      </button>
-     <button type="button" class="btn btn-primary">
+     <button type="submit" class="btn btn-primary">
        Save Notification Option
+     </button>
+   </div>
+ </div>
+</div>
+</form>
+</div>
+
+<div bsModal #smModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  aria-hidden="true">
+  <form 
+                #wishlistAppNotificationActionForm="ngForm" 
+                [saUiValidate]="validationOptions2" 
+                novalidate="novalidate"
+                (ngSubmit)="saveNotificationAction(wishlistAppNotificationActionForm.value)">
+<div class="modal-dialog modal-lg">
+ <div class="modal-content">
+   <div class="modal-header">
+     <button type="button" class="close" (click)="smModal.hide()" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+     <h4 class="modal-title">Notification Action</h4>
+   </div>
+   <div class="modal-body">
+
+     <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="name">Action</label>
+          <input type="text" class="form-control" id="action" name="action" placeholder="Action" [(ngModel)]="action.action">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="title"> Title</label>
+          <input type="text" class="form-control" id="title" name="title" placeholder="Title" [(ngModel)]="action.title">
+        </div>
+      </div>
+      <div class="col-md-4">
+          <div class="form-group">
+            <label for="title"> Icon</label>
+            <input type="text" class="form-control" id="icon" name="icon" placeholder="Icon" [(ngModel)]="action.icon">
+          </div>
+        </div>
+    </div>
+
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" (click)="smModal.hide()">
+       Cancel
+     </button>
+     <button type="submit" class="btn btn-primary">
+       Save Action
      </button>
    </div>
  </div>
