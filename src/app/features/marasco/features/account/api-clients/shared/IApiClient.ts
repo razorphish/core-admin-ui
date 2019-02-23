@@ -5,7 +5,7 @@ export interface IApiClient {
   clientSecret?: string;
   isTrusted: boolean;
   applicationType: string;
-  allowedOrigins: any;
+  allowedOrigins: string[];
   tokenLifeTime: number;
   refreshTokenLifeTime: number;
   dateCreated?: Date;

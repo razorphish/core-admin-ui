@@ -41,6 +41,7 @@ export class ApiClientComponent implements OnInit {
   };
 
   public apiClient: IApiClient = this.defaultApiClient;
+  public apiClientAllowedOrigins: string = '';
 
   public validationOptions: any = {
     // Rules for form validation
@@ -119,6 +120,7 @@ export class ApiClientComponent implements OnInit {
     const id = this._route.snapshot.params['id'];
     if (id !== '0') {
       this.apiClient = this._route.snapshot.data['apiClient'];
+      this.apiClientAllowedOrigins = this.apiClient.allowedOrigins.join(',');
     } else {
       this.isUpdate = false;
     }
@@ -170,6 +172,7 @@ export class ApiClientComponent implements OnInit {
    * Insert an item in the database
    */
   private insert() {
+    this.apiClient.allowedOrigins = this.apiClientAllowedOrigins.split(',');
     this._ApiClientService.insert(this.apiClient).subscribe(
       apiClient => {
         if (apiClient) {
@@ -271,6 +274,7 @@ export class ApiClientComponent implements OnInit {
    * Update item
    */
   private update() {
+    this.apiClient.allowedOrigins = this.apiClientAllowedOrigins.split(',');
     this._ApiClientService.update(this.apiClient).subscribe(
       apiClient => {
         if (apiClient) {
