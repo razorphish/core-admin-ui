@@ -1,0 +1,63 @@
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Applications', 'List']" icon="legal" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <sa-stats></sa-stats>
+    </div>
+
+  <!-- widget grid -->
+  <sa-widgets-grid>
+
+    <!-- START ROW -->
+    <div class="row">
+
+        <!-- NEW COL START -->
+        <article class="col-sm-12 col-md-12 col-lg-12">
+          
+            <div sa-widget [editbutton]="false" color="darken" [deletebutton]="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Applications</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+
+                        <sa-datatable 
+                            [options]="options" 
+                            tableClass="table table-striped table-bordered table-hover" 
+                            paginationLength=true>
+                            <thead>
+                                <tr>
+                                    <th [style.width]="'250px'" data-hide="mobile-p">Id</th>
+                                    <th [style.width]="'20%'">Name</th>
+                                    <th [style.width]="'8%'">Status</th>
+                                    <th [style.width]="'20%'">Url</th>
+                                    <th data-class="expand">Created</th>
+                                </tr>
+                            </thead>
+
+                            <tfoot>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Url</th>
+                                    <th>Created</th>
+                                </tr>
+                            </tfoot>
+                        </sa-datatable>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end widget -->
+
+        </article>
+        <!-- END COL -->
+  
+      </div>
+      <!-- END ROW -->
+  
+    </sa-widgets-grid>
+    <!-- end widget grid -->
+  
+  </div>

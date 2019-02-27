@@ -1,19 +1,22 @@
+import { ApplicationsRoutingModule } from './applications-routing.module';
 
 import { SharedModule } from '../../../shared/shared.module';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, UpperCasePipe } from '@angular/common';
 import { SmartadminDatatableModule } from '../../../shared/ui/datatable/smartadmin-datatable.module';
 import { SmartadminValidationModule } from '../../../shared/forms/validation/smartadmin-validation.module';
 import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-input.module';
 
-// import { ApiClientsRoutingModule } from './api-clients-routing.module';
-// import { ApiClientFactory } from './shared/api-client.factory';
-// import { ApiClientResolve } from './api-client/api-client.resolve';
-// import { ApiClientListResolve } from './api-client-list/api-client-list.resolve';
 import { ApplicationService } from './shared/application.service';
-// import { ApiClientListComponent } from './api-client-list/api-client-list.component';
-// import { ApiClientComponent } from './api-client/api-client.component';
-// import { ApiClientsComponent } from './api-clients.component';
+import {
+  ApplicationsComponent,
+  ApplicationComponent,
+  ApplicationListComponent,
+  ApplicationListResolve
+} from '.';
+import { ApplicationFactory } from './shared/application.factory';
+import { ApplicationResolve } from './application/application.resolve';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -22,18 +25,20 @@ import { ApplicationService } from './shared/application.service';
     SmartadminDatatableModule,
     SmartadminValidationModule,
     SmartadminInputModule,
-    //ApiClientsRoutingModule
+    ApplicationsRoutingModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
-    // ApiClientsComponent,
-    // ApiClientComponent,
-    // ApiClientListComponent
+    ApplicationsComponent,
+    ApplicationComponent,
+    ApplicationListComponent
   ],
   providers: [
     ApplicationService,
-    // ApiClientFactory,
-    // ApiClientListResolve,
-    // ApiClientResolve
+    ApplicationFactory,
+    ApplicationListResolve,
+    ApplicationResolve,
+    UpperCasePipe
   ]
 })
-export class ApplicationsModule {}
+export class ApplicationsModule { }
