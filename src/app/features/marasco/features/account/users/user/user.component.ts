@@ -12,7 +12,7 @@ import { UserFactory } from './../shared/user.factory';
 import { RoleService } from './../../roles/shared/role.service';
 import { ApplicationService } from '../../../account/applications/shared/application.service';
 import { IRole } from './../../roles/shared/IRole';
-import { Application } from './../../applications/shared/application.interface';
+import { Application } from '../../applications/shared/Application.interface';
 import * as moment from 'moment';
 
 @Component({

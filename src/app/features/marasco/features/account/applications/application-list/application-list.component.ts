@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Application } from './../shared/Application.interface';
+import { Application } from '../shared/Application.interface';
 
 import * as moment from 'moment';
 

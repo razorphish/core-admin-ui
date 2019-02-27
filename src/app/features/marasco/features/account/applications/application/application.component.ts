@@ -7,8 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../../core/services/notification.service';
 
 // Internal
-import { ApplicationService as ApplicationService } from './../shared/application.service';
-import { Application } from './../shared/Application.interface';
+import { ApplicationService } from './../shared/application.service';
+import { Application } from '../shared/Application.interface';
 import { ApplicationFactory } from './../shared/application.factory';
 
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
