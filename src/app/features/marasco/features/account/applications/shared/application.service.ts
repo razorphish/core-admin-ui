@@ -8,7 +8,7 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../../../../../environments/environment';
 import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
-import { Application } from './Application.interface';
+import { Application } from './application.interface';
 
 @Injectable()
 export class ApplicationService {

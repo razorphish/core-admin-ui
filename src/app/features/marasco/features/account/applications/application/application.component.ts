@@ -8,9 +8,8 @@ import { NotificationService } from '../../../../core/services/notification.serv
 
 // Internal
 import { ApplicationService } from './../shared/application.service';
-import { Application } from '../shared/Application.interface';
+import { Application } from '../shared/application.interface';
 import { ApplicationFactory } from './../shared/application.factory';
-
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Application } from './Application.interface';
+import { Application } from './application.interface';
 
 @Injectable()
 export class ApplicationFactory {

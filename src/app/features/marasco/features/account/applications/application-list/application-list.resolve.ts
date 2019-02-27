@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
 import { ApplicationService } from '../shared/application.service';
-import { Application } from '../shared/Application.interface';
+import { Application } from '../shared/application.interface';
 
 @Injectable()
 export class ApplicationListResolve implements Resolve<Application[]> {
