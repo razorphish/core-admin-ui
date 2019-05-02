@@ -36,19 +36,19 @@
 
                   <fieldset>
                     <div class="row">
-                      <section class="col col-4">
+                      <section class="col col-3">
                         Name
                         <label class="input">
                           <input type="text" name="name" placeholder="Name" [(ngModel)]="wishlist.name" />
                         </label>
                       </section>
-                      <section class="col col-4" *ngIf="isUpdate">
+                      <section class="col col-3" *ngIf="isUpdate">
                         User Id
                         <label class="input">
                           <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId._id" [disabled]="true" />
                         </label>
                       </section>
-                      <section class="col col-4" *ngIf="!isUpdate">
+                      <section class="col col-3" *ngIf="!isUpdate">
                         User Id
                         <label class="input">
                           <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId" />
@@ -57,12 +57,22 @@
                       <section class="col col-3">
                         Status
                             <ng-multiselect-dropdown 
-                              name="Application" 
+                              name="wishlistStatus" 
                               [placeholder]="'Select Status'"
                               [data]="statusOptions" 
                               [(ngModel)]="selectedStatus" 
                               [settings]="dropdownSettingsStatus">
                           </ng-multiselect-dropdown>
+                      </section>
+                      <section class="col col-3">
+                        Privacy
+                        <ng-multiselect-dropdown 
+                          name="wishlistPrivacy" 
+                          [placeholder]="'Select Privacy'"
+                          [data]="privacyOptions" 
+                          [(ngModel)]="selectedPrivacy" 
+                          [settings]="dropdownSettingsPrivacy">
+                      </ng-multiselect-dropdown>
                       </section>
                     </div>
                     <div class="row" *ngIf="isUpdate">
@@ -72,10 +82,10 @@
                           <input type="text" name="firstName" placeholder="First Name" [(ngModel)]="wishlist.userId.firstName" [disabled]="true"/>
                         </label>
                       </section>
-                      <section class="col col-4" *ngIf="isUpdate">
+                      <section class="col col-4" >
                         Last Name
                         <label class="input">
-                          <input type="text" name="lastName" placeholder="Last Name" [(ngModel)]="wishlist.userId.lastName" />
+                          <input type="text" name="lastName" placeholder="Last Name" [(ngModel)]="wishlist.userId.lastName" [disabled]="true" />
                         </label>
                       </section>
                       <section class="col col-4" *ngIf="!isUpdate">
@@ -122,7 +132,7 @@
                   </li>
 
                   <li [class.active]="state.tabs.demo1 === 2">
-                    <a (click)="state.tabs.demo1 = 2"><i class="fa fa-fw fa-lg fa-share"></i> Shares</a>
+                    <a (click)="state.tabs.demo1 = 2"><i class="fa fa-fw fa-lg fa-share-alt"></i> Follows</a>
                   </li>
 
                   <li [class.active]="state.tabs.demo1 === 3">
@@ -134,7 +144,7 @@
                 <tabset class="padding-10">
 
                   <tab [active]="state.tabs.demo1===0">
-                      <sa-datatable [options]="optionsTokenTable"
+                      <sa-datatable [options]="optionsItemsTable"
                         tableClass="table table-striped table-bordered table-hover" paginationLength=true>
                         <thead>
                           <tr>
@@ -170,60 +180,96 @@
                     <div class="row">
                       <div class="col col-3">
                         <label class="checkbox">
-                          <input type="checkbox" name="includePriceWhenSharing" [checked]="wishlist.preferences.includePriceWhenSharing" />
+                          <input type="checkbox" name="includePriceWhenSharing" [(ngModel)]="wishlist.preferences.includePriceWhenSharing" value="true" />
                           <i></i>
                           Include Price When sharing
                         </label>
                       </div>
                       <div class="col col-3">
                         <label class="checkbox">
-                          <input type="checkbox" name="markPurchasedItem" [checked]="wishlist.preferences.markPurchasedItem" />
+                          <input type="checkbox" id="markPurchasedItem" name="markPurchasedItem" [(ngModel)]="wishlist.preferences.markPurchasedItem"
+                          value="true" />
                           <i></i>
                           Mark Purchased Item
                         </label>
                       </div>
                       <div class="col col-3">
                         <label class="checkbox">
-                          <input type="checkbox" name="hideFromMe" [checked]="wishlist.preferences.hideFromMe" />
+                          <input type="checkbox" name="hideFromMe" [(ngModel)]="wishlist.preferences.hideFromMe" value="true"/>
                           <i></i>
                           Hide From me
                         </label>
                       </div>
-                     <div class="col col-3">
-
+                      <div class="col col-3">
+                        <label class="checkbox">
+                          <input type="checkbox" name="notifyOnClose" [(ngModel)]="wishlist.preferences.notifyOnClose" value="true"/>
+                          <i></i>
+                          Notify on close
+                        </label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col col-3">
+                        <label class="checkbox">
+                          <input type="checkbox" name="notifyOnAddItem" [(ngModel)]="wishlist.preferences.notifyOnAddItem" value="true"/>
+                          <i></i>
+                          Notify on Add Item
+                        </label>
+                      </div>
+                      <div class="col col-3">
+                        <label class="checkbox">
+                          <input type="checkbox" name="notifyOnRemoveItem" [(ngModel)]="wishlist.preferences.notifyOnRemoveItem" value="true" />
+                          <i></i>
+                          Notify on Remove Item
+                        </label>
+                      </div>
+                      <div class="col col-3">
+                        <label class="checkbox">
+                          <input type="checkbox" name="notifyOnCompletion" [(ngModel)]="wishlist.preferences.notifyOnCompletion" value="true"/>
+                          <i></i>
+                          Notify On Completion
+                        </label>
+                      </div>
+                      <div class="col col-3">
+                        <label class="input">
+                          <input type="text" name="notifyOnCompletion" placeholder="Currency Unit Symbol" [(ngModel)]="wishlist.preferences.currencyUnitSymbol" />
+                  
+                        </label>
                       </div>
                     </div>
                   </tab>
 
                   <tab [active]="state.tabs.demo1===2">
                     <sa-datatable 
-                      [options]="optionsTokenTable"
-                      tableClass="table table-striped table-bordered table-hover" 
-                      paginationLength=true>
-                      <thead>
-                        <tr>
-                          <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
-                          <th [style.width]="'8%'">Type</th>
-                          <th [style.width]="'8%'">Status</th>
-                          <th [style.width]="'8%'">Name</th>
-                          <th [style.width]="'8%'">Email</th>
-                          <th [style.width]="'8%'">Status</th>
-                          <th data-class="expand">Created</th>
-                        </tr>
-                      </thead>
+                    [options]="optionsFollowingTable"
+                    tableClass="table table-striped table-bordered table-hover" 
+                    paginationLength=true>
+                    <thead>
+                      <tr>
+                        <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
+                        <th [style.width]="'8%'">First Name</th>
+                        <th [style.width]="'8%'">Last Name</th>
+                        <th [style.width]="'8%'">Add?</th>
+                        <th [style.width]="'8%'">Remove?</th>
+                        <th [style.width]="'8%'">Completion?</th>
+                        <th [style.width]="'8%'">Status</th>
+                        <th data-class="expand">Created</th>
+                      </tr>
+                    </thead>
 
-                      <tfoot>
-                        <tr>
-                          <th>Id</th>
-                          <th>Type</th>
-                          <th>Status</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Status</th>
-                          <th>Created</th>
-                        </tr>
-                      </tfoot>
-                    </sa-datatable>
+                    <tfoot>
+                      <tr>
+                        <th>Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Add?</th>
+                        <th>Remove?</th>
+                        <th>Completion?</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                      </tr>
+                    </tfoot>
+                  </sa-datatable>
                   </tab>
 
                   <tab [active]="state.tabs.demo1===3">

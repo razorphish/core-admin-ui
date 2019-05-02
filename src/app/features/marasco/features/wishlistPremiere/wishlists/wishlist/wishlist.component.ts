@@ -23,6 +23,17 @@ export class WishlistComponent implements OnInit {
   //\\\END Private variables ////////
 
   //////////////////Publicly exposed variables///////////
+  public privacyOptions = [
+    {
+      _id: 'private',
+      name: 'private'
+    },
+    {
+      _id: 'public',
+      name: 'public'
+    }
+  ];
+
   public statusOptions = [
     {
       _id: 'active',
@@ -49,6 +60,7 @@ export class WishlistComponent implements OnInit {
     }
   ]
 
+  public selectedPrivacy = [];
   public selectedStatus = [];
 
   public defaultWishlist: Wishlist = {
@@ -58,10 +70,15 @@ export class WishlistComponent implements OnInit {
       includePriceWhenSharing: true,
       markPurchasedItem: false,
       hideFromMe: false,
-      currencyUnitSymbol: '$'
+      currencyUnitSymbol: '$',
+      notifyOnAddItem: true,
+      notifyOnClose: true,
+      notifyOnCompletion: true,
+      notifyOnRemoveItem: true
     }
   };
 
+  public dropdownSettingsPrivacy = {};
   public dropdownSettingsStatus = {};
   public isUpdate = true;
   public options = [];
@@ -71,7 +88,8 @@ export class WishlistComponent implements OnInit {
     }
   };
 
-  public optionsTokenTable: any = {};
+  public optionsFollowingTable: any = {};
+  public optionsItemsTable: any = {};
   public optionsNotificationTable: any = {};
   public wishlist: Wishlist = this.defaultWishlist;
 
@@ -127,6 +145,7 @@ export class WishlistComponent implements OnInit {
     if (id !== '0') {
       this.wishlist = this._route.snapshot.data['wishlist'];
       this.selectedStatus.push(this.wishlist.statusId);
+      this.selectedPrivacy.push(this.wishlist.privacy);
     } else {
       this.isUpdate = false;
     }
@@ -176,6 +195,12 @@ export class WishlistComponent implements OnInit {
       textField: 'name'
     };
 
+    this.dropdownSettingsPrivacy = {
+      singleSelection: true,
+      idField: '_id',
+      textField: 'name'
+    }
+
     this.optionsNotificationTable = {
       dom: 'Bfrtip',
       data: this.wishlist.notifications,
@@ -189,6 +214,77 @@ export class WishlistComponent implements OnInit {
             return `auth:${data.auth} p256dh:${data.p256dh}`
           }
         },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'pdf',
+        'print'
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        // const self = this;
+        // // Unbind first in order to avoid any duplicate handler
+        // // (see https://github.com/l-lin/angular-datatables/issues/87)
+        // jQuery('td', row).unbind('click');
+        // jQuery('td', row).bind('click', () => {
+        //   self.toDetails(data);
+        // });
+        return row;
+      }
+    };
+
+    this.optionsItemsTable = {
+      dom: 'Bfrtip',
+      data: this.wishlist.items,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'sortOrder', title: 'Sort' },
+        { data: 'name', title: 'Name' },
+        { data: 'categoryId', title: 'Category' },
+        { data: 'price', title: 'Price' },
+        { data: 'url', title: 'Url' },
+        { data: 'purchased', title: 'Purchased' },
+        { data: 'statusId', title: 'Status' },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'pdf',
+        'print'
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        // const self = this;
+        // // Unbind first in order to avoid any duplicate handler
+        // // (see https://github.com/l-lin/angular-datatables/issues/87)
+        // jQuery('td', row).unbind('click');
+        // jQuery('td', row).bind('click', () => {
+        //   self.toDetails(data);
+        // });
+        return row;
+      }
+    };
+
+    this.optionsFollowingTable = {
+      dom: 'Bfrtip',
+      data: this.wishlist.follows,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'userId', title: 'Sort' },
+        { data: 'userId', title: 'Name' },
+        { data: 'notifiedOnAddItem', title: 'Add?' },
+        { data: 'notifiedOnRemoveItem', title: 'Remove?' },
+        { data: 'notifiedOnCompletion', title: 'Completion?' },
+        { data: 'statusId', title: 'Status' },
         {
           data: 'dateCreated',
           render: (data, type, row, meta) => {
@@ -232,6 +328,8 @@ export class WishlistComponent implements OnInit {
    */
   private insert() {
     this.wishlist.statusId = this.selectedStatus[0];
+    this.wishlist.privacy = this.selectedPrivacy[0];
+
     this._wishlistService.insert(this.wishlist).subscribe(
       item => {
         if (item) {
@@ -282,6 +380,8 @@ export class WishlistComponent implements OnInit {
    */
   private update() {
     this.wishlist.statusId = this.selectedStatus[0];
+    this.wishlist.privacy = this.selectedPrivacy[0];
+
     this._wishlistService.update(this.wishlist).subscribe(
       item => {
         if (item) {
