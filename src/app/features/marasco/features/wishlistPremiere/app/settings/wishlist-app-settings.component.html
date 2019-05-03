@@ -159,14 +159,14 @@
   <!-- Modal -->
 
   <!-- Email Notification Modal-->
-  <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  <div bsModal #lgEmailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalEmailLabel" aria-hidden="true">
     <form #wishlistAppEmailNotificationForm="ngForm" [saUiValidate]="validationOptions3" novalidate="novalidate"
       (ngSubmit)="saveEmailNotification(wishlistAppEmailNotificationForm.value)">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+            <button type="button" class="close" (click)="lgEmailModal.hide()" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
             <h4 class="modal-title">Email Notification</h4>
@@ -218,7 +218,7 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" (click)="lgModal.hide()">
+            <button type="button" class="btn btn-default" (click)="lgEmailModal.hide()">
               Cancel
             </button>
             <button type="submit" class="btn btn-primary">
@@ -230,7 +230,7 @@
 
     </form>
   </div>
-  <!-- //End Notification Modal -->
+  <!-- //End Email Notification Modal -->
 
   <!-- Notification Modal-->
   <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"

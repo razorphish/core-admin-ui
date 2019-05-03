@@ -196,6 +196,7 @@ export class WishlistAppSettingsComponent implements OnInit {
   /////////////////////////////////////
 
   @ViewChild('lgModal') public lgModal: ModalDirective;
+  @ViewChild('lgEmailModal') public lgEmailModal: ModalDirective;
 
   public showChildModal(data: any): void {
     this.notification = data;
@@ -205,11 +206,15 @@ export class WishlistAppSettingsComponent implements OnInit {
 
   public showChildEmailModal(data: any): void {
     this.emailNotification = data;
-    this.lgModal.show();
+    this.lgEmailModal.show();
   }
 
   public hideChildModal(): void {
     this.lgModal.hide();
+  }
+
+  public hideEmailChildModal(): void {
+    this.lgEmailModal.hide();
   }
 
   @ViewChild('smModal') public smModal: ModalDirective;
@@ -234,7 +239,7 @@ export class WishlistAppSettingsComponent implements OnInit {
 
     this._wishlistAppService.updateEmailNotification(
       this.wishlistAppSettings._id,
-      this.notification._id,
+      this.emailNotification._id,
       this.emailNotification
     ).subscribe((wishlistAppSettings) => {
       this.wishlistAppSettings = wishlistAppSettings;
