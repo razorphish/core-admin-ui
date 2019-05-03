@@ -79,6 +79,26 @@ export class WishlistAppService {
         catchError(this.handleError));
   }
 
+  /**
+   * @description Updates Email Notification
+   * @author Antonio Marasco
+   * @date 2019-05-03
+   * @param {string} id
+   * @param {string} emailNotificationId
+   * @param {MarascoNotification} emailNotification
+   * @returns {Observable<WishlistAppSettings>}
+   * @memberof WishlistAppService
+   */
+  updateEmailNotification(
+    id: string,
+    emailNotificationId: string,
+    emailNotification: MarascoNotification): Observable<WishlistAppSettings> {
+    return this._authHttp
+      .put(`${this._url}${id}/emailNotification/${emailNotificationId}`, JSON.stringify(emailNotification))
+      .pipe(map((result: WishlistAppSettings) => result),
+        catchError(this.handleError));
+  }
+
   updateNotificationAction(
     id: string,
     notificationId: string,

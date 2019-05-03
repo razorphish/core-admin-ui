@@ -6,7 +6,7 @@ export interface MarascoNotificationAction {
     title: string;
 }
 
-export interface MarascoNotification{
+export interface MarascoNotification {
     _id?: string;
     name?: string;
     title?: string;
@@ -23,5 +23,15 @@ export interface MarascoNotification{
     silent?: boolean;
     tag?: string;
     timestamp?: number;
+    vibrate?: string[];
+}
+
+export interface MarascoEmailNotification {
+    _id?: string;
+    name?: string;
+    subject?: string;
+    text?: string;
+    html?: string;
+    fromEmailAddress?: string;
     vibrate?: string[];
 }

@@ -1,4 +1,4 @@
-import { MarascoNotification } from '@app/features/marasco/core/interfaces/NotificationOptions.interface';
+import { MarascoNotification, MarascoEmailNotification } from '@app/features/marasco/core/interfaces/NotificationOptions.interface';
 import { JqueryUiModule } from './../../../../shared/ui/jquery-ui/jquery-ui.module';
 
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
@@ -60,6 +60,7 @@ export class WishlistAppSettingsComponent implements OnInit {
 
   public dropdownSettingsStatus = {};
   public isUpdate = true;
+  public emailNotification: MarascoEmailNotification = {};
   public notification: MarascoNotification = {};
   public action: any = {};
   public options = [];
@@ -69,6 +70,7 @@ export class WishlistAppSettingsComponent implements OnInit {
     }
   };
 
+  public optionsEmailNotificationTable: any = {};
   public optionsNotificationTable: any = {};
   public wishlistAppSettingsActionsOptions: any = {};
   public wishlistAppSettings: WishlistAppSettings = this._defaultWishlistAppSettings;
@@ -129,10 +131,33 @@ export class WishlistAppSettingsComponent implements OnInit {
     }
   };
 
+  public validationOptions3: any = {
+    // Rules for form validation
+    rules: {
+      name: {
+        required: true
+      },
+      subject: {
+        required: true,
+      },
+    },
+
+    // Messages for form validation
+    messages: {
+      name: {
+        required: 'Please enter email notification name'
+      },
+      subject: {
+        required: 'Please enter a subject',
+      }
+    }
+  };
+
   // @Input() filter = "ion ([7-9]|[1][0-2])";
   @Input() filter = '';
 
   @ViewChild('wishlistDetailsForm') wishlistDetailsForm;
+  @ViewChild('wishlistAppEmailNotificationForm') wishlistAppEmailNotificationForm;
   @ViewChild('wishlistAppNotificationForm') wishlistAppNotificationForm;
   @ViewChild('wishlistAppNotificationActionForm') wishlistAppNotificationActionForm;
 
@@ -178,6 +203,11 @@ export class WishlistAppSettingsComponent implements OnInit {
     this.wishlistAppSettingsActionsOptions.data = this.notification.actions;
   }
 
+  public showChildEmailModal(data: any): void {
+    this.emailNotification = data;
+    this.lgModal.show();
+  }
+
   public hideChildModal(): void {
     this.lgModal.hide();
   }
@@ -199,6 +229,38 @@ export class WishlistAppSettingsComponent implements OnInit {
     //}
   }
 
+  public saveEmailNotification(body: any) {
+
+
+    this._wishlistAppService.updateEmailNotification(
+      this.wishlistAppSettings._id,
+      this.notification._id,
+      this.emailNotification
+    ).subscribe((wishlistAppSettings) => {
+      this.wishlistAppSettings = wishlistAppSettings;
+
+      this._activityLogService.addUpdate(
+        `Updated email notification ${this.action._id}`
+      );
+      
+      this._notificationService.smallBox({
+        title: 'Email Notification Updated',
+        content: 'Email Notificaiton has been updated successfully. ',
+        color: '#739E73',
+        timeout: 4000,
+        icon: 'fa fa-check',
+        number: '4'
+      });
+
+      this._router.navigateByUrl('/wishlistPremiere', { skipLocationChange: false })
+        .then(() =>
+          this._router.navigate(['/wishlistPremiere/settings/settings']));
+    },
+      (error) => {
+        this.displayServerErrors(error);
+      });
+  }
+
   public saveNotification(body: any) {
 
     this.notification.vibrate = this.notification.vibrate.toString().split(',');
@@ -211,11 +273,11 @@ export class WishlistAppSettingsComponent implements OnInit {
       this.wishlistAppSettings = wishlistAppSettings;
 
       this._activityLogService.addUpdate(
-        `Updated notification action ${this.action._id}`
+        `Updated notification ${this.action._id}`
       );
       this._notificationService.smallBox({
-        title: 'Notification action Updated',
-        content: 'Notificaiton action has been updated successfully. ',
+        title: 'Notification Updated',
+        content: 'Notificaiton has been updated successfully. ',
         color: '#739E73',
         timeout: 4000,
         icon: 'fa fa-check',
@@ -223,8 +285,8 @@ export class WishlistAppSettingsComponent implements OnInit {
       });
 
       this._router.navigateByUrl('/wishlistPremiere', { skipLocationChange: false })
-      .then(() =>
-        this._router.navigate(['/wishlistPremiere/settings/settings']));
+        .then(() =>
+          this._router.navigate(['/wishlistPremiere/settings/settings']));
     },
       (error) => {
         this.displayServerErrors(error);
@@ -254,8 +316,8 @@ export class WishlistAppSettingsComponent implements OnInit {
       });
 
       this._router.navigateByUrl('/wishlistPremiere', { skipLocationChange: false })
-      .then(() =>
-        this._router.navigate(['/wishlistPremiere/settings/settings']));
+        .then(() =>
+          this._router.navigate(['/wishlistPremiere/settings/settings']));
     },
       (error) => {
         this.displayServerErrors(error);
@@ -283,6 +345,40 @@ export class WishlistAppSettingsComponent implements OnInit {
    * Activate all data tables
    */
   private activateDataTables() {
+    this.optionsEmailNotificationTable = {
+      dom: 'Bfrtip',
+      data: this.wishlistAppSettings.emailNotifications,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'name', title: 'Name' },
+        { data: 'subject', title: 'Subject' },
+        { data: 'fromEmailAddress', title: 'From' },
+        { data: 'text', title: 'Text' },
+        { data: 'html', title: 'Html' },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'pdf',
+        'print'
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        // Unbind first in order to avoid any duplicate handler
+        // (see https://github.com/l-lin/angular-datatables/issues/87)
+        jQuery('td', row).unbind('click');
+        jQuery('td', row).bind('click', () => {
+          self.showChildEmailModal(data);
+        });
+        return row;
+      }
+    };
+
     this.optionsNotificationTable = {
       dom: 'Bfrtip',
       data: this.wishlistAppSettings.notifications,
