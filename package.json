@@ -10,6 +10,7 @@
     "build:aot": "./node_modules/.bin/ng build --prod --aot",
     "build:aot2": "node --max_old_space_size=4096 ./node_modules/.bin/ng build --prod --aot",
     "build:aot3": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot",
+    "build:aot4": "rm -rf node_modules/ && npm i && npm i node-sass && npm run build:aot && rm -rf node_modules/",
     "e2e": "ng e2e"
   },
   "private": true,
