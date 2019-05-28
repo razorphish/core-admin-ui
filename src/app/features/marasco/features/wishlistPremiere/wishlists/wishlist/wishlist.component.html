@@ -1,254 +1,370 @@
 <!-- MAIN CONTENT -->
 <div id="content">
   <div class="row">
-    <sa-big-breadcrumbs [items]="['Wishlist', 'Details', wishlist._id]" icon="pencil-square-o"
-      class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+    <sa-big-breadcrumbs
+      [items]="['Wishlist', 'Details', wishlist._id]"
+      icon="pencil-square-o"
+      class="col-xs-12 col-sm-7 col-md-7 col-lg-4"
+    ></sa-big-breadcrumbs>
     <sa-stats></sa-stats>
   </div>
 
   <!-- widget grid -->
   <sa-widgets-grid>
-
     <!-- START ROW -->
     <div class="row">
-
       <!-- NEW COL START -->
       <article class="col-sm-12 col-md-12 col-lg-12">
-
         <!-- Widget ID (each widget will need unique ID)-->
-        <div sa-widget [colorbutton]="false" [editbutton]="false" [custombutton]="false" [deletebutton]="false">
+        <div
+          sa-widget
+          [colorbutton]="false"
+          [editbutton]="false"
+          [custombutton]="false"
+          [deletebutton]="false"
+        >
           <header>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 
-            <h2>{{isUpdate ? "Edit" : "Create A New Wishlist"}}</h2>
-
+            <h2>{{ isUpdate ? 'Edit' : 'Create A New Wishlist' }}</h2>
           </header>
 
           <!-- widget div-->
           <div>
-
-            <form #wishlistDetailsForm="ngForm" [saUiValidate]="validationOptions" novalidate="novalidate"
-              (ngSubmit)="save(wishlistDetailsForm.value)">
-
+            <form
+              #wishlistDetailsForm="ngForm"
+              [saUiValidate]="validationOptions"
+              novalidate="novalidate"
+              (ngSubmit)="save(wishlistDetailsForm.value)"
+            >
               <div class="smart-form">
                 <!-- widget content -->
                 <div class="widget-body no-padding">
-
                   <fieldset>
                     <div class="row">
                       <section class="col col-3">
                         Name
                         <label class="input">
-                          <input type="text" name="name" placeholder="Name" [(ngModel)]="wishlist.name" />
+                          <input
+                            type="text"
+                            name="name"
+                            placeholder="Name"
+                            [(ngModel)]="wishlist.name"
+                          />
                         </label>
                       </section>
                       <section class="col col-3" *ngIf="isUpdate">
                         User Id
                         <label class="input">
-                          <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId._id" [disabled]="true" />
+                          <input
+                            type="text"
+                            name="userId"
+                            placeholder="User"
+                            [(ngModel)]="wishlist.userId._id"
+                            [disabled]="true"
+                          />
                         </label>
                       </section>
                       <section class="col col-3" *ngIf="!isUpdate">
                         User Id
                         <label class="input">
-                          <input type="text" name="userId" placeholder="User" [(ngModel)]="wishlist.userId" />
+                          <input
+                            type="text"
+                            name="userId"
+                            placeholder="User"
+                            [(ngModel)]="wishlist.userId"
+                          />
                         </label>
                       </section>
                       <section class="col col-3">
                         Status
-                            <ng-multiselect-dropdown 
-                              name="wishlistStatus" 
-                              [placeholder]="'Select Status'"
-                              [data]="statusOptions" 
-                              [(ngModel)]="selectedStatus" 
-                              [settings]="dropdownSettingsStatus">
-                          </ng-multiselect-dropdown>
+                        <ng-multiselect-dropdown
+                          name="wishlistStatus"
+                          [placeholder]="'Select Status'"
+                          [data]="statusOptions"
+                          [(ngModel)]="selectedStatus"
+                          [settings]="dropdownSettingsStatus"
+                        >
+                        </ng-multiselect-dropdown>
                       </section>
                       <section class="col col-3">
                         Privacy
-                        <ng-multiselect-dropdown 
-                          name="wishlistPrivacy" 
+                        <ng-multiselect-dropdown
+                          name="wishlistPrivacy"
                           [placeholder]="'Select Privacy'"
-                          [data]="privacyOptions" 
-                          [(ngModel)]="selectedPrivacy" 
-                          [settings]="dropdownSettingsPrivacy">
-                      </ng-multiselect-dropdown>
+                          [data]="privacyOptions"
+                          [(ngModel)]="selectedPrivacy"
+                          [settings]="dropdownSettingsPrivacy"
+                        >
+                        </ng-multiselect-dropdown>
                       </section>
                     </div>
                     <div class="row" *ngIf="isUpdate">
                       <section class="col col-4">
                         First Name
                         <label class="input">
-                          <input type="text" name="firstName" placeholder="First Name" [(ngModel)]="wishlist.userId.firstName" [disabled]="true"/>
+                          <input
+                            type="text"
+                            name="firstName"
+                            placeholder="First Name"
+                            [(ngModel)]="wishlist.userId.firstName"
+                            [disabled]="true"
+                          />
                         </label>
                       </section>
-                      <section class="col col-4" >
+                      <section class="col col-4">
                         Last Name
                         <label class="input">
-                          <input type="text" name="lastName" placeholder="Last Name" [(ngModel)]="wishlist.userId.lastName" [disabled]="true" />
+                          <input
+                            type="text"
+                            name="lastName"
+                            placeholder="Last Name"
+                            [(ngModel)]="wishlist.userId.lastName"
+                            [disabled]="true"
+                          />
                         </label>
                       </section>
                       <section class="col col-4" *ngIf="!isUpdate">
-                         Email
-                          <label class="input">
-                            <input type="email" name="email" placeholder="Email" [(ngModel)]="wishlist.userId.email" [disabled]="true"/>
-                          </label>
-                        </section>
+                        Email
+                        <label class="input">
+                          <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            [(ngModel)]="wishlist.userId.email"
+                            [disabled]="true"
+                          />
+                        </label>
+                      </section>
                       <section class="col col-3">
                         Username
                         <label class="input">
-                          <input type="text" name="username" placeholder="Username" [(ngModel)]="wishlist.userId.username" [disabled]="true"/>
+                          <input
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            [(ngModel)]="wishlist.userId.username"
+                            [disabled]="true"
+                          />
                         </label>
-                      </section> 
+                      </section>
                     </div>
                   </fieldset>
 
                   <footer>
-                    <button type="button" class="btn btn-default" (click)="toList()">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      (click)="toList()"
+                    >
                       Back to list
                     </button>
                     <button type="submit" class="btn btn-primary">
                       Save
                     </button>
                   </footer>
-
                 </div>
                 <!-- end widget content -->
               </div>
             </form>
 
-
             <!-- widget content -->
             <div class="widget-body">
+              <ul id="myTab1" class="nav nav-tabs bordered">
+                <li [class.active]="state.tabs.demo1 === 0">
+                  <a (click)="state.tabs.demo1 = 0"
+                    ><i class="fa fa-fw fa-lg fa-gift"></i> Items</a
+                  >
+                </li>
 
-                <ul id="myTab1" class="nav nav-tabs bordered">
+                <li [class.active]="state.tabs.demo1 === 1">
+                  <a (click)="state.tabs.demo1 = 1"
+                    ><i class="fa fa-fw fa-lg fa-gear"></i> Preferences</a
+                  >
+                </li>
 
-                  <li [class.active]="state.tabs.demo1 === 0">
-                    <a (click)="state.tabs.demo1 = 0"><i class="fa fa-fw fa-lg fa-gift"></i> Items</a>
-                  </li>
+                <li [class.active]="state.tabs.demo1 === 2">
+                  <a (click)="state.tabs.demo1 = 2"
+                    ><i class="fa fa-fw fa-lg fa-share-alt"></i> Follows</a
+                  >
+                </li>
 
-                  <li [class.active]="state.tabs.demo1 === 1">
-                    <a (click)="state.tabs.demo1 = 1"><i class="fa fa-fw fa-lg fa-gear"></i> Preferences</a>
-                  </li>
+                <li [class.active]="state.tabs.demo1 === 3">
+                  <a (click)="state.tabs.demo1 = 3"
+                    ><i class="fa fa-fw fa-lg fa-bell"></i> Notifications</a
+                  >
+                </li>
+              </ul>
 
-                  <li [class.active]="state.tabs.demo1 === 2">
-                    <a (click)="state.tabs.demo1 = 2"><i class="fa fa-fw fa-lg fa-share-alt"></i> Follows</a>
-                  </li>
+              <tabset class="padding-10">
+                <tab [active]="state.tabs.demo1 === 0">
+                  <sa-datatable
+                    [options]="optionsItemsTable"
+                    tableClass="table table-striped table-bordered table-hover"
+                    paginationLength="true"
+                  >
+                    <thead>
+                      <tr>
+                        <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
+                        <th [style.width]="'4%'">Sort</th>
+                        <th [style.width]="'8%'">Name</th>
+                        <th [style.width]="'8%'">Category</th>
+                        <th [style.width]="'8%'">User</th>
+                        <th [style.width]="'4%'">Price</th>
+                        <th [style.width]="'8%'">Url</th>
+                        <th [style.width]="'4%'">Purchased</th>
+                        <th [style.width]="'5%'">Status</th>
+                        <th data-class="expand">Created</th>
+                      </tr>
+                    </thead>
 
-                  <li [class.active]="state.tabs.demo1 === 3">
-                    <a (click)="state.tabs.demo1 = 3"><i class="fa fa-fw fa-lg fa-bell"></i> Notifications</a>
-                  </li>
+                    <tfoot>
+                      <tr>
+                        <th>Id</th>
+                        <th>Sort</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>User</th>
+                        <th>Price</th>
+                        <th>Url</th>
+                        <th>Purchased</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                      </tr>
+                    </tfoot>
+                  </sa-datatable>
+                </tab>
 
-                </ul>
-
-                <tabset class="padding-10">
-
-                  <tab [active]="state.tabs.demo1===0">
-                      <sa-datatable [options]="optionsItemsTable"
-                        tableClass="table table-striped table-bordered table-hover" paginationLength=true>
-                        <thead>
-                          <tr>
-                            <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
-                            <th [style.width]="'8%'">Sort</th>
-                            <th [style.width]="'8%'">Name</th>
-                            <th [style.width]="'8%'">Category</th>
-                            <th [style.width]="'8%'">Price</th>
-                            <th [style.width]="'8%'">Url</th>
-                            <th [style.width]="'8%'">Purchased</th>
-                            <th [style.width]="'8%'">Status</th>
-                            <th data-class="expand">Created</th>
-                          </tr>
-                        </thead>
-
-                        <tfoot>
-                          <tr>
-                            <th>Id</th>
-                            <th>Sort</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Url</th>
-                            <th>Purchased</th>
-                            <th>Status</th>
-                            <th>Created</th>
-                          </tr>
-                        </tfoot>
-                      </sa-datatable>
-                  </tab>
-
-                  <tab [active]="state.tabs.demo1===1" class="smart-form">
-                    <div class="row">
-                      <div class="col col-3">
-                        <label class="checkbox">
-                          <input type="checkbox" name="includePriceWhenSharing" [(ngModel)]="wishlist.preferences.includePriceWhenSharing" value="true" />
-                          <i></i>
-                          Include Price When sharing
-                        </label>
-                      </div>
-                      <div class="col col-3">
-                        <label class="checkbox">
-                          <input type="checkbox" id="markPurchasedItem" name="markPurchasedItem" [(ngModel)]="wishlist.preferences.markPurchasedItem"
-                          value="true" />
-                          <i></i>
-                          Mark Purchased Item
-                        </label>
-                      </div>
-                      <div class="col col-3">
-                        <label class="checkbox">
-                          <input type="checkbox" name="hideFromMe" [(ngModel)]="wishlist.preferences.hideFromMe" value="true"/>
-                          <i></i>
-                          Hide From me
-                        </label>
-                      </div>
-                      <div class="col col-3">
-                        <label class="checkbox">
-                          <input type="checkbox" name="notifyOnClose" [(ngModel)]="wishlist.preferences.notifyOnClose" value="true"/>
-                          <i></i>
-                          Notify on close
-                        </label>
-                      </div>
+                <tab [active]="state.tabs.demo1 === 1" class="smart-form">
+                  <div class="row">
+                    <div class="col col-3">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          name="includePriceWhenSharing"
+                          [(ngModel)]="
+                            wishlist.preferences.includePriceWhenSharing
+                          "
+                          value="true"
+                        />
+                        <i></i>
+                        Include Price When sharing
+                      </label>
                     </div>
-                    <div class="row">
-                      <div class="col col-3">
-                        <label class="checkbox">
-                          <input type="checkbox" name="notifyOnAddItem" [(ngModel)]="wishlist.preferences.notifyOnAddItem" value="true"/>
-                          <i></i>
-                          Notify on Add Item
-                        </label>
-                      </div>
-                      <div class="col col-3">
-                        <label class="checkbox">
-                          <input type="checkbox" name="notifyOnRemoveItem" [(ngModel)]="wishlist.preferences.notifyOnRemoveItem" value="true" />
-                          <i></i>
-                          Notify on Remove Item
-                        </label>
-                      </div>
-                      <div class="col col-3">
-                        <label class="checkbox">
-                          <input type="checkbox" name="notifyOnCompletion" [(ngModel)]="wishlist.preferences.notifyOnCompletion" value="true"/>
-                          <i></i>
-                          Notify On Completion
-                        </label>
-                      </div>
-                      <div class="col col-3">
-                        <label class="input">
-                          <input type="text" name="notifyOnCompletion" placeholder="Currency Unit Symbol" [(ngModel)]="wishlist.preferences.currencyUnitSymbol" />
-                  
-                        </label>
-                      </div>
+                    <div class="col col-3">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          id="markPurchasedItem"
+                          name="markPurchasedItem"
+                          [(ngModel)]="wishlist.preferences.markPurchasedItem"
+                          value="true"
+                        />
+                        <i></i>
+                        Mark Purchased Item
+                      </label>
                     </div>
-                  </tab>
+                    <div class="col col-3">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          name="hideFromMe"
+                          [(ngModel)]="wishlist.preferences.hideFromMe"
+                          value="true"
+                        />
+                        <i></i>
+                        Hide From me
+                      </label>
+                    </div>
+                    <div class="col col-3">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          name="notifyOnClose"
+                          [(ngModel)]="wishlist.preferences.notifyOnClose"
+                          value="true"
+                        />
+                        <i></i>
+                        Notify on close
+                      </label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-3">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          name="notifyOnAddItem"
+                          [(ngModel)]="wishlist.preferences.notifyOnAddItem"
+                          value="true"
+                        />
+                        <i></i>
+                        Notify on Add Item
+                      </label>
+                    </div>
+                    <div class="col col-3">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          name="notifyOnRemoveItem"
+                          [(ngModel)]="wishlist.preferences.notifyOnRemoveItem"
+                          value="true"
+                        />
+                        <i></i>
+                        Notify on Remove Item
+                      </label>
+                    </div>
+                    <div class="col col-3">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          name="notifyOnCompletion"
+                          [(ngModel)]="wishlist.preferences.notifyOnCompletion"
+                          value="true"
+                        />
+                        <i></i>
+                        Notify On Completion
+                      </label>
+                    </div>
+                    <div class="col col-3">
+                        <label class="checkbox">
+                            <input
+                              type="checkbox"
+                              name="collaborative"
+                              [(ngModel)]="wishlist.preferences.collaborative"
+                              value="true"
+                            />
+                            <i></i>
+                            Make Collaborative?
+                          </label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-3">
+                      <label class="input">
+                        <input
+                          type="text"
+                          name="notifyOnCompletion"
+                          placeholder="Currency Unit Symbol"
+                          [(ngModel)]="wishlist.preferences.currencyUnitSymbol"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </tab>
 
-                  <tab [active]="state.tabs.demo1===2">
-                    <sa-datatable 
+                <tab [active]="state.tabs.demo1 === 2">
+                  <sa-datatable
                     [options]="optionsFollowingTable"
-                    tableClass="table table-striped table-bordered table-hover" 
-                    paginationLength=true>
+                    tableClass="table table-striped table-bordered table-hover"
+                    paginationLength="true"
+                  >
                     <thead>
                       <tr>
                         <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
                         <th [style.width]="'8%'">First Name</th>
                         <th [style.width]="'8%'">Last Name</th>
+                        <th [style.width]="'8%'">Email</th>
                         <th [style.width]="'8%'">Add?</th>
                         <th [style.width]="'8%'">Remove?</th>
                         <th [style.width]="'8%'">Completion?</th>
@@ -262,6 +378,7 @@
                         <th>Id</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Email</th>
                         <th>Add?</th>
                         <th>Remove?</th>
                         <th>Completion?</th>
@@ -270,54 +387,46 @@
                       </tr>
                     </tfoot>
                   </sa-datatable>
-                  </tab>
+                </tab>
 
-                  <tab [active]="state.tabs.demo1===3">
-                    <sa-datatable 
-                      [options]="optionsNotificationTable"
-                      tableClass="table table-striped table-bordered table-hover" 
-                      paginationLength=true>
-                      <thead>
-                        <tr>
-                          <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
-                          <th data-class="expand">Endpoint</th>
-                          <th [style.width]="'8%'">Expiration Time</th>
-                          <th [style.width]="'8%'">Keys</th>
-                          <th [style.width]="'8%'">Created</th>
-                        </tr>
-                      </thead>
+                <tab [active]="state.tabs.demo1 === 3">
+                  <sa-datatable
+                    [options]="optionsNotificationTable"
+                    tableClass="table table-striped table-bordered table-hover"
+                    paginationLength="true"
+                  >
+                    <thead>
+                      <tr>
+                        <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
+                        <th data-class="expand">Endpoint</th>
+                        <th [style.width]="'8%'">Expiration Time</th>
+                        <th [style.width]="'8%'">Keys</th>
+                        <th [style.width]="'8%'">Created</th>
+                      </tr>
+                    </thead>
 
-                      <tfoot>
-                        <tr>
-                          <th>Id</th>
-                          <th>Endpoint</th>
-                          <th>Expiration Time</th>
-                          <th>Keys</th>
-                          <th>Created</th>
-                        </tr>
-                      </tfoot>
-                    </sa-datatable>
-                  </tab>
-
-                </tabset>
-
+                    <tfoot>
+                      <tr>
+                        <th>Id</th>
+                        <th>Endpoint</th>
+                        <th>Expiration Time</th>
+                        <th>Keys</th>
+                        <th>Created</th>
+                      </tr>
+                    </tfoot>
+                  </sa-datatable>
+                </tab>
+              </tabset>
             </div>
             <!-- end widget content -->
-
           </div>
           <!-- end widget div -->
-
         </div>
         <!-- end widget -->
-
       </article>
       <!-- END COL -->
-
     </div>
     <!-- END ROW -->
-
   </sa-widgets-grid>
   <!-- end widget grid -->
-
-
 </div>
