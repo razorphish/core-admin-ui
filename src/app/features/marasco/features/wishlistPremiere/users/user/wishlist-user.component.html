@@ -1,0 +1,265 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+      <sa-big-breadcrumbs [items]="['User', 'Details', user._id]" icon="pencil-square-o" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+      <sa-stats></sa-stats>
+    </div>
+  
+    <!-- widget grid -->
+    <sa-widgets-grid>
+  
+      <!-- START ROW -->
+      <div class="row">
+  
+        <!-- NEW COL START -->
+        <article class="col-sm-12 col-md-12 col-lg-12">
+  
+          <!-- Widget ID (each widget will need unique ID)-->
+          <div sa-widget [colorbutton]="false" [editbutton]="false" [custombutton]="false" [deletebutton]="false">
+            <header>
+              <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+  
+              <h2>{{isUpdate ? "Edit"  : "Create A New User"}}</h2>
+  
+            </header>
+  
+            <!-- widget div-->
+            <div>
+  
+              <form #userDetailsForm="ngForm" [saUiValidate]="validationOptions" novalidate="novalidate" (ngSubmit)="save(userDetailsForm.value)">
+  
+                <div class="smart-form">
+                  <!-- widget content -->
+                  <div class="widget-body no-padding">
+  
+                    <fieldset>
+                      <div class="row">
+                        <section class="col col-6">
+                          First Name:
+                          <label class="input">
+                            <input type="text" name="firstname" placeholder="First name" [(ngModel)]="user.firstName" />
+                          </label>
+                        </section>
+                        <section class="col col-6">
+                          Last Name:
+                          <label class="input">
+                            <input type="text" name="lastname" placeholder="Last name" [(ngModel)]="user.lastName" />
+                          </label>
+                        </section>
+                      </div>
+                    </fieldset>
+  
+                    <fieldset>
+                      <div class="row">
+                        <section class="col col-6">
+                          Email:
+                          <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                            <input type="email" name="email" placeholder="Email address" [(ngModel)]="user.email" />
+                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                          </label>
+                        </section>
+                        <section class="col col-6">
+                          Username:
+                          <label class="input"> <i class="icon-append fa fa-user"></i>
+                            <input type="text" name="username" id="username" placeholder="Username" [(ngModel)]="user.username" />
+                            <b class="tooltip tooltip-bottom-right">Username to login to admin</b>
+                          </label>
+                        </section>
+                      </div>
+                    </fieldset>
+  
+                    <fieldset>
+                      <div class="row">
+                        <section class="col col-6">
+                          Password:
+                          <label class="input"> <i class="icon-append fa fa-lock"></i>
+                            <input type="password" name="password" placeholder="Password" id="password" [(ngModel)]="user.password" />
+                            <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                          </label>
+                        </section>
+                        <section class="col col-6">
+                          Password Conform:
+                          <label class="input"> <i class="icon-append fa fa-lock"></i>
+                            <input type="password" name="passwordConfirm" placeholder="Confirm password" [(ngModel)]="user.confirmPassword" />
+                            <b class="tooltip tooltip-bottom-right">Confirm your Password</b>
+                          </label>
+                        </section>
+                      </div>
+                    </fieldset>
+  
+                    <fieldset>
+                      <div class="row">
+                        <section class="col col-3">
+                          Home Phone
+                          <label class="input"> <i class="icon-append fa fa-phone"></i>
+                            <input type="homePhone" name="homePhone" placeholder="Phone Number" [(ngModel)]="user.homePhone" />
+                            <b class="tooltip tooltip-bottom-right">Phone Number</b>
+                          </label>
+                        </section>
+                        <section class="col col-3">
+                          Twitter Handle
+                          <label class="input"> <i class="icon-append fa fa-twitter"></i>
+                            <input type="text" name="twitter" placeholder="Twitter Handle" [(ngModel)]="user.twitter" />
+                            <b class="tooltip tooltip-bottom-right">Twitter Handle</b>
+                          </label>
+                        </section>
+                        <section class="col col-3">
+                          Facebook Handle
+                          <label class="input"> <i class="icon-append fa fa-facebook"></i>
+                            <input type="text" name="facebook" placeholder="Facebook Handle" [(ngModel)]="user.facebook" />
+                            <b class="tooltip tooltip-bottom-right">Facebook Handle</b>
+                          </label>
+                        </section>
+                        <section class="col col-3">
+                          Instagram Handle
+                          <label class="input"> <i class="icon-append fa fa-instagram"></i>
+                            <input type="text" name="instagram" placeholder="Instagram Handle" [(ngModel)]="user.instagram" />
+                            <b class="tooltip tooltip-bottom-right">Instagram Handle</b>
+                          </label>
+                        </section>
+                      </div>
+                    </fieldset>
+  
+                    <fieldset>
+  
+                      <section>
+                        <label class="input">
+                          <i class="icon-append fa fa-user"></i>
+                          Avatar
+                          <input type="text" name="avatar" placeholder="Avatar" [(ngModel)]="user.avatar" />
+                          <b class="tooltip tooltip-bottom-right">Your AVATAR</b>
+                        </label>
+                      </section>
+  
+                    </fieldset>
+  
+                    <footer>
+                      <button type="button" class="btn btn-default" (click)="toList()">
+                        Back to list
+                      </button>
+                      <button type="button" *ngIf="isUpdate" disabled class="btn btn-danger" (click)="disableUser()">
+                        Disable user
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        Save
+                      </button>
+                    </footer>
+  
+                  </div>
+                  <!-- end widget content -->
+                </div>
+              </form>
+                <br />
+                <!-- widget content -->
+                <div class="widget-body">
+  
+                  <fieldset>
+  
+                      <ul id="myTab1" class="nav nav-tabs bordered">
+
+  
+                        <li dropdown class="dropdown">
+                          <a dropdownToggle><i class="fa fa-fw fa-lg fa-home"></i> Addresses
+                            <span class="badge bg-color-blue txt-color-white">2</span>
+                            <b class="caret"></b></a>
+                          <ul *dropdownMenu class="dropdown-menu">
+                            <li [class.active]="state.tabs.demo1 == 4">
+                              <a (click)="state.tabs.demo1 = 4">@Address1</a>
+                            </li>
+                            <li [class.active]="state.tabs.demo1 == 5">
+                              <a (click)="state.tabs.demo1 = 5">@Address2</a>
+                            </li>
+                          </ul>
+                        </li>
+  
+  
+                      </ul>
+  
+                      <tabset class="padding-10">
+  
+                        <tab [active]="state.tabs.demo1 == 4" class="smart-form">
+                          <div class="row">
+                            <section class="col col-6">
+                              Address:
+                              <label class="input">
+                                <input type="text" name="address0" placeholder="Address" [(ngModel)]="user.addresses[0] && user.addresses[0].address" />
+                              </label>
+                            </section>
+                            <section class="col col-6">
+                              City:
+                              <label class="input">
+                                <input type="text" name="city0" placeholder="City" [(ngModel)]="user.addresses[0] && user.addresses[0].city" />
+                              </label>
+                            </section>
+                          </div>
+                          <div class="row">
+                            <section class="col col-6">
+                              State:
+                              <label class="input">
+                                <input type="text" name="state0" placeholder="State" [(ngModel)]="user.addresses[0] && user.addresses[0].state" />
+                              </label>
+                            </section>
+                            <section class="col col-6">
+                              Zip:
+                              <label class="input">
+                                <input type="text" name="zip0" placeholder="Zip" [(ngModel)]="user.addresses[0] && user.addresses[0].zip" />
+                              </label>
+                            </section>
+                          </div>
+                        </tab>
+  
+                        <tab [active]="state.tabs.demo1 == 5" class="smart-form">
+                          <div class="row">
+                            <section class="col col-6">
+                              Address:
+                              <label class="input">
+                                <input type="text" name="address1" placeholder="Address" [(ngModel)]="user.addresses[1] && user.addresses[1].address" />
+                              </label>
+                            </section>
+                            <section class="col col-6">
+                              City:
+                              <label class="input">
+                                <input type="text" name="city1" placeholder="City" [(ngModel)]="user.addresses[1] && user.addresses[1].city" />
+                              </label>
+                            </section>
+                          </div>
+                          <div class="row">
+                            <section class="col col-6">
+                              State:
+                              <label class="input">
+                                <input type="text" name="state1" placeholder="State" [(ngModel)]="user.addresses[1] && user.addresses[1].state" />
+                              </label>
+                            </section>
+                            <section class="col col-6">
+                              Zip:
+                              <label class="input">
+                                <input type="text" name="zip1" placeholder="Zip" [(ngModel)]="user.addresses[1] && user.addresses[1].zip" />
+                              </label>
+                            </section>
+                          </div>
+                        </tab>
+  
+                      </tabset>
+       
+                  </fieldset>
+                </div>
+                <!-- end widget content -->
+  
+            </div>
+            <!-- end widget div -->
+  
+          </div>
+          <!-- end widget -->
+  
+        </article>
+        <!-- END COL -->
+  
+      </div>
+  
+      <!-- END ROW -->
+  
+    </sa-widgets-grid>
+    <!-- end widget grid -->
+  
+  
+  </div>

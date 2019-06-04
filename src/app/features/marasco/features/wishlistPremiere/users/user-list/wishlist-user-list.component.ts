@@ -3,53 +3,45 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import * as moment from 'moment';
 
-import { IToken } from './../shared/IToken';
+import { User } from '../../../../core/interfaces/UserInfo.interface';
 
 @Component({
-  selector: 'marasco-account-token-list',
-  templateUrl: './token-list.component.html',
-  styleUrls: ['./token-list.component.css']
+  selector: 'marasco-wishlist-user-list',
+  templateUrl: './wishlist-user-list.component.html',
+  styleUrls: ['./wishlist-user-list.component.css']
 })
-export class TokenListComponent implements OnInit {
+export class WishlistUserListComponent implements OnInit {
   errorMessage: string;
-  tokens: IToken[] = [];
+  users: User[] = [];
   options: {};
   message: string;
 
   constructor(
     private _route: ActivatedRoute,
     private _router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.tokens = this._route.snapshot.data['tokens'];
+    this.users = this._route.snapshot.data['users'];
     this.activate();
   }
 
   toDetails(info: any): void {
-    this._router.navigate(['/account/tokens/details/' + info._id]);
+    this._router.navigate(['/account/users/details/' + info._id]);
   }
 
   private activate() {
     const that = this;
     this.options = {
       dom: 'Bfrtip',
-      data: this.tokens,
+      data: this.users,
       columns: [
         { data: '_id', title: 'Id' },
-        { data: 'userId.firstName', defaultContent: '<i>Not Set</i>' },
-        { data: 'userId.lastName', defaultContent: '<i>Not Set</i>' },
-        { data: 'userId.username', defaultContent: '<i>Not Set</i>' },
-        { data: 'userId.email' },
-        { data: 'name' },
-        { data: 'origin' },
-        { data: 'expiresIn', title: 'Expires In' },
-        {
-          data: 'dateExpire', title: 'Expires',
-          render: (data, type, row, meta) => {
-            return moment(data).format('LLL');
-          }
-        },
+        { data: 'firstName', defaultContent: '<i>Not Set</i>' },
+        { data: 'lastName', defaultContent: '<i>Not Set</i>' },
+        { data: 'applicationId.name', defaultContent: '<i>Not Set</i>' },
+        { data: 'username' },
+        { data: 'email' },
         {
           data: 'dateCreated',
           render: (data, type, row, meta) => {
@@ -64,8 +56,8 @@ export class TokenListComponent implements OnInit {
         'print',
         {
           text: 'Create',
-          action: function (e, dt, node, config) {
-            that._router.navigate(['/account/tokens/details/', 0]);
+          action: function(e, dt, node, config) {
+            that._router.navigate(['/wishlist/users/details/', 0]);
           },
           className: 'btn btn-primary'
         }
