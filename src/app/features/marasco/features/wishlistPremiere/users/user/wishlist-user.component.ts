@@ -47,7 +47,9 @@ export class WishlistUserComponent implements OnInit {
   public dropdownSettings = {};
   public dropdownSettingsApplication = {};
   public isUpdate = true;
-  public options;
+  public wishlistOptions;
+  public categoryOptions;
+  public followingOptions;
   public selectedApplication = [];
   public state: any = {
     tabs: {
@@ -169,6 +171,12 @@ export class WishlistUserComponent implements OnInit {
    */
   private activate() {
 
+    this.activateWishlists();
+
+    this.activateCategories();
+
+    this.activateFollows();
+
     this.dropdownSettings = {
       singleSelection: false,
       idField: '_id',
@@ -196,19 +204,14 @@ export class WishlistUserComponent implements OnInit {
 
   private activateWishlists() {
     const that = this;
-    this.options = {
+    this.wishlistOptions = {
       dom: 'Bfrtip',
       data: this.user.wishlists,
       columns: [
         { data: '_id', title: 'Id' },
         { data: 'name', title: 'Name', defaultContent: '<i>Not Set</i>' },
-        { data: 'userId', title: 'User',
-          render: (data, type,row, meta) => {
-            return `${data.firstName} ${data.lastName}`
-          }
-        },
-        { data: 'userId.username' },
-        { data: 'userId.email' },
+        { data: 'statusId', title: 'Status' },
+        { data: 'privacy' },
         {
           data: 'dateCreated',
           render: (data, type, row, meta) => {
@@ -228,6 +231,91 @@ export class WishlistUserComponent implements OnInit {
           },
           className: 'btn btn-primary'
         }
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        // Unbind first in order to avoid any duplicate handler
+        // (see https://github.com/l-lin/angular-datatables/issues/87)
+        jQuery('td', row).unbind('click');
+        jQuery('td', row).bind('click', () => {
+          //self.toDetails(data);
+        });
+        return row;
+      }
+    };
+  }
+
+  private activateCategories() {
+    const that = this;
+    this.categoryOptions = {
+      dom: 'Bfrtip',
+      data: this.user.wishlistItemCategories,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'name', title: 'Name', defaultContent: '<i>Not Set</i>' },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'excel',
+        'pdf',
+        'print',
+        // {
+        //   text: 'Create',
+        //   action: function(e, dt, node, config) {
+        //     that._router.navigate(['/wishlistPremiere/wishlists/details/', 0]);
+        //   },
+        //   className: 'btn btn-primary'
+        // }
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        // Unbind first in order to avoid any duplicate handler
+        // (see https://github.com/l-lin/angular-datatables/issues/87)
+        jQuery('td', row).unbind('click');
+        jQuery('td', row).bind('click', () => {
+          //self.toDetails(data);
+        });
+        return row;
+      }
+    };
+  }
+
+  private activateFollows() {
+    this.followingOptions = {
+      dom: 'Bfrtip',
+      data: this.user.wishlistFollows,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'wishlistId.name', title: 'Name' },
+        { data: 'notifiedOnAddItem', title: 'on Add' },
+        { data: 'notifiedOnRemoveItem', title: 'on Remove' },
+        { data: 'notifiedOnCompletion', title: 'on Completion' },
+        { data: 'statusId', title: 'Status' },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'excel',
+        'pdf',
+        'print',
+        // {
+        //   text: 'Create',
+        //   action: function(e, dt, node, config) {
+        //     that._router.navigate(['/wishlistPremiere/wishlists/details/', 0]);
+        //   },
+        //   className: 'btn btn-primary'
+        // }
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;

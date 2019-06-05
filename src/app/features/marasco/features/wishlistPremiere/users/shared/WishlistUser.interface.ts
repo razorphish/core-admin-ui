@@ -1,3 +1,5 @@
+import { WishlistFollow } from './../../wishlists/shared/Wishlist-Follow.interface';
+import { WishlistItemCategory } from './../../wishlists/shared/Wishlist-item-category.interface';
 import { User } from '@app/features/marasco/core/interfaces/UserInfo.interface';
 import { Wishlist } from '../../wishlists/shared';
 
@@ -22,7 +24,7 @@ export class WishlistUser implements User {
   status?: string;
   tokens?: any;
   wishlists? : Wishlist[];
-  
-
+  wishlistItemCategories? : WishlistItemCategory[];
+  wishlistFollows?: WishlistFollow[];
 
 }

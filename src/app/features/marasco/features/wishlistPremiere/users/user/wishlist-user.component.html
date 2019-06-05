@@ -156,7 +156,7 @@
                   <tab [active]="state.tabs.demo1 == 0">
                     <div class="widget-body">
                       <sa-datatable
-                        [options]="optionsTokenTable"
+                        [options]="wishlistOptions"
                         tableClass="table table-striped table-bordered table-hover"
                         paginationLength="true"
                       >
@@ -168,9 +168,8 @@
                             <th [style.width]="'8%'" data-hide="mobile-p">
                               Name
                             </th>
-                            <th [style.width]="'8%'">User</th>
-                            <th [style.width]="'8%'">Username</th>
-                            <th [style.width]="'8%'">Email</th>
+                            <th [style.width]="'8%'">Status</th>
+                            <th [style.width]="'8%'">Privacy</th>
                             <th data-class="expand">Created</th>
                           </tr>
                         </thead>
@@ -179,9 +178,84 @@
                           <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>User</th>
-                            <th>Username</th>
-                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Privacy</th>
+                            <th>Created</th>
+                          </tr>
+                        </tfoot>
+                      </sa-datatable>
+                    </div>
+                  </tab>
+
+                  <tab [active]="state.tabs.demo1 == 1">
+                    <div class="widget-body">
+                      <sa-datatable
+                        [options]="categoryOptions"
+                        tableClass="table table-striped table-bordered table-hover"
+                        paginationLength="true"
+                      >
+                        <thead>
+                          <tr>
+                            <th [style.width]="'250px'" data-hide="mobile-p">
+                              ID
+                            </th>
+                            <th [style.width]="'8%'" data-hide="mobile-p">
+                              Name
+                            </th>
+                            <th data-class="expand">Created</th>
+                          </tr>
+                        </thead>
+
+                        <tfoot>
+                          <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Created</th>
+                          </tr>
+                        </tfoot>
+                      </sa-datatable>
+                    </div>
+                  </tab>
+
+                  <tab [active]="state.tabs.demo1 == 2">
+                    <div class="widget-body">
+                      <sa-datatable
+                        [options]="followingOptions"
+                        tableClass="table table-striped table-bordered table-hover"
+                        paginationLength="true"
+                      >
+                        <thead>
+                          <tr>
+                            <th [style.width]="'250px'" data-hide="mobile-p">
+                              ID
+                            </th>
+                            <th [style.width]="'20%'" data-hide="mobile-p">
+                              Name
+                            </th>
+                            <th [style.width]="'8%'" data-hide="mobile-p">
+                              on Add
+                            </th>
+                            <th [style.width]="'8%'" data-hide="mobile-p">
+                              on Remove
+                            </th>
+                            <th [style.width]="'8%'" data-hide="mobile-p">
+                              on Completion
+                            </th>
+                            <th [style.width]="'8%'" data-hide="mobile-p">
+                              Status
+                            </th>
+                            <th data-class="expand">Created</th>
+                          </tr>
+                        </thead>
+
+                        <tfoot>
+                          <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>on Add</th>
+                            <th>on Remove</th>
+                            <th>on Completion</th>
+                            <th>Status</th>
                             <th>Created</th>
                           </tr>
                         </tfoot>
