@@ -24,7 +24,7 @@ export const routes: Routes = [
           pageTitle: 'List'
         },
         resolve:
-        { wishlists: WishlistUserListResolve }
+        { wishlistUsers: WishlistUserListResolve }
       },
       {
         path: 'details/:id',
@@ -33,7 +33,7 @@ export const routes: Routes = [
           pageTitle: 'Details'
         },
         resolve: {
-          wishlist: WishlistUserResolve
+          wishlistUser: WishlistUserResolve
         }
       }
     ]

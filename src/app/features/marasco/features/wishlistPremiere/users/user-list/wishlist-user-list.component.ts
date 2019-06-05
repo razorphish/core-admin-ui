@@ -16,18 +16,15 @@ export class WishlistUserListComponent implements OnInit {
   options: {};
   message: string;
 
-  constructor(
-    private _route: ActivatedRoute,
-    private _router: Router
-  ) {}
+  constructor(private _route: ActivatedRoute, private _router: Router) {}
 
   ngOnInit() {
-    this.users = this._route.snapshot.data['users'];
+    this.users = this._route.snapshot.data['wishlistUsers'];
     this.activate();
   }
 
   toDetails(info: any): void {
-    this._router.navigate(['/account/users/details/' + info._id]);
+    this._router.navigate(['/wishlistPremiere/users/details/' + info._id]);
   }
 
   private activate() {
@@ -57,7 +54,7 @@ export class WishlistUserListComponent implements OnInit {
         {
           text: 'Create',
           action: function(e, dt, node, config) {
-            that._router.navigate(['/wishlist/users/details/', 0]);
+            that._router.navigate(['/wishlistPremiere/users/details/', 0]);
           },
           className: 'btn btn-primary'
         }

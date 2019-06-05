@@ -42,7 +42,7 @@ export class WishlistUsersService {
 
   allDetails(): Observable<any[]> {
     return this._authHttp
-      .get(`${this._url}details`)
+      .get(`${this._url}/details`)
       .pipe(map((wishlists: any) => wishlists),
       catchError(this.handleError));
   }
@@ -63,7 +63,7 @@ export class WishlistUsersService {
 
   getDetails(id: string): Observable<any> {
     return this._authHttp
-      .get(`${this._url}${id}/details`)
+      .get(`${this._url}/${id}/details`)
       .pipe(map((wishlist: any) => wishlist),
       catchError(this.handleError));
   }

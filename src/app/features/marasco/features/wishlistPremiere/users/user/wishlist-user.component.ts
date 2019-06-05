@@ -10,6 +10,7 @@ import { WishlistUsersService } from '../shared/wishlist-users.service';
 import { WishlistUserFactory } from './../shared/wishlist-user.factory';
 
 import * as moment from 'moment';
+import { WishlistUser } from '../shared/WishlistUser.interface';
 
 @Component({
   selector: 'marasco-wishlist-user',
@@ -46,7 +47,7 @@ export class WishlistUserComponent implements OnInit {
   public dropdownSettings = {};
   public dropdownSettingsApplication = {};
   public isUpdate = true;
-  public options = [];
+  public options;
   public selectedApplication = [];
   public state: any = {
     tabs: {
@@ -55,7 +56,7 @@ export class WishlistUserComponent implements OnInit {
   };
 
   public optionsTokenTable : any = {};
-  public user: User = this.defaultUser;
+  public user: WishlistUser = this.defaultUser;
 
   public validationOptions: any = {
     // Rules for form validation
@@ -123,7 +124,7 @@ export class WishlistUserComponent implements OnInit {
 
     const id = this._route.snapshot.params['id'];
     if (id !== '0') {
-      this.user = this._route.snapshot.data['user'];
+      this.user = this._route.snapshot.data['wishlistUser'];
       this.selectedApplication.push(this.user.applicationId);
     } else {
       this.isUpdate = false;
@@ -191,6 +192,54 @@ export class WishlistUserComponent implements OnInit {
         this.user.addresses[index] = this._addressesModel[index];
       }
     });
+  }
+
+  private activateWishlists() {
+    const that = this;
+    this.options = {
+      dom: 'Bfrtip',
+      data: this.user.wishlists,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'name', title: 'Name', defaultContent: '<i>Not Set</i>' },
+        { data: 'userId', title: 'User',
+          render: (data, type,row, meta) => {
+            return `${data.firstName} ${data.lastName}`
+          }
+        },
+        { data: 'userId.username' },
+        { data: 'userId.email' },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'excel',
+        'pdf',
+        'print',
+        {
+          text: 'Create',
+          action: function(e, dt, node, config) {
+            that._router.navigate(['/wishlistPremiere/wishlists/details/', 0]);
+          },
+          className: 'btn btn-primary'
+        }
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        // Unbind first in order to avoid any duplicate handler
+        // (see https://github.com/l-lin/angular-datatables/issues/87)
+        jQuery('td', row).unbind('click');
+        jQuery('td', row).bind('click', () => {
+          //self.toDetails(data);
+        });
+        return row;
+      }
+    };
   }
 
   private displayErrors(errors: string[]): void {
