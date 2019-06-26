@@ -1,3 +1,4 @@
+import { DeviceModel } from './../models/device.model';
 
 import { Observable } from 'rxjs';
 
@@ -17,6 +18,7 @@ export interface User {
     _id: string;
     applicationId?: string;
     avatar?: string;
+    devices?: DeviceModel;
     email: string;
     firstName: string;
     homePhone?: string;

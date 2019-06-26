@@ -55,6 +55,9 @@ export class ApplicationComponent implements OnInit {
     rules: {
       name: {
         required: true
+      },
+      shortName: {
+        required: true
       }
     },
 
@@ -62,6 +65,9 @@ export class ApplicationComponent implements OnInit {
     messages: {
       name: {
         required: 'Please enter a name for the application'
+      },
+      shortName: {
+        required: 'Please enter a shortName'
       }
     }
   };

@@ -36,14 +36,21 @@
 
                 <fieldset>
                   <div class="row">
-                    <section class="col col-6">
+                    <section class="col col-4">
                       Name
                       <label class="input"> <i class="icon-append fa fa-question"></i>
                         <input type="text" name="name" placeholder="Application Name" [(ngModel)]="application.name"/>
-                        <b class="tooltip tooltip-bottom-right">Enter an applicaiton name</b> </label>
+                        <b class="tooltip tooltip-bottom-right">Enter an application name</b> </label>
                     </section>
 
-                    <section class="col col-6">
+                    <section class="col col-4">
+                      Short Name
+                      <label class="input"> <i class="icon-append fa fa-question"></i>
+                        <input type="text" name="shortName" placeholder="Short Name" [(ngModel)]="application.shortName"/>
+                        <b class="tooltip tooltip-bottom-right">Enter an short name</b> </label>
+                    </section>
+
+                    <section class="col col-4">
                         Url:
                         <label class="input">
                           <input type="text" name="url" placeholder="Url" [(ngModel)]="application.url"/>

@@ -60,6 +60,8 @@ export class UserComponent implements OnInit {
   };
 
   public optionsTokenTable : any = {};
+  public optionsDeviceTable : any = {};
+
   public user: User = this.defaultUser;
 
   public validationOptions: any = {
@@ -201,6 +203,99 @@ export class UserComponent implements OnInit {
         this.user.addresses[index] = this._addressesModel[index];
       }
     });
+  }
+
+  private activateDeviceTable() {
+    const that = this;
+    this.optionsDeviceTable = {
+      dom: 'Bfrtip',
+      data: this.user.devices,
+      order: [[3, 'desc']],
+      ordering: true,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'origin' },
+        { data: 'expiresIn', title: 'Expires In' },
+        { data: 'dateExpire', title: 'Date Expire', visible: false },
+        {
+          data: 'dateExpire', title: 'Expires',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        },
+        {
+          data: 'dateCreated',
+          render: (data, type, row, meta) => {
+            return moment(data).format('LLL');
+          }
+        }
+      ],
+      buttons: [
+        'copy',
+        'excel',
+        'pdf',
+        'print',
+        {
+          text: 'Delete All',
+          action: function (e, dt, node, config) {
+            //that._router.navigate(['/account/tokens/details/', 0]);
+            that._notificationService.smartMessageBox({
+              title: "Delete All Tokens",
+              content: `Are you sure you want to delete ${that.user.firstName} ${that.user.lastName} tokens?`,
+              buttons: '[No][Yes]'
+            }, (ButtonPressed) => {
+              if (ButtonPressed === "Yes") {
+                that._userService
+                  .deleteTokens(that.user._id)
+                  .subscribe((result) => {
+                    if (result) {
+                      that._notificationService.smallBox({
+                        title: "Success!",
+                        content: "<i class='fa fa-clock-o'></i> <i>Tokens deleted successfully</i>",
+                        color: "#659265",
+                        iconSmall: "fa fa-check fa-2x fadeInRight animated",
+                        timeout: 4000
+                      });
+                    }
+                  }, (error) => {
+                    that._notificationService.bigBox({
+                      title: 'Oops! the database has returned an error',
+                      content: 'We were not able to delete the tokens at this time',
+                      color: '#C46A69',
+                      icon: 'fa fa-warning shake animated',
+                      number: error,
+                      timeout: 6000 // 6 seconds
+                    });
+                  });
+
+              }
+              if (ButtonPressed === "No") {
+                that._notificationService.smallBox({
+                  title: "Delete Cancelled",
+                  content: "<i class='fa fa-clock-o'></i> <i>Tokens were not deleted</i>",
+                  color: "#C46A69",
+                  iconSmall: "fa fa-times fa-2x fadeInRight animated",
+                  timeout: 4000
+                });
+              }
+        
+            });
+
+          },
+          className: 'btn btn-primary'
+        }
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        // const self = this;
+        // // Unbind first in order to avoid any duplicate handler
+        // // (see https://github.com/l-lin/angular-datatables/issues/87)
+        // jQuery('td', row).unbind('click');
+        // jQuery('td', row).bind('click', () => {
+        //   self.toDetails(data);
+        // });
+        return row;
+      }
+    };
   }
 
   private activateTokenTable() {

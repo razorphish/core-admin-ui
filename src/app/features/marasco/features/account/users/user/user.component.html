@@ -176,11 +176,15 @@
                       </li>
 
                       <li [class.active]="state.tabs.demo1 == 6">
-                        <a (click)="state.tabs.demo1 = 6"> <i class="fa fa-fw fa-lg fa-tablet"></i>Application </a>
+                        <a (click)="state.tabs.demo1 = 6"> <i class="fa fa-fw fa-lg fa-tree"></i>Application </a>
                       </li>
 
                       <li [class.active]="state.tabs.demo1 == 7">
-                        <a (click)="state.tabs.demo1 = 7"> <i class="fa fa-fw fa-lg fa-tablet"></i>Tokens </a>
+                        <a (click)="state.tabs.demo1 = 7"> <i class="fa fa-fw fa-lg fa-key"></i>Tokens </a>
+                      </li>
+
+                      <li [class.active]="state.tabs.demo1 === 8">
+                        <a (click)="state.tabs.demo1 = 8"> <i class="fa fa-fw fa-lg fa-tablet"></i>Devices </a>
                       </li>
 
                     </ul>
@@ -301,6 +305,38 @@
                           </div>
                      
                       </tab>
+
+                      <tab [active]="state.tabs.demo1 == 8">
+                        <div class="widget-body">
+                          <sa-datatable 
+                            [options]="optionsDeviceTable" 
+                            tableClass="table table-striped table-bordered table-hover"
+                            paginationLength=true>
+                            <thead>
+                              <tr>
+                                <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
+                                <th [style.width]="'8%'">Origin</th>
+                                <th [style.width]="'75px'">Expires In</th>
+                                <th [style.width]="'175px'">Expires</th>
+                                <th [style.width]="'175px'">Expires</th>
+                                <th data-class="expand">Created</th>
+                              </tr>
+                            </thead>
+
+                            <tfoot>
+                              <tr>
+                                <th>Id</th>
+                                <th>Origin</th>
+                                <th>Expires In</th>
+                                <th>Expires</th>
+                                <th>Expires</th>
+                                <th>Created</th>
+                              </tr>
+                            </tfoot>
+                          </sa-datatable>
+                        </div>
+                   
+                    </tab>
 
                     </tabset>
      
