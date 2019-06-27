@@ -11,6 +11,7 @@
 
 export class TokenModel {
     public access_token: string;
+    public name?: string;
     public refresh_token: string;
     public expirationTime: string;
     public expires_in : string;

@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -59,8 +58,9 @@ export class UserComponent implements OnInit {
     }
   };
 
-  public optionsTokenTable : any = {};
-  public optionsDeviceTable : any = {};
+  public optionsTokenTable: any = {};
+  public optionsDeviceTable: any = {};
+  public optionsNotificationTable: any = {};
 
   public user: User = this.defaultUser;
 
@@ -120,16 +120,15 @@ export class UserComponent implements OnInit {
     private _roleService: RoleService,
     private _applicationService: ApplicationService,
     private _activityLogService: ActivityLogSubjectService
-  ) { }
+  ) {}
 
-  public disableUser() { }
+  public disableUser() {}
 
   /////////////////////////////////////
   // Events
   /////////////////////////////////////
 
   ngOnInit() {
-
     const id = this._route.snapshot.params['id'];
     if (id !== '0') {
       this.user = this._route.snapshot.data['user'];
@@ -144,7 +143,6 @@ export class UserComponent implements OnInit {
   onItemSelect(item: any) {
     // Clear out current user roles
     //console.log(item);
-
   }
 
   onSelectAll(items: any) {
@@ -177,6 +175,8 @@ export class UserComponent implements OnInit {
    */
   private activate() {
     this.activateTokenTable();
+    this.activateDeviceTable();
+    //this.activateNotificationTable();
     this.getRoles();
     this.getApplications();
 
@@ -214,17 +214,115 @@ export class UserComponent implements OnInit {
       ordering: true,
       columns: [
         { data: '_id', title: 'Id' },
-        { data: 'origin' },
-        { data: 'expiresIn', title: 'Expires In' },
-        { data: 'dateExpire', title: 'Date Expire', visible: false },
+        { data: 'uuid', title: 'UUID' },
+        { data: 'manufacturer' },
+        { data: 'model', title: 'Model' },
+        { data: 'osVersion', title: 'OS', visible: true },
+        { data: 'appVersion', title: 'App', visible: true },
+        { data: 'platform', title: 'Platform', visible: true },
+        { data: 'batteryLevel', title: 'Battery', visible: true },
+        { data: 'isVirtual', title: 'Virtual?', visible: true }
+      ],
+      buttons: [
+        'copy',
+        'excel',
+        'pdf',
+        'print',
         {
-          data: 'dateExpire', title: 'Expires',
+          text: 'Delete All',
+          action: function(e, dt, node, config) {
+            //that._router.navigate(['/account/tokens/details/', 0]);
+            that._notificationService.smartMessageBox(
+              {
+                title: 'Delete All Devices',
+                content: `Are you sure you want to delete ${
+                  that.user.firstName
+                } ${that.user.lastName} devices?`,
+                buttons: '[No][Yes]'
+              },
+              (ButtonPressed) => {
+                if (ButtonPressed === 'Yes') {
+                  // that._userService.deleteTokens(that.user._id).subscribe(
+                  //   (result) => {
+                  //     if (result) {
+                  //       that._notificationService.smallBox({
+                  //         title: 'Success!',
+                  //         content:
+                  //           "<i class='fa fa-clock-o'></i> <i>Tokens deleted successfully</i>",
+                  //         color: '#659265',
+                  //         iconSmall: 'fa fa-check fa-2x fadeInRight animated',
+                  //         timeout: 4000
+                  //       });
+                  //     }
+                  //   },
+                  //   (error) => {
+                  //     that._notificationService.bigBox({
+                  //       title: 'Oops! the database has returned an error',
+                  //       content:
+                  //         'We were not able to delete the tokens at this time',
+                  //       color: '#C46A69',
+                  //       icon: 'fa fa-warning shake animated',
+                  //       number: error,
+                  //       timeout: 6000 // 6 seconds
+                  //     });
+                  //   }
+                  // );
+                }
+                if (ButtonPressed === 'No') {
+                  that._notificationService.smallBox({
+                    title: 'Delete Cancelled',
+                    content:
+                      "<i class='fa fa-clock-o'></i> <i>Devices were not deleted</i>",
+                    color: '#C46A69',
+                    iconSmall: 'fa fa-times fa-2x fadeInRight animated',
+                    timeout: 4000
+                  });
+                }
+              }
+            );
+          },
+          className: 'btn btn-primary'
+        }
+      ],
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        // const self = this;
+        // // Unbind first in order to avoid any duplicate handler
+        // // (see https://github.com/l-lin/angular-datatables/issues/87)
+        // jQuery('td', row).unbind('click');
+        // jQuery('td', row).bind('click', () => {
+        //   self.toDetails(data);
+        // });
+        return row;
+      }
+    };
+  }
+
+  private activateNotificationTable() {
+    const that = this;
+    this.optionsNotificationTable = {
+      dom: 'Bfrtip',
+      data: this.user.notifications,
+      order: [[3, 'desc']],
+      ordering: true,
+      columns: [
+        { data: '_id', title: 'Id' },
+        { data: 'uuid', title: 'UUID' },
+        { data: 'token' },
+        { data: 'endpoint', title: 'End Point' },
+        { data: 'expirationTime', title: 'Expiration', visible: true },
+        { data: 'keys.auth', title: 'Key.Auth', visible: true },
+        { data: 'keys.p256dh', title: 'Key.p256dh', visible: true },
+        { data: 'schemaType', title: 'Schema', visible: true },
+        {
+          data: 'dateModified',
+          title: 'Modified',
           render: (data, type, row, meta) => {
             return moment(data).format('LLL');
           }
         },
         {
           data: 'dateCreated',
+          title: 'Created',
           render: (data, type, row, meta) => {
             return moment(data).format('LLL');
           }
@@ -237,50 +335,56 @@ export class UserComponent implements OnInit {
         'print',
         {
           text: 'Delete All',
-          action: function (e, dt, node, config) {
+          action: function(e, dt, node, config) {
             //that._router.navigate(['/account/tokens/details/', 0]);
-            that._notificationService.smartMessageBox({
-              title: "Delete All Tokens",
-              content: `Are you sure you want to delete ${that.user.firstName} ${that.user.lastName} tokens?`,
-              buttons: '[No][Yes]'
-            }, (ButtonPressed) => {
-              if (ButtonPressed === "Yes") {
-                that._userService
-                  .deleteTokens(that.user._id)
-                  .subscribe((result) => {
-                    if (result) {
-                      that._notificationService.smallBox({
-                        title: "Success!",
-                        content: "<i class='fa fa-clock-o'></i> <i>Tokens deleted successfully</i>",
-                        color: "#659265",
-                        iconSmall: "fa fa-check fa-2x fadeInRight animated",
-                        timeout: 4000
-                      });
-                    }
-                  }, (error) => {
-                    that._notificationService.bigBox({
-                      title: 'Oops! the database has returned an error',
-                      content: 'We were not able to delete the tokens at this time',
-                      color: '#C46A69',
-                      icon: 'fa fa-warning shake animated',
-                      number: error,
-                      timeout: 6000 // 6 seconds
-                    });
+            that._notificationService.smartMessageBox(
+              {
+                title: 'Delete All Notifications',
+                content: `Are you sure you want to delete ${
+                  that.user.firstName
+                } ${that.user.lastName} notifications?`,
+                buttons: '[No][Yes]'
+              },
+              (ButtonPressed) => {
+                if (ButtonPressed === 'Yes') {
+                  // that._userService.deleteTokens(that.user._id).subscribe(
+                  //   (result) => {
+                  //     if (result) {
+                  //       that._notificationService.smallBox({
+                  //         title: 'Success!',
+                  //         content:
+                  //           "<i class='fa fa-clock-o'></i> <i>Tokens deleted successfully</i>",
+                  //         color: '#659265',
+                  //         iconSmall: 'fa fa-check fa-2x fadeInRight animated',
+                  //         timeout: 4000
+                  //       });
+                  //     }
+                  //   },
+                  //   (error) => {
+                  //     that._notificationService.bigBox({
+                  //       title: 'Oops! the database has returned an error',
+                  //       content:
+                  //         'We were not able to delete the tokens at this time',
+                  //       color: '#C46A69',
+                  //       icon: 'fa fa-warning shake animated',
+                  //       number: error,
+                  //       timeout: 6000 // 6 seconds
+                  //     });
+                  //   }
+                  // );
+                }
+                if (ButtonPressed === 'No') {
+                  that._notificationService.smallBox({
+                    title: 'Delete Cancelled',
+                    content:
+                      "<i class='fa fa-clock-o'></i> <i>Notifications were not deleted</i>",
+                    color: '#C46A69',
+                    iconSmall: 'fa fa-times fa-2x fadeInRight animated',
+                    timeout: 4000
                   });
-
+                }
               }
-              if (ButtonPressed === "No") {
-                that._notificationService.smallBox({
-                  title: "Delete Cancelled",
-                  content: "<i class='fa fa-clock-o'></i> <i>Tokens were not deleted</i>",
-                  color: "#C46A69",
-                  iconSmall: "fa fa-times fa-2x fadeInRight animated",
-                  timeout: 4000
-                });
-              }
-        
-            });
-
+            );
           },
           className: 'btn btn-primary'
         }
@@ -308,10 +412,12 @@ export class UserComponent implements OnInit {
       columns: [
         { data: '_id', title: 'Id' },
         { data: 'origin' },
+        { data: 'name' },
         { data: 'expiresIn', title: 'Expires In' },
         { data: 'dateExpire', title: 'Date Expire', visible: false },
         {
-          data: 'dateExpire', title: 'Expires',
+          data: 'dateExpire',
+          title: 'Expires',
           render: (data, type, row, meta) => {
             return moment(data).format('LLL');
           }
@@ -330,50 +436,56 @@ export class UserComponent implements OnInit {
         'print',
         {
           text: 'Delete All',
-          action: function (e, dt, node, config) {
+          action: function(e, dt, node, config) {
             //that._router.navigate(['/account/tokens/details/', 0]);
-            that._notificationService.smartMessageBox({
-              title: "Delete All Tokens",
-              content: `Are you sure you want to delete ${that.user.firstName} ${that.user.lastName} tokens?`,
-              buttons: '[No][Yes]'
-            }, (ButtonPressed) => {
-              if (ButtonPressed === "Yes") {
-                that._userService
-                  .deleteTokens(that.user._id)
-                  .subscribe((result) => {
-                    if (result) {
-                      that._notificationService.smallBox({
-                        title: "Success!",
-                        content: "<i class='fa fa-clock-o'></i> <i>Tokens deleted successfully</i>",
-                        color: "#659265",
-                        iconSmall: "fa fa-check fa-2x fadeInRight animated",
-                        timeout: 4000
+            that._notificationService.smartMessageBox(
+              {
+                title: 'Delete All Tokens',
+                content: `Are you sure you want to delete ${
+                  that.user.firstName
+                } ${that.user.lastName} tokens?`,
+                buttons: '[No][Yes]'
+              },
+              (ButtonPressed) => {
+                if (ButtonPressed === 'Yes') {
+                  that._userService.deleteTokens(that.user._id).subscribe(
+                    (result) => {
+                      if (result) {
+                        that._notificationService.smallBox({
+                          title: 'Success!',
+                          content:
+                            "<i class='fa fa-clock-o'></i> <i>Tokens deleted successfully</i>",
+                          color: '#659265',
+                          iconSmall: 'fa fa-check fa-2x fadeInRight animated',
+                          timeout: 4000
+                        });
+                      }
+                    },
+                    (error) => {
+                      that._notificationService.bigBox({
+                        title: 'Oops! the database has returned an error',
+                        content:
+                          'We were not able to delete the tokens at this time',
+                        color: '#C46A69',
+                        icon: 'fa fa-warning shake animated',
+                        number: error,
+                        timeout: 6000 // 6 seconds
                       });
                     }
-                  }, (error) => {
-                    that._notificationService.bigBox({
-                      title: 'Oops! the database has returned an error',
-                      content: 'We were not able to delete the tokens at this time',
-                      color: '#C46A69',
-                      icon: 'fa fa-warning shake animated',
-                      number: error,
-                      timeout: 6000 // 6 seconds
-                    });
+                  );
+                }
+                if (ButtonPressed === 'No') {
+                  that._notificationService.smallBox({
+                    title: 'Delete Cancelled',
+                    content:
+                      "<i class='fa fa-clock-o'></i> <i>Tokens were not deleted</i>",
+                    color: '#C46A69',
+                    iconSmall: 'fa fa-times fa-2x fadeInRight animated',
+                    timeout: 4000
                   });
-
+                }
               }
-              if (ButtonPressed === "No") {
-                that._notificationService.smallBox({
-                  title: "Delete Cancelled",
-                  content: "<i class='fa fa-clock-o'></i> <i>Tokens were not deleted</i>",
-                  color: "#C46A69",
-                  iconSmall: "fa fa-times fa-2x fadeInRight animated",
-                  timeout: 4000
-                });
-              }
-        
-            });
-
+            );
           },
           className: 'btn btn-primary'
         }
@@ -409,7 +521,7 @@ export class UserComponent implements OnInit {
       (applications: Application[]) => {
         this._applications = applications;
       },
-      err => { },
+      (err) => {},
       () => {
         // Init Dual List
         this.initDualListApplication();
@@ -422,7 +534,7 @@ export class UserComponent implements OnInit {
       (roles: IRole[]) => {
         this._roles = roles;
       },
-      err => { },
+      (err) => {},
       () => {
         // Init Dual List
         this.initDualListRole();
@@ -462,11 +574,9 @@ export class UserComponent implements OnInit {
   private insert() {
     this.user.applicationId = this.selectedApplication[0]._id;
     this._userService.insert(this.user).subscribe(
-      user => {
+      (user) => {
         if (user) {
-          this._activityLogService.addInserts(
-            `Inserted user ${user._id}`
-          );
+          this._activityLogService.addInserts(`Inserted user ${user._id}`);
           this._notificationService.smallBox({
             title: 'User created',
             content: 'User has been created successfully. ',
@@ -478,10 +588,13 @@ export class UserComponent implements OnInit {
           this.isUpdate = true;
           this.user._id = user._id;
         } else {
-          this._activityLogService.addError('User not returned from database on insert');
+          this._activityLogService.addError(
+            'User not returned from database on insert'
+          );
           this._notificationService.bigBox({
             title: 'Oops! the database has returned an error',
-            content: 'User was not returned indicating that user was not in fact updated',
+            content:
+              'User was not returned indicating that user was not in fact updated',
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
@@ -489,7 +602,7 @@ export class UserComponent implements OnInit {
           });
         }
       },
-      errInfo => {
+      (errInfo) => {
         this._activityLogService.addError(errInfo);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to create',
@@ -512,11 +625,9 @@ export class UserComponent implements OnInit {
   private update() {
     this.user.applicationId = this.selectedApplication[0]._id;
     this._userService.update(this.user).subscribe(
-      user => {
+      (user) => {
         if (user) {
-          this._activityLogService.addUpdate(
-            `Updated user ${user._id}`
-          );
+          this._activityLogService.addUpdate(`Updated user ${user._id}`);
           this._notificationService.smallBox({
             title: 'User Updated',
             content: 'User has been updated successfully. ',
@@ -537,7 +648,7 @@ export class UserComponent implements OnInit {
           });
         }
       },
-      err => {
+      (err) => {
         this._activityLogService.addError(err);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to update',

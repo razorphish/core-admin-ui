@@ -1,49 +1,67 @@
 <!-- MAIN CONTENT -->
 <div id="content">
   <div class="row">
-    <sa-big-breadcrumbs [items]="['User', 'Details', user._id]" icon="pencil-square-o" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+    <sa-big-breadcrumbs
+      [items]="['User', 'Details', user._id]"
+      icon="pencil-square-o"
+      class="col-xs-12 col-sm-7 col-md-7 col-lg-4"
+    ></sa-big-breadcrumbs>
     <sa-stats></sa-stats>
   </div>
 
   <!-- widget grid -->
   <sa-widgets-grid>
-
     <!-- START ROW -->
     <div class="row">
-
       <!-- NEW COL START -->
       <article class="col-sm-12 col-md-12 col-lg-12">
-
         <!-- Widget ID (each widget will need unique ID)-->
-        <div sa-widget [colorbutton]="false" [editbutton]="false" [custombutton]="false" [deletebutton]="false">
+        <div
+          sa-widget
+          [colorbutton]="false"
+          [editbutton]="false"
+          [custombutton]="false"
+          [deletebutton]="false"
+        >
           <header>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 
-            <h2>{{isUpdate ? "Edit"  : "Create A New User"}}</h2>
-
+            <h2>{{ isUpdate ? 'Edit' : 'Create A New User' }}</h2>
           </header>
 
           <!-- widget div-->
           <div>
-
-            <form #userDetailsForm="ngForm" [saUiValidate]="validationOptions" novalidate="novalidate" (ngSubmit)="save(userDetailsForm.value)">
-
+            <form
+              #userDetailsForm="ngForm"
+              [saUiValidate]="validationOptions"
+              novalidate="novalidate"
+              (ngSubmit)="save(userDetailsForm.value)"
+            >
               <div class="smart-form">
                 <!-- widget content -->
                 <div class="widget-body no-padding">
-
                   <fieldset>
                     <div class="row">
                       <section class="col col-6">
                         First Name:
                         <label class="input">
-                          <input type="text" name="firstname" placeholder="First name" [(ngModel)]="user.firstName" />
+                          <input
+                            type="text"
+                            name="firstname"
+                            placeholder="First name"
+                            [(ngModel)]="user.firstName"
+                          />
                         </label>
                       </section>
                       <section class="col col-6">
                         Last Name:
                         <label class="input">
-                          <input type="text" name="lastname" placeholder="Last name" [(ngModel)]="user.lastName" />
+                          <input
+                            type="text"
+                            name="lastname"
+                            placeholder="Last name"
+                            [(ngModel)]="user.lastName"
+                          />
                         </label>
                       </section>
                     </div>
@@ -53,16 +71,33 @@
                     <div class="row">
                       <section class="col col-6">
                         Email:
-                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
-                          <input type="email" name="email" placeholder="Email address" [(ngModel)]="user.email" />
-                          <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                        <label class="input">
+                          <i class="icon-append fa fa-envelope-o"></i>
+                          <input
+                            type="email"
+                            name="email"
+                            placeholder="Email address"
+                            [(ngModel)]="user.email"
+                          />
+                          <b class="tooltip tooltip-bottom-right"
+                            >Needed to verify your account</b
+                          >
                         </label>
                       </section>
                       <section class="col col-6">
                         Username:
-                        <label class="input"> <i class="icon-append fa fa-user"></i>
-                          <input type="text" name="username" id="username" placeholder="Username" [(ngModel)]="user.username" />
-                          <b class="tooltip tooltip-bottom-right">Username to login to admin</b>
+                        <label class="input">
+                          <i class="icon-append fa fa-user"></i>
+                          <input
+                            type="text"
+                            name="username"
+                            id="username"
+                            placeholder="Username"
+                            [(ngModel)]="user.username"
+                          />
+                          <b class="tooltip tooltip-bottom-right"
+                            >Username to login to admin</b
+                          >
                         </label>
                       </section>
                     </div>
@@ -72,16 +107,33 @@
                     <div class="row">
                       <section class="col col-6">
                         Password:
-                        <label class="input"> <i class="icon-append fa fa-lock"></i>
-                          <input type="password" name="password" placeholder="Password" id="password" [(ngModel)]="user.password" />
-                          <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                        <label class="input">
+                          <i class="icon-append fa fa-lock"></i>
+                          <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            id="password"
+                            [(ngModel)]="user.password"
+                          />
+                          <b class="tooltip tooltip-bottom-right"
+                            >Don't forget your password</b
+                          >
                         </label>
                       </section>
                       <section class="col col-6">
                         Password Conform:
-                        <label class="input"> <i class="icon-append fa fa-lock"></i>
-                          <input type="password" name="passwordConfirm" placeholder="Confirm password" [(ngModel)]="user.confirmPassword" />
-                          <b class="tooltip tooltip-bottom-right">Confirm your Password</b>
+                        <label class="input">
+                          <i class="icon-append fa fa-lock"></i>
+                          <input
+                            type="password"
+                            name="passwordConfirm"
+                            placeholder="Confirm password"
+                            [(ngModel)]="user.confirmPassword"
+                          />
+                          <b class="tooltip tooltip-bottom-right"
+                            >Confirm your Password</b
+                          >
                         </label>
                       </section>
                     </div>
@@ -91,274 +143,444 @@
                     <div class="row">
                       <section class="col col-3">
                         Home Phone
-                        <label class="input"> <i class="icon-append fa fa-phone"></i>
-                          <input type="homePhone" name="homePhone" placeholder="Phone Number" [(ngModel)]="user.homePhone" />
-                          <b class="tooltip tooltip-bottom-right">Phone Number</b>
+                        <label class="input">
+                          <i class="icon-append fa fa-phone"></i>
+                          <input
+                            type="homePhone"
+                            name="homePhone"
+                            placeholder="Phone Number"
+                            [(ngModel)]="user.homePhone"
+                          />
+                          <b class="tooltip tooltip-bottom-right"
+                            >Phone Number</b
+                          >
                         </label>
                       </section>
                       <section class="col col-3">
                         Twitter Handle
-                        <label class="input"> <i class="icon-append fa fa-twitter"></i>
-                          <input type="text" name="twitter" placeholder="Twitter Handle" [(ngModel)]="user.twitter" />
-                          <b class="tooltip tooltip-bottom-right">Twitter Handle</b>
+                        <label class="input">
+                          <i class="icon-append fa fa-twitter"></i>
+                          <input
+                            type="text"
+                            name="twitter"
+                            placeholder="Twitter Handle"
+                            [(ngModel)]="user.twitter"
+                          />
+                          <b class="tooltip tooltip-bottom-right"
+                            >Twitter Handle</b
+                          >
                         </label>
                       </section>
                       <section class="col col-3">
                         Facebook Handle
-                        <label class="input"> <i class="icon-append fa fa-facebook"></i>
-                          <input type="text" name="facebook" placeholder="Facebook Handle" [(ngModel)]="user.facebook" />
-                          <b class="tooltip tooltip-bottom-right">Facebook Handle</b>
+                        <label class="input">
+                          <i class="icon-append fa fa-facebook"></i>
+                          <input
+                            type="text"
+                            name="facebook"
+                            placeholder="Facebook Handle"
+                            [(ngModel)]="user.facebook"
+                          />
+                          <b class="tooltip tooltip-bottom-right"
+                            >Facebook Handle</b
+                          >
                         </label>
                       </section>
                       <section class="col col-3">
                         Instagram Handle
-                        <label class="input"> <i class="icon-append fa fa-instagram"></i>
-                          <input type="text" name="instagram" placeholder="Instagram Handle" [(ngModel)]="user.instagram" />
-                          <b class="tooltip tooltip-bottom-right">Instagram Handle</b>
+                        <label class="input">
+                          <i class="icon-append fa fa-instagram"></i>
+                          <input
+                            type="text"
+                            name="instagram"
+                            placeholder="Instagram Handle"
+                            [(ngModel)]="user.instagram"
+                          />
+                          <b class="tooltip tooltip-bottom-right"
+                            >Instagram Handle</b
+                          >
                         </label>
                       </section>
                     </div>
                   </fieldset>
 
                   <fieldset>
-
                     <section>
                       <label class="input">
                         <i class="icon-append fa fa-user"></i>
                         Avatar
-                        <input type="text" name="avatar" placeholder="Avatar" [(ngModel)]="user.avatar" />
+                        <input
+                          type="text"
+                          name="avatar"
+                          placeholder="Avatar"
+                          [(ngModel)]="user.avatar"
+                        />
                         <b class="tooltip tooltip-bottom-right">Your AVATAR</b>
                       </label>
                     </section>
-
                   </fieldset>
 
                   <footer>
-                    <button type="button" class="btn btn-default" (click)="toList()">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      (click)="toList()"
+                    >
                       Back to list
                     </button>
-                    <button type="button" *ngIf="isUpdate" disabled class="btn btn-danger" (click)="disableUser()">
+                    <button
+                      type="button"
+                      *ngIf="isUpdate"
+                      disabled
+                      class="btn btn-danger"
+                      (click)="disableUser()"
+                    >
                       Disable user
                     </button>
                     <button type="submit" class="btn btn-primary">
                       Save
                     </button>
                   </footer>
-
                 </div>
                 <!-- end widget content -->
               </div>
             </form>
-              <br />
-              <!-- widget content -->
-              <div class="widget-body">
+            <br />
+            <!-- widget content -->
+            <div class="widget-body">
+              <fieldset>
+                <ul id="myTab1" class="nav nav-tabs bordered">
+                  <li [class.active]="state.tabs.demo1 === 0">
+                    <a (click)="state.tabs.demo1 = 0"
+                      ><i class="fa fa-fw fa-lg fa-key"></i> Roles</a
+                    >
+                  </li>
 
-                <fieldset>
-
-                    <ul id="myTab1" class="nav nav-tabs bordered">
-
-                      <li [class.active]="state.tabs.demo1 == 0">
-                        <a (click)="state.tabs.demo1 = 0"><i class="fa fa-fw fa-lg fa-gear"></i> Roles</a>
+                  <li dropdown class="dropdown">
+                    <a dropdownToggle
+                      ><i class="fa fa-fw fa-lg fa-home"></i> Addresses
+                      <span class="badge bg-color-blue txt-color-white">2</span>
+                      <b class="caret"></b
+                    ></a>
+                    <ul *dropdownMenu class="dropdown-menu">
+                      <li [class.active]="state.tabs.demo1 === 4">
+                        <a (click)="state.tabs.demo1 = 4">@Address1</a>
                       </li>
-
-                      <li dropdown class="dropdown">
-                        <a dropdownToggle><i class="fa fa-fw fa-lg fa-home"></i> Addresses
-                          <span class="badge bg-color-blue txt-color-white">2</span>
-                          <b class="caret"></b></a>
-                        <ul *dropdownMenu class="dropdown-menu">
-                          <li [class.active]="state.tabs.demo1 == 4">
-                            <a (click)="state.tabs.demo1 = 4">@Address1</a>
-                          </li>
-                          <li [class.active]="state.tabs.demo1 == 5">
-                            <a (click)="state.tabs.demo1 = 5">@Address2</a>
-                          </li>
-                        </ul>
+                      <li [class.active]="state.tabs.demo1 === 5">
+                        <a (click)="state.tabs.demo1 = 5">@Address2</a>
                       </li>
-
-                      <li [class.active]="state.tabs.demo1 == 6">
-                        <a (click)="state.tabs.demo1 = 6"> <i class="fa fa-fw fa-lg fa-tree"></i>Application </a>
-                      </li>
-
-                      <li [class.active]="state.tabs.demo1 == 7">
-                        <a (click)="state.tabs.demo1 = 7"> <i class="fa fa-fw fa-lg fa-key"></i>Tokens </a>
-                      </li>
-
-                      <li [class.active]="state.tabs.demo1 === 8">
-                        <a (click)="state.tabs.demo1 = 8"> <i class="fa fa-fw fa-lg fa-tablet"></i>Devices </a>
-                      </li>
-
                     </ul>
+                  </li>
 
-                    <tabset class="padding-10">
-                      <tab [active]="state.tabs.demo1 == 0">
+                  <li [class.active]="state.tabs.demo1 === 6">
+                    <a (click)="state.tabs.demo1 = 6">
+                      <i class="fa fa-fw fa-lg fa-rocket"></i>Application
+                    </a>
+                  </li>
 
-                          <div class="col col-12">
-                            <ng-multiselect-dropdown name="Roles" [placeholder]="'User Roles'" [data]="options"
-                              [(ngModel)]="user.roles" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
-                              (onSelectAll)="onSelectAll($event)">
-                            </ng-multiselect-dropdown>
+                  <li [class.active]="state.tabs.demo1 === 7">
+                    <a (click)="state.tabs.demo1 = 7">
+                      <i class="fa fa-fw fa-lg fa-key"></i>Tokens
+                    </a>
+                  </li>
 
-                        </div>
+                  <li [class.active]="state.tabs.demo1 === 8">
+                    <a (click)="state.tabs.demo1 = 8">
+                      <i class="fa fa-fw fa-lg fa-tablet"></i>Devices
+                    </a>
+                  </li>
 
-                      </tab>
+                  <li [class.active]="state.tabs.demo1 === 9">
+                    <a (click)="state.tabs.demo1 = 9">
+                      <i class="fa fa-fw fa-lg fa-bullhorn"></i>Notifications
+                    </a>
+                  </li>
+                </ul>
 
-                      <tab [active]="state.tabs.demo1 == 4" class="smart-form">
-                        <div class="row">
-                          <section class="col col-6">
-                            Address:
-                            <label class="input">
-                              <input type="text" name="address0" placeholder="Address" [(ngModel)]="user.addresses[0] && user.addresses[0].address" />
-                            </label>
-                          </section>
-                          <section class="col col-6">
-                            City:
-                            <label class="input">
-                              <input type="text" name="city0" placeholder="City" [(ngModel)]="user.addresses[0] && user.addresses[0].city" />
-                            </label>
-                          </section>
-                        </div>
-                        <div class="row">
-                          <section class="col col-6">
-                            State:
-                            <label class="input">
-                              <input type="text" name="state0" placeholder="State" [(ngModel)]="user.addresses[0] && user.addresses[0].state" />
-                            </label>
-                          </section>
-                          <section class="col col-6">
-                            Zip:
-                            <label class="input">
-                              <input type="text" name="zip0" placeholder="Zip" [(ngModel)]="user.addresses[0] && user.addresses[0].zip" />
-                            </label>
-                          </section>
-                        </div>
-                      </tab>
+                <tabset class="padding-10">
+                  <tab [active]="state.tabs.demo1 == 0">
+                    <div class="col col-12">
+                      <ng-multiselect-dropdown
+                        name="Roles"
+                        [placeholder]="'User Roles'"
+                        [data]="options"
+                        [(ngModel)]="user.roles"
+                        [settings]="dropdownSettings"
+                        (onSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)"
+                      >
+                      </ng-multiselect-dropdown>
+                    </div>
+                  </tab>
 
-                      <tab [active]="state.tabs.demo1 == 5" class="smart-form">
-                        <div class="row">
-                          <section class="col col-6">
-                            Address:
-                            <label class="input">
-                              <input type="text" name="address1" placeholder="Address" [(ngModel)]="user.addresses[1] && user.addresses[1].address" />
-                            </label>
-                          </section>
-                          <section class="col col-6">
-                            City:
-                            <label class="input">
-                              <input type="text" name="city1" placeholder="City" [(ngModel)]="user.addresses[1] && user.addresses[1].city" />
-                            </label>
-                          </section>
-                        </div>
-                        <div class="row">
-                          <section class="col col-6">
-                            State:
-                            <label class="input">
-                              <input type="text" name="state1" placeholder="State" [(ngModel)]="user.addresses[1] && user.addresses[1].state" />
-                            </label>
-                          </section>
-                          <section class="col col-6">
-                            Zip:
-                            <label class="input">
-                              <input type="text" name="zip1" placeholder="Zip" [(ngModel)]="user.addresses[1] && user.addresses[1].zip" />
-                            </label>
-                          </section>
-                        </div>
-                      </tab>
+                  <tab [active]="state.tabs.demo1 == 4" class="smart-form">
+                    <div class="row">
+                      <section class="col col-6">
+                        Address:
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="address0"
+                            placeholder="Address"
+                            [(ngModel)]="
+                              user.addresses[0] && user.addresses[0].address
+                            "
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-6">
+                        City:
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="city0"
+                            placeholder="City"
+                            [(ngModel)]="
+                              user.addresses[0] && user.addresses[0].city
+                            "
+                          />
+                        </label>
+                      </section>
+                    </div>
+                    <div class="row">
+                      <section class="col col-6">
+                        State:
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="state0"
+                            placeholder="State"
+                            [(ngModel)]="
+                              user.addresses[0] && user.addresses[0].state
+                            "
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-6">
+                        Zip:
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="zip0"
+                            placeholder="Zip"
+                            [(ngModel)]="
+                              user.addresses[0] && user.addresses[0].zip
+                            "
+                          />
+                        </label>
+                      </section>
+                    </div>
+                  </tab>
 
-                      <tab [active]="state.tabs.demo1 == 6" class="smart-form">
- 
-                          <section class="col col-12">
-                            <ng-multiselect-dropdown name="Application" [placeholder]="'Select Application For User'"
-                              [data]="applicationOptions" [(ngModel)]="selectedApplication" [settings]="dropdownSettingsApplication">
-                            </ng-multiselect-dropdown>
-                          </section>
-           
-                      </tab>
+                  <tab [active]="state.tabs.demo1 == 5" class="smart-form">
+                    <div class="row">
+                      <section class="col col-6">
+                        Address:
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="address1"
+                            placeholder="Address"
+                            [(ngModel)]="
+                              user.addresses[1] && user.addresses[1].address
+                            "
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-6">
+                        City:
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="city1"
+                            placeholder="City"
+                            [(ngModel)]="
+                              user.addresses[1] && user.addresses[1].city
+                            "
+                          />
+                        </label>
+                      </section>
+                    </div>
+                    <div class="row">
+                      <section class="col col-6">
+                        State:
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="state1"
+                            placeholder="State"
+                            [(ngModel)]="
+                              user.addresses[1] && user.addresses[1].state
+                            "
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-6">
+                        Zip:
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="zip1"
+                            placeholder="Zip"
+                            [(ngModel)]="
+                              user.addresses[1] && user.addresses[1].zip
+                            "
+                          />
+                        </label>
+                      </section>
+                    </div>
+                  </tab>
 
-                      <tab [active]="state.tabs.demo1 == 7">
-                          <div class="widget-body">
-                            <sa-datatable 
-                              [options]="optionsTokenTable" 
-                              tableClass="table table-striped table-bordered table-hover"
-                              paginationLength=true>
-                              <thead>
-                                <tr>
-                                  <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
-                                  <th [style.width]="'8%'">Origin</th>
-                                  <th [style.width]="'75px'">Expires In</th>
-                                  <th [style.width]="'175px'">Expires</th>
-                                  <th [style.width]="'175px'">Expires</th>
-                                  <th data-class="expand">Created</th>
-                                </tr>
-                              </thead>
+                  <tab [active]="state.tabs.demo1 === 6" class="smart-form">
+                    <section class="col col-12">
+                      <ng-multiselect-dropdown
+                        name="Application"
+                        [placeholder]="'Select Application For User'"
+                        [data]="applicationOptions"
+                        [(ngModel)]="selectedApplication"
+                        [settings]="dropdownSettingsApplication"
+                      >
+                      </ng-multiselect-dropdown>
+                    </section>
+                  </tab>
 
-                              <tfoot>
-                                <tr>
-                                  <th>Id</th>
-                                  <th>Origin</th>
-                                  <th>Expires In</th>
-                                  <th>Expires</th>
-                                  <th>Expires</th>
-                                  <th>Created</th>
-                                </tr>
-                              </tfoot>
-                            </sa-datatable>
-                          </div>
-                     
-                      </tab>
+                  <!-- Tokens -->
+                  <tab [active]="state.tabs.demo1 === 7">
+                    <div class="widget-body">
+                      <sa-datatable
+                        [options]="optionsTokenTable"
+                        tableClass="table table-striped table-bordered table-hover"
+                        paginationLength="true"
+                      >
+                        <thead>
+                          <tr>
+                            <th [style.width]="'200px'" data-hide="mobile-p">
+                              ID
+                            </th>
+                            <th [style.width]="'150px'">Origin</th>
+                            <th [style.width]="'125px'">Name</th>
+                            <th [style.width]="'75px'">Expires In</th>
+                            <th [style.width]="'175px'">Expires</th>
+                            <th [style.width]="'175px'">Expires</th>
+                            <th data-class="expand">Created</th>
+                          </tr>
+                        </thead>
 
-                      <tab [active]="state.tabs.demo1 == 8">
-                        <div class="widget-body">
-                          <sa-datatable 
-                            [options]="optionsDeviceTable" 
-                            tableClass="table table-striped table-bordered table-hover"
-                            paginationLength=true>
-                            <thead>
-                              <tr>
-                                <th [style.width]="'200px'" data-hide="mobile-p">ID</th>
-                                <th [style.width]="'8%'">Origin</th>
-                                <th [style.width]="'75px'">Expires In</th>
-                                <th [style.width]="'175px'">Expires</th>
-                                <th [style.width]="'175px'">Expires</th>
-                                <th data-class="expand">Created</th>
-                              </tr>
-                            </thead>
+                        <tfoot>
+                          <tr>
+                            <th>Id</th>
+                            <th>Origin</th>
+                            <th>Name</th>
+                            <th>Expires In</th>
+                            <th>Expires</th>
+                            <th>Expires</th>
+                            <th>Created</th>
+                          </tr>
+                        </tfoot>
+                      </sa-datatable>
+                    </div>
+                  </tab>
 
-                            <tfoot>
-                              <tr>
-                                <th>Id</th>
-                                <th>Origin</th>
-                                <th>Expires In</th>
-                                <th>Expires</th>
-                                <th>Expires</th>
-                                <th>Created</th>
-                              </tr>
-                            </tfoot>
-                          </sa-datatable>
-                        </div>
-                   
-                    </tab>
+                  <!-- Devices -->
+                  <tab [active]="state.tabs.demo1 === 8">
+                    <div class="widget-body">
+                      <sa-datatable
+                        [options]="optionsDeviceTable"
+                        tableClass="table table-striped table-bordered table-hover"
+                        paginationLength="true"
+                      >
+                        <thead>
+                          <tr>
+                            <th [style.width]="'75px'" data-hide="mobile-p">
+                              Id
+                            </th>
+                            <th [style.width]="'100px'">UUID</th>
+                            <th [style.width]="'8%'">Manufacturer</th>
+                            <th [style.width]="'75px'">Model</th>
+                            <th [style.width]="'75px'">OS</th>
+                            <th [style.width]="'75px'">App</th>
+                            <th [style.width]="'15px'" data-class="expand">
+                              Platform
+                            </th>
+                            <th [style.width]="'15px'">Battery</th>
+                            <th [style.width]="'15px'">Virtual?</th>
+                          </tr>
+                        </thead>
 
-                    </tabset>
-     
-                </fieldset>
-              </div>
-              <!-- end widget content -->
+                        <tfoot>
+                          <tr>
+                            <th>Id</th>
+                            <th>UUID</th>
+                            <th>Manufacturer</th>
+                            <th>Model</th>
+                            <th>OS</th>
+                            <th>App</th>
+                            <th>Platform</th>
+                            <th>Battery</th>
+                            <th>Virtual?</th>
+                          </tr>
+                        </tfoot>
+                      </sa-datatable>
+                    </div>
+                  </tab>
 
+                  <!-- Notifications -->
+                  <tab [active]="state.tabs.demo1 === 9">
+                    <div class="widget-body">
+                      <sa-datatable
+                        [options]="optionsNotificationTable"
+                        tableClass="table table-striped table-bordered table-hover"
+                        paginationLength="true"
+                      >
+                        <thead>
+                          <tr>
+                            <th [style.width]="'75px'" data-hide="mobile-p">
+                              Id
+                            </th>
+                            <th [style.width]="'100px'">UUID</th>
+                            <th [style.width]="'8%'">Token</th>
+                            <th [style.width]="'75px'">Endpoint</th>
+                            <th [style.width]="'75px'">Expiration</th>
+                            <th [style.width]="'75px'">Keys.Auth</th>
+                            <th [style.width]="'15px'">Keys.p256dh</th>
+                            <th [style.width]="'15px'">Schema</th>
+                            <th [style.width]="'15px'">Modified</th>
+                            <th [style.width]="'15px'" data-class="expand">
+                              Created
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tfoot>
+                          <tr>
+                            <th>Id</th>
+                            <th>UUID</th>
+                            <th>Token</th>
+                            <th>Endpoint</th>
+                            <th>Expiration</th>
+                            <th>Keys.Auth</th>
+                            <th>Keys.p256dh</th>
+                            <th>Schema</th>
+                            <th>Modified</th>
+                            <th>Created</th>
+                          </tr>
+                        </tfoot>
+                      </sa-datatable>
+                    </div>
+                  </tab>
+                </tabset>
+              </fieldset>
+            </div>
+            <!-- end widget content -->
           </div>
           <!-- end widget div -->
-
         </div>
         <!-- end widget -->
-
       </article>
       <!-- END COL -->
-
     </div>
 
     <!-- END ROW -->
-
   </sa-widgets-grid>
   <!-- end widget grid -->
-
-
 </div>
