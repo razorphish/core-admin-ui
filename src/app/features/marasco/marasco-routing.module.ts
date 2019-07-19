@@ -32,6 +32,11 @@ const routes: Routes = [
         loadChildren: "./features/wishlistPremiere/wishlistPremiere.module#WishlistPremiereModule",
         data: { pageTitle: "Wishlist" }
       },
+      {
+        path: "system",
+        loadChildren: "./features/system/system.module#SystemModule",
+        data: { pageTitle: "System" }
+      }
     ]
   },
   {

@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import {
   ModalModule,
@@ -11,9 +11,10 @@ import {
   TabsModule,
   AccordionModule,
   CarouselModule,
-  PopoverModule
-} from "ngx-bootstrap";
-
+  PopoverModule,
+  TimepickerModule,
+  BsDatepickerModule,
+} from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
@@ -28,8 +29,10 @@ import {
     TabsModule.forRoot(),
     AccordionModule.forRoot(),
     CarouselModule.forRoot(),
+    TimepickerModule.forRoot(),
+    BsDatepickerModule.forRoot(),
 
-    PopoverModule.forRoot()
+    PopoverModule.forRoot(),
   ],
   exports: [
     ModalModule,
@@ -41,7 +44,9 @@ import {
     TabsModule,
     AccordionModule,
     CarouselModule,
+    TimepickerModule,
+    BsDatepickerModule,
   ],
-  declarations: []
+  declarations: [],
 })
 export class BootstrapModule {}

@@ -1,0 +1,188 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+  <div class="row">
+    <sa-big-breadcrumbs
+      [items]="['Jobs', 'Details', job._id]"
+      icon="pencil-square-o"
+      class="col-xs-12 col-sm-7 col-md-7 col-lg-4"
+    ></sa-big-breadcrumbs>
+    <sa-stats></sa-stats>
+  </div>
+
+  <!-- widget grid -->
+  <sa-widgets-grid>
+    <!-- START ROW -->
+    <div class="row">
+      <!-- NEW COL START -->
+      <article class="col-sm-12 col-md-12 col-lg-12">
+        <!-- Widget ID (each widget will need unique ID)-->
+        <div
+          sa-widget
+          [colorbutton]="false"
+          [editbutton]="false"
+          [custombutton]="false"
+          [deletebutton]="false"
+        >
+          <header>
+            <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+
+            <h2>{{ isUpdate ? 'Edit' : 'Create A New Job' }}</h2>
+          </header>
+
+          <!-- widget div-->
+          <div>
+            <form
+              #jobDetailsForm="ngForm"
+              [saUiValidate]="validationOptions"
+              novalidate="novalidate"
+              (ngSubmit)="save(jobDetailsForm.value)"
+            >
+              <div class="smart-form">
+                <!-- widget content -->
+                <div class="widget-body no-padding">
+                  <fieldset>
+                    <div class="row">
+                      <section class="col col-3">
+                        Name
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="name"
+                            placeholder="Name"
+                            [(ngModel)]="job.name"
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-3" *ngIf="isUpdate">
+                        User Id
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="userId"
+                            placeholder="User"
+                            [(ngModel)]="job.userId._id"
+                            [disabled]="true"
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-3" *ngIf="!isUpdate">
+                        User Id
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="userId"
+                            placeholder="User"
+                            [(ngModel)]="job.userId"
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-2">
+                        Status
+                        <ng-multiselect-dropdown
+                          name="statusId"
+                          [placeholder]="'Select Status'"
+                          [data]="statusOptions"
+                          [(ngModel)]="selectedStatus"
+                          [settings]="dropdownSettingsStatus"
+                        >
+                        </ng-multiselect-dropdown>
+                      </section>
+                      <section class="col col-2">
+                        Activity
+                        <ng-multiselect-dropdown
+                          name="activityStatusId"
+                          [placeholder]="'Select Activity'"
+                          [data]="activityStatusOptions"
+                          [(ngModel)]="selectedActivityStatus"
+                          [settings]="dropdownSettingsActivityStatus"
+                        >
+                        </ng-multiselect-dropdown>
+                      </section>
+                    </div>
+                    <div class="row">
+                      <section class="col col-3">
+                        Execution Started
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="executionStarted"
+                            placeholder="Start"
+                            [(ngModel)]="job.execution.started"
+                            [disabled]="true"
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-3">
+                        Execution Completed
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="completed"
+                            placeholder="Completed"
+                            [(ngModel)]="job.execution.completed"
+                            [disabled]="true"
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-2">
+                        Kickoff Date
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="kickoffDate"
+                            id="kickoffDate"
+                            placeholder="kickoffDate"
+                            bsDatepicker
+                            [bsValue]="job.execution.kickoffDate"
+                            [(ngModel)]="job.execution.kickoffDate"
+                            autocomplete="off"
+                          />
+                        </label>
+                      </section>
+                      <section class="col col-2">
+                        <label class="input">
+                          <timepicker [(ngModel)]="job.execution.kickoffTime" name="kickoffTime" id="kickoffTime"></timepicker>
+                        </label>
+                      </section>
+                    </div>
+                    <div class="row">
+                      <section class="col col-12">
+                        Meta
+                        <label class="textarea">
+                          <textarea [(ngModel)]="job.meta" rows="15" name="job" id="job" cols="100"></textarea>
+                        </label>
+                      </section>
+                    </div>
+                  </fieldset>
+
+                  <footer>
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      (click)="toList()"
+                    >
+                      Back to list
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                      Save
+                    </button>
+                  </footer>
+                </div>
+                <!-- end widget content -->
+              </div>
+            </form>
+
+            <!-- widget content -->
+            <!-- Tabs go here -->
+            <!-- end widget content -->
+          </div>
+          <!-- end widget div -->
+        </div>
+        <!-- end widget -->
+      </article>
+      <!-- END COL -->
+    </div>
+    <!-- END ROW -->
+  </sa-widgets-grid>
+  <!-- end widget grid -->
+</div>

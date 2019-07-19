@@ -1,0 +1,59 @@
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Job', 'List']" icon="gift" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <sa-stats></sa-stats>
+    </div>
+
+    <sa-widgets-grid>
+
+        <div class="row">
+            <article class="col-sm-12">
+                
+                <div sa-widget [editbutton]="false" [deletebutton]="false" color="darken">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Jobs</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+
+                            <sa-datatable 
+                                [options]="options" 
+                                tableClass="table table-striped table-bordered table-hover" 
+                                paginationLength=true>
+                                <thead>
+                                    <tr>
+                                        <th [style.width]="'175px'" data-hide="mobile-p">Id</th>
+                                        <th [style.width]="'15%'">Name</th>
+                                        <th [style.width]="'8%'">Activity Status</th>
+                                        <th [style.width]="'8%'">Status</th>
+                                        <th [style.width]="'10%'">Started</th>
+                                        <th [style.width]="'10%'">Completed</th>
+                                        <th [style.width]="'10%'">Kickoff</th>
+                                        <th data-class="expand">Created</th>
+                                    </tr>
+                                </thead>
+
+                                <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Activity Status</th>
+                                        <th>Status</th>
+                                        <th>Started</th>
+                                        <th>Completed</th>
+                                        <th>Kickoff</th>
+                                        <th>Created</th>
+                                    </tr>
+                                </tfoot>
+                            </sa-datatable>
+
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+        </div>
+
+    </sa-widgets-grid>
+</div>
