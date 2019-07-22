@@ -28,8 +28,8 @@ export class JobComponent implements OnInit {
       name: 'ready',
     },
     {
-      _id: 'running',
-      name: 'running',
+      _id: 'processing',
+      name: 'processing',
     },
     {
       _id: 'paused',
