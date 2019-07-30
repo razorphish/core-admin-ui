@@ -1,5 +1,4 @@
 <aside id="left-panel">
-
   <!-- User info -->
   <sa-login-info></sa-login-info>
   <!-- end user info -->
@@ -12,39 +11,67 @@
 
     <ul saSmartMenu>
       <li>
-        <a title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span
-          class="menu-item-parent">{{'Dashboard' | i18n}}</span></a>
+        <a title="Dashboard"
+          ><i class="fa fa-lg fa-fw fa-home"></i>
+          <span class="menu-item-parent">{{ 'Dashboard' | i18n }}</span></a
+        >
         <ul>
           <li routerLinkActive="active">
-            <a routerLink="/dashboard/analytics">{{'Analytics Dashboard' | i18n}}</a>
+            <a routerLink="/dashboard/analytics">{{
+              'Analytics Dashboard' | i18n
+            }}</a>
           </li>
           <li routerLinkActive="active">
-            <a routerLink="/dashboard/social">{{'Social Wall' | i18n}}</a>
+            <a routerLink="/dashboard/social">{{ 'Social Wall' | i18n }}</a>
           </li>
         </ul>
       </li>
 
       <!--Wishlist-->
       <li>
-        <a href="#"><i class="fa fa-lg fa-fw fa-list"></i> <span
-          class="menu-item-parent">{{'Wishlist' | i18n}}</span></a>
+        <a href="#"
+          ><i class="fa fa-lg fa-fw fa-list"></i>
+          <span class="menu-item-parent">{{ 'Wishlist' | i18n }}</span></a
+        >
         <ul>
           <li routerLinkActive="active">
             <a routerLink="/wishlistPremiere/wishlists">
-              <i class="fa fa-lg fa-fw fa-gift"></i> 
-              {{'Wishlists' | i18n}}
+              <i class="fa fa-lg fa-fw fa-gift"></i>
+              {{ 'Wishlists' | i18n }}
             </a>
           </li>
           <li routerLinkActive="active">
             <a routerLink="/wishlistPremiere/settings">
-              <i class="fa fa-lg fa-fw fa-cog"></i> 
-              {{'Settings' | i18n}}
+              <i class="fa fa-lg fa-fw fa-cog"></i>
+              {{ 'Settings' | i18n }}
             </a>
           </li>
           <li routerLinkActive="active">
             <a routerLink="/wishlistPremiere/users">
-              <i class="fa fa-lg fa-fw fa-users"></i> 
-              {{'Users' | i18n}}
+              <i class="fa fa-lg fa-fw fa-users"></i>
+              {{ 'Users' | i18n }}
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Subscriptions-->
+      <li>
+        <a href="#"
+          ><i class="fa fa-lg fa-fw fa-rss"></i>
+          <span class="menu-item-parent">{{ 'Subscription' | i18n }}</span></a
+        >
+        <ul>
+          <li routerLinkActive="active">
+            <a routerLink="/subscription/plans">
+              <i class="fa fa-lg fa-fw fa-columns"></i>
+              {{ 'Plans' | i18n }}
+            </a>
+          </li>
+          <li routerLinkActive="active">
+            <a routerLink="/subscription/users">
+              <i class="fa fa-lg fa-fw fa-users"></i>
+              {{ 'Users' | i18n }}
             </a>
           </li>
         </ul>
@@ -52,58 +79,62 @@
 
       <!-- System-->
       <li>
-        <a href="#"><i class="fa fa-lg fa-fw fa-heartbeat"></i> <span
-          class="menu-item-parent">{{'System' | i18n}}</span></a>
+        <a href="#"
+          ><i class="fa fa-lg fa-fw fa-heartbeat"></i>
+          <span class="menu-item-parent">{{ 'System' | i18n }}</span></a
+        >
         <ul>
           <li routerLinkActive="active">
             <a routerLink="/system/jobs">
-              <i class="fa fa-lg fa-fw fa-recycle"></i> 
-              {{'Jobs' | i18n}}
+              <i class="fa fa-lg fa-fw fa-recycle"></i>
+              {{ 'Jobs' | i18n }}
             </a>
           </li>
           <li routerLinkActive="active">
             <a routerLink="/system/queues">
-              <i class="fa fa-lg fa-fw fa-inbox"></i> 
-              {{'Queues' | i18n}}
+              <i class="fa fa-lg fa-fw fa-inbox"></i>
+              {{ 'Queues' | i18n }}
             </a>
           </li>
         </ul>
       </li>
+
       <!--Admin-->
       <li>
-        <a href="#"><i class="fa fa-lg fa-fw fa-lock"></i> <span
-          class="menu-item-parent">{{'Admin' | i18n}}</span></a>
+        <a href="#"
+          ><i class="fa fa-lg fa-fw fa-lock"></i>
+          <span class="menu-item-parent">{{ 'Admin' | i18n }}</span></a
+        >
         <ul>
           <li routerLinkActive="active">
             <a routerLink="/account/users">
-              <i class="fa fa-lg fa-fw fa-users"></i> 
-              {{'Users' | i18n}}
+              <i class="fa fa-lg fa-fw fa-users"></i>
+              {{ 'Users' | i18n }}
             </a>
           </li>
           <li routerLinkActive="active">
             <a routerLink="/account/roles">
-              <i class="fa fa-lg fa-fw fa-legal"></i> 
-              {{'Roles' | i18n}}
+              <i class="fa fa-lg fa-fw fa-legal"></i>
+              {{ 'Roles' | i18n }}
             </a>
           </li>
           <li routerLinkActive="active">
             <a routerLink="/account/tokens">
-              <i class="fa fa-lg fa-fw fa-key"></i> 
-              {{'Tokens' | i18n}}
-              <span
-              class="badge inbox-badge bg-color-redLight">unsafe</span>
+              <i class="fa fa-lg fa-fw fa-key"></i>
+              {{ 'Tokens' | i18n }}
+              <span class="badge inbox-badge bg-color-redLight">unsafe</span>
             </a>
           </li>
           <li routerLinkActive="active">
             <a routerLink="/account/api-clients">
-              <i class="fa fa-lg fa-fw fa-lock"></i> 
-              {{'Api Clients' | i18n}}
+              <i class="fa fa-lg fa-fw fa-lock"></i>
+              {{ 'Api Clients' | i18n }}
             </a>
           </li>
           <li routerLinkActive="active">
             <a routerLink="/account/applications">
-              <i class="fa fa-lg fa-fw fa-rocket"></i> 
-              {{'Applications' | i18n}}
+              <i class="fa fa-lg fa-fw fa-rocket"></i>
+              {{ 'Applications' | i18n }}
             </a>
           </li>
         </ul>
@@ -111,9 +142,7 @@
 
       <!-- <li aside-chat></li> -->
     </ul>
-
   </nav>
 
   <sa-minify-menu></sa-minify-menu>
-
 </aside>

@@ -36,6 +36,11 @@ const routes: Routes = [
         path: "system",
         loadChildren: "./features/system/system.module#SystemModule",
         data: { pageTitle: "System" }
+      },
+      {
+        path: "subscription",
+        loadChildren: "./features/subscription/subscription.module#SubscriptionModule",
+        data: { pageTitle: "Subscription" }
       }
     ]
   },
