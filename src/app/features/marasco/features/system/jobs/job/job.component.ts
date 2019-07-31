@@ -5,9 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
-import { Job } from '../shared/Job.interface';
-import { JobsService } from '../shared/jobs.service';
-import { JobFactory } from '../shared/job.factory';
+import { JobsService, JobFactory, Job } from '../shared';
 
 import * as moment from 'moment';
 

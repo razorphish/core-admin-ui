@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { of } from 'rxjs';
 
 // Local
-import { JobsService } from '../shared/jobs.service';
+import { JobsService } from '../shared';
 
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 

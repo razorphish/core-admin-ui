@@ -16,10 +16,7 @@ export class WishlistListComponent implements OnInit {
   options: {};
   message: string;
 
-  constructor(
-    private _route: ActivatedRoute,
-    private _router: Router
-  ) {}
+  constructor(private _route: ActivatedRoute, private _router: Router) {}
 
   ngOnInit() {
     this.wishlists = this._route.snapshot.data['wishlists'];
@@ -38,12 +35,28 @@ export class WishlistListComponent implements OnInit {
       columns: [
         { data: '_id', title: 'Id' },
         { data: 'name', title: 'Name', defaultContent: '<i>Not Set</i>' },
-        { data: 'userId', title: 'User',
-          render: (data, type,row, meta) => {
-            return `${data.firstName} ${data.lastName}`
+        {
+          data: 'userId',
+          title: 'User',
+          render: (data, type, row, meta) => {
+            if (!!data) {
+              return `${data.firstName} ${data.lastName}`;
+            } else {
+              return 'N/A';
+            }
           }
         },
-        { data: 'userId.username' },
+        {
+          data: 'userId.username',
+          title: 'Username',
+          render: (data, type, row, meta) => {
+            if (!!data) {
+              return data;
+            } else {
+              return 'N/A';
+            }
+          }
+        },
         { data: 'userId.email' },
         {
           data: 'dateCreated',

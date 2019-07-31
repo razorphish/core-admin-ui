@@ -1,3 +1,4 @@
+import { ApplicationService } from './../../../account/applications/shared/application.service';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,6 +10,7 @@ import { SubscriptionPlanService } from '../shared/subscriptionPlan.service';
 import { SubscriptionPlanFactory } from '../shared/subscriptionPlan.factory';
 
 import * as moment from 'moment';
+import { Application } from '../../../account/applications';
 
 @Component({
   selector: 'marasco-subscriptions-plan',
@@ -21,6 +23,7 @@ export class SubcriptionPlanComponent implements OnInit {
   //\\\END Private variables ////////
 
   //////////////////Publicly exposed variables///////////
+  public applications: Application[];
 
   public statusOptions = [
     {
@@ -46,10 +49,13 @@ export class SubcriptionPlanComponent implements OnInit {
   ];
 
   public selectedStatus = [];
+  public selectedApplication = [];
 
   public defaultJob: SubscriptionPlan = { };
 
   public dropdownSettingsStatus = {};
+  public dropdownSettingsApplication = {};
+
   public isUpdate = true;
   public options = [];
   public state: any = {
@@ -111,7 +117,8 @@ export class SubcriptionPlanComponent implements OnInit {
     private _notificationService: NotificationService,
     private _router: Router,
     private _factory: SubscriptionPlanFactory,
-    private _activityLogService: ActivityLogSubjectService
+    private _activityLogService: ActivityLogSubjectService,
+    private _applicationService: ApplicationService
   ) {}
 
   /////////////////////////////////////
@@ -170,6 +177,18 @@ export class SubcriptionPlanComponent implements OnInit {
       idField: '_id',
       textField: 'name',
     };
+
+    this.dropdownSettingsApplication = {
+      singleSelection: true,
+      idField: '_id',
+      textField: 'name',
+    };
+
+    this._applicationService
+      .all()
+      .subscribe((data) => {
+        this.applications = data;
+      })
   }
 
   private displayErrors(errors: string[]): void {
@@ -189,7 +208,6 @@ export class SubcriptionPlanComponent implements OnInit {
    * Insert an item in the database
    */
   private insert() {
-    this.subscriptionPlan.statusId = this.selectedStatus[0];
 
     this._service.insert(this.subscriptionPlan).subscribe(
       (item) => {
@@ -293,6 +311,8 @@ export class SubcriptionPlanComponent implements OnInit {
    * Validate the item
    */
   private validate(): boolean {
+    this.subscriptionPlan.statusId = this.selectedStatus[0];
+    this.subscriptionPlan.applicationId = this.selectedApplication[0];
     return this._factory.validate(this.subscriptionPlan, this.displayErrors);
   }
 }

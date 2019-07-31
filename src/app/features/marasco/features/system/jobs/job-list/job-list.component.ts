@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import * as moment from 'moment';
 
-import { Job } from '../shared/Job.interface';
+import { Job } from '../shared';
 
 @Component({
   selector: 'marasco-system-job-list',

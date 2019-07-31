@@ -18,7 +18,7 @@ import {
   JobResolve,
   JobGuard,
   JobFactory,
-} from '../Jobs';
+} from '../jobs';
 
 @NgModule({
   imports: [

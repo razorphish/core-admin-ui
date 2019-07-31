@@ -8,6 +8,8 @@ import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-in
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+import { ApplicationService } from '../../account/applications/shared';
+
 import {
   //Core Subscription Components
   SubscriptionPlansComponent,
@@ -42,6 +44,7 @@ import {
     SubscriptionPlanListResolve,
     SubscriptionPlanFactory,
     UpperCasePipe,
+    ApplicationService
   ],
 })
 export class SubscriptionPlansModule {}

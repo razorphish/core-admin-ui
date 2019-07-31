@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 // Local libraries
-import { Job } from '../shared/Job.interface';
-import { JobsService } from '../shared/jobs.service';
+import { Job, JobsService } from '../shared';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
 @Injectable()

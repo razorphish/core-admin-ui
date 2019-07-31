@@ -32,7 +32,7 @@
           <!-- widget div-->
           <div>
             <form
-              #jobDetailsForm="ngForm"
+              #subscriptionPlanDetailsForm="ngForm"
               [saUiValidate]="validationOptions"
               novalidate="novalidate"
               (ngSubmit)="save(subscriptionPlanDetailsForm.value)"
@@ -66,14 +66,14 @@
                       </section>
                       <section class="col col-3">
                         Application
-                        <label class="input">
-                          <input
-                            type="text"
-                            name="userId"
-                            placeholder="User"
-                            [(ngModel)]="subscriptionPlan.applicationId"
-                          />
-                        </label>
+                        <ng-multiselect-dropdown
+                          name="applicationId"
+                          [placeholder]="'Select Application'"
+                          [data]="applications"
+                          [(ngModel)]="selectedApplication"
+                          [settings]="dropdownSettingsApplication"
+                        >
+                        </ng-multiselect-dropdown>
                       </section>
                       <section class="col col-2">
                         Status
