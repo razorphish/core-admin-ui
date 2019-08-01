@@ -3,7 +3,7 @@ export interface SubscriptionItem {
   applicationId?: any;
   subscriptionPlanId?: any;
   amount?: number;
-  descripiton?: string;
+  description?: string;
   name?: string;
   saleAmount?: string;
   typeId?: string;

@@ -24,6 +24,7 @@ import {
   //Subscription Plans
   SubscriptionPlanService,
   SubscriptionPlanFactory,
+  SubscriptionItemService
 } from '.';
 
 @NgModule({
@@ -43,6 +44,8 @@ import {
     SubscriptionPlanResolve,
     SubscriptionPlanListResolve,
     SubscriptionPlanFactory,
+
+    SubscriptionItemService,
     UpperCasePipe,
     ApplicationService
   ],

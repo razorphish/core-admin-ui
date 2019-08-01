@@ -87,7 +87,7 @@
                         </ng-multiselect-dropdown>
                       </section>
                     </div>
-                    
+
                     <div class="row">
                       <section class="col col-3">
                         Expiration Date
@@ -104,14 +104,9 @@
                           />
                         </label>
                       </section>
-                      <section class="col col-3">
-
-                      </section>
-                      <section class="col col-2">
-                      </section>
-
+                      <section class="col col-3"></section>
+                      <section class="col col-2"></section>
                     </div>
-
                   </fieldset>
 
                   <footer>
@@ -131,9 +126,65 @@
               </div>
             </form>
 
-            <!-- widget content -->
-            <!-- Tabs go here -->
-            <!-- end widget content -->
+            <!-- Tab content -->
+            <div class="widget-body">
+              <ul id="myTab1" class="nav nav-tabs bordered">
+                <li [class.active]="state.tabs.demo1 === 0">
+                  <a (click)="state.tabs.demo1 = 0"
+                    ><i class="fa fa-fw fa-lg fa-pencil-square"></i> Items</a
+                  >
+                </li>
+
+                <li [class.active]="state.tabs.demo1 === 1">
+                  <a (click)="state.tabs.demo1 = 1"
+                    ><i class="fa fa-fw fa-lg fa-users"></i> Users</a
+                  >
+                </li>
+
+              </ul>
+
+              <tabset class="padding-10">
+                <tab [active]="state.tabs.demo1 === 0">
+                  <sa-datatable
+                    [options]="optionsItemsTable"
+                    tableClass="table table-striped table-bordered table-hover"
+                    paginationLength="true"
+                  >
+                    <thead>
+                      <tr>
+                        <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
+                        <th [style.width]="'4%'">Name</th>
+                        <th [style.width]="'8%'">Description</th>
+                        <th [style.width]="'8%'">Amount</th>
+                        <th [style.width]="'8%'">Sale Amount</th>
+                        <th [style.width]="'4%'">Type</th>
+                        <th [style.width]="'8%'">Limit</th>
+                        <th data-class="expand">Created</th>
+                      </tr>
+                    </thead>
+
+                    <tfoot>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Sale Amount</th>
+                        <th>Type</th>
+                        <th>Limit</th>
+                        <th>Created</th>
+                      </tr>
+                    </tfoot>
+                  </sa-datatable>
+                </tab>
+
+                <tab [active]="state.tabs.demo1 === 1" class="smart-form">
+
+                </tab>
+
+              </tabset>
+            </div>
+            <!-- end Tab content -->
           </div>
           <!-- end widget div -->
         </div>
@@ -145,3 +196,135 @@
   </sa-widgets-grid>
   <!-- end widget grid -->
 </div>
+
+<!-- Subscription Plan Item Modal-->
+<div
+  bsModal
+  #lgItemModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalItemLabel"
+  aria-hidden="true"
+>
+  <form
+    #subscriptionItemForm="ngForm"
+    [saUiValidate]="validationItemOptions"
+    novalidate="novalidate"
+    (ngSubmit)="saveSubscriptionPlanItem(subscriptionItemForm.value)"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            (click)="lgItemModal.hide()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Subscription Item</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="name"> Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Name"
+                  name="name"
+                  [(ngModel)]="subscriptionItem.name"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description"> Description</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="description"
+                  placeholder="Description"
+                  name="description"
+                  [(ngModel)]="subscriptionItem.description"
+                />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="fromEmail"> Amount</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="amount"
+                  placeholder="Amount"
+                  name="amount"
+                  [(ngModel)]="subscriptionItem.amount"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="saleAmount">Sale Amount</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="saleAmount"
+                  name="saleAmount"
+                  placeholder="Sale Amount"
+                  [(ngModel)]="subscriptionItem.saleAmount"
+                />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="typeId"> Type</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="typeId"
+                  name="typeId"
+                  [(ngModel)]="subscriptionItem.typeId"
+                />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="limit"> Limit</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="limit"
+                  name="limit"
+                  [(ngModel)]="subscriptionItem.limit"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="lgItemModal.hide()"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Save Item
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- //End Subscription Plan Item Modal -->

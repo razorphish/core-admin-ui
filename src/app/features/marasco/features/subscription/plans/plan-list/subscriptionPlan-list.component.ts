@@ -35,9 +35,15 @@ export class SubscriptionPlanListComponent implements OnInit {
       columns: [
         { data: '_id', title: 'Id' },
         { data: 'name', title: 'Name', defaultContent: '<i>Not Set</i>' },
-        { data: 'descripiton', title: 'Description'},
+        { data: 'description', title: 'Description' },
         { data: 'statusId', title: 'Status' },
-        { data: 'applicationId.name', title: 'Application'},
+        {
+          data: 'applicationId',
+          title: 'Application',
+          render: (data, type, row, meta) => {
+            return data.name;
+          },
+        },
         {
           data: 'dateExpire',
           render: (data, type, row, meta) => {

@@ -11,7 +11,7 @@ import { SubscriptionPlan } from './SubscriptionPlan.interface'
 
 @Injectable()
 export class SubscriptionPlanService {
-  private _url: string = environment.apiUrl + 'subscription/plan';
+  private _url: string = environment.apiUrl + 'subscription/plan/';
   private _headers: Headers;
   private _options: RequestOptions;
 
@@ -32,14 +32,14 @@ export class SubscriptionPlanService {
   all(): Observable<SubscriptionPlan[]> {
     return this._authHttp
       .get(this._url)
-      .pipe(map((jobs: any) => jobs),
+      .pipe(map((subscriptionPlans: any) => subscriptionPlans),
       catchError(this.handleError));
   }
 
   allDetails(): Observable<SubscriptionPlan[]> {
     return this._authHttp
       .get(`${this._url}details`)
-      .pipe(map((jobs: any) => jobs),
+      .pipe(map((subscriptionPlans: any) => subscriptionPlans),
       catchError(this.handleError));
   }
 
@@ -53,28 +53,28 @@ export class SubscriptionPlanService {
   get(id: string): Observable<SubscriptionPlan> {
     return this._authHttp
       .get(`${this._url}${id}`)
-      .pipe(map((job: any) => job),
+      .pipe(map((subscriptionPlan: any) => subscriptionPlan),
       catchError(this.handleError));
   }
 
   getDetails(id: string): Observable<SubscriptionPlan> {
     return this._authHttp
       .get(`${this._url}${id}/details`)
-      .pipe(map((job: any) => job),
+      .pipe(map((subscriptionPlan: any) => subscriptionPlan),
       catchError(this.handleError));
   }
 
-  insert(job: SubscriptionPlan): Observable<SubscriptionPlan> {
+  insert(subscriptionPlan: SubscriptionPlan): Observable<SubscriptionPlan> {
     return this._authHttp
-      .post(this._url, JSON.stringify(job))
-      .pipe(map((job: SubscriptionPlan) => job),
+      .post(this._url, JSON.stringify(subscriptionPlan))
+      .pipe(map((subscriptionPlan: SubscriptionPlan) => subscriptionPlan),
         catchError(this.handleError));
   }
 
-  update(job: SubscriptionPlan): Observable<SubscriptionPlan> {
+  update(subcriptionPlan: SubscriptionPlan): Observable<SubscriptionPlan> {
     return this._authHttp
-      .put(`${this._url}${job._id}`, JSON.stringify(job))
-      .pipe(map((job: SubscriptionPlan) => job),
+      .put(`${this._url}${subcriptionPlan._id}`, JSON.stringify(subcriptionPlan))
+      .pipe(map((subscriptionPlan: SubscriptionPlan) => subscriptionPlan),
         catchError(this.handleError));
   }
 
