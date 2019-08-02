@@ -7,7 +7,8 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../../../../../environments/environment';
 import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
-import { SubscriptionPlan } from './SubscriptionPlan.interface'
+import { SubscriptionPlan } from './SubscriptionPlan.interface';
+import { SubscriptionItem } from './SubscriptionItem.interface';
 
 @Injectable()
 export class SubscriptionPlanService {
@@ -30,52 +31,85 @@ export class SubscriptionPlanService {
   }
 
   all(): Observable<SubscriptionPlan[]> {
-    return this._authHttp
-      .get(this._url)
-      .pipe(map((subscriptionPlans: any) => subscriptionPlans),
-      catchError(this.handleError));
+    return this._authHttp.get(this._url).pipe(
+      map((subscriptionPlans: any) => subscriptionPlans),
+      catchError(this.handleError)
+    );
   }
 
   allDetails(): Observable<SubscriptionPlan[]> {
-    return this._authHttp
-      .get(`${this._url}details`)
-      .pipe(map((subscriptionPlans: any) => subscriptionPlans),
-      catchError(this.handleError));
+    return this._authHttp.get(`${this._url}details`).pipe(
+      map((subscriptionPlans: any) => subscriptionPlans),
+      catchError(this.handleError)
+    );
   }
 
   delete(id: string): Observable<any> {
-    return this._authHttp
-      .delete(`${this._url}${id}`)
-      .pipe(map((result: any) => result),
-        catchError(this.handleError))
+    return this._authHttp.delete(`${this._url}${id}`).pipe(
+      map((result: any) => result),
+      catchError(this.handleError)
+    );
   }
 
   get(id: string): Observable<SubscriptionPlan> {
-    return this._authHttp
-      .get(`${this._url}${id}`)
-      .pipe(map((subscriptionPlan: any) => subscriptionPlan),
-      catchError(this.handleError));
+    return this._authHttp.get(`${this._url}${id}`).pipe(
+      map((subscriptionPlan: any) => subscriptionPlan),
+      catchError(this.handleError)
+    );
   }
 
   getDetails(id: string): Observable<SubscriptionPlan> {
-    return this._authHttp
-      .get(`${this._url}${id}/details`)
-      .pipe(map((subscriptionPlan: any) => subscriptionPlan),
-      catchError(this.handleError));
+    return this._authHttp.get(`${this._url}${id}/details`).pipe(
+      map((subscriptionPlan: any) => subscriptionPlan),
+      catchError(this.handleError)
+    );
   }
 
   insert(subscriptionPlan: SubscriptionPlan): Observable<SubscriptionPlan> {
     return this._authHttp
       .post(this._url, JSON.stringify(subscriptionPlan))
-      .pipe(map((subscriptionPlan: SubscriptionPlan) => subscriptionPlan),
-        catchError(this.handleError));
+      .pipe(
+        map((subscriptionPlan: SubscriptionPlan) => subscriptionPlan),
+        catchError(this.handleError)
+      );
+  }
+
+  insertItem(subscriptionItem: SubscriptionItem): Observable<SubscriptionItem> {
+    return this._authHttp
+      .post(
+        `${this._url}${subscriptionItem.subscriptionPlanId}/item`,
+        JSON.stringify(subscriptionItem)
+      )
+      .pipe(
+        map((subscriptionItem: SubscriptionItem) => subscriptionItem),
+        catchError(this.handleError)
+      );
   }
 
   update(subcriptionPlan: SubscriptionPlan): Observable<SubscriptionPlan> {
     return this._authHttp
-      .put(`${this._url}${subcriptionPlan._id}`, JSON.stringify(subcriptionPlan))
-      .pipe(map((subscriptionPlan: SubscriptionPlan) => subscriptionPlan),
-        catchError(this.handleError));
+      .put(
+        `${this._url}${subcriptionPlan._id}`,
+        JSON.stringify(subcriptionPlan)
+      )
+      .pipe(
+        map((subscriptionPlan: SubscriptionPlan) => subscriptionPlan),
+        catchError(this.handleError)
+      );
+  }
+
+  updateItem(subscriptionItem: SubscriptionItem): Observable<SubscriptionItem> {
+    return this._authHttp
+      .put(
+        `${this._url}${subscriptionItem.subscriptionPlanId}/item/${
+          subscriptionItem._id
+        }`,
+        JSON.stringify(subscriptionItem)
+      )
+      .pipe(
+        map((subscriptionItem: SubscriptionItem) => subscriptionItem),
+        catchError(this.handleError)
+      );
   }
 
   /*///////////////////////////////////////////////
@@ -96,7 +130,6 @@ export class SubscriptionPlanService {
         errMessage = error.statusText;
       }
       return throwError(errMessage);
-
     }
     return throwError(error || 'Node.js server error');
   }

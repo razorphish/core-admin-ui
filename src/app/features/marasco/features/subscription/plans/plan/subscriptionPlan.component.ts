@@ -1,6 +1,5 @@
 import { SubscriptionItemService } from './../shared/subscriptionItem.service';
 import { SubscriptionItem } from './../shared/SubscriptionItem.interface';
-import { WishlistItem } from './../../../wishlistPremiere/wishlists/shared/Wishlist-item.interface';
 import { ApplicationService } from './../../../account/applications/shared/application.service';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,9 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ActivityLogSubjectService } from '../../../../shared/activitylog.subject-service';
 
-import { SubscriptionPlan } from '../shared/SubscriptionPlan.interface';
-import { SubscriptionPlanService } from '../shared/subscriptionPlan.service';
-import { SubscriptionPlanFactory } from '../shared/subscriptionPlan.factory';
+import {
+  SubscriptionPlan,
+  SubscriptionPlanService,
+  SubscriptionPlanFactory,
+  SubscriptionItemFactory
+} from '../shared/';
 
 import * as moment from 'moment';
 import { Application } from '../../../account/applications';
@@ -20,7 +22,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'marasco-subscriptions-plan',
   templateUrl: 'subscriptionPlan.component.html',
-  styleUrls: ['./subscriptionPlan.component.css'],
+  styleUrls: ['./subscriptionPlan.component.css']
 })
 export class SubcriptionPlanComponent implements OnInit {
   //////////////////Private variables///////////
@@ -33,24 +35,24 @@ export class SubcriptionPlanComponent implements OnInit {
   public statusOptions = [
     {
       _id: 'active',
-      name: 'active',
+      name: 'active'
     },
     {
       _id: 'disabled',
-      name: 'disabled',
+      name: 'disabled'
     },
     {
       _id: 'pending',
-      name: 'pending',
+      name: 'pending'
     },
     {
       _id: 'archived',
-      name: 'archived',
+      name: 'archived'
     },
     {
       _id: 'deleted',
-      name: 'deleted',
-    },
+      name: 'deleted'
+    }
   ];
 
   public selectedStatus = [];
@@ -61,17 +63,32 @@ export class SubcriptionPlanComponent implements OnInit {
 
   public dropdownSettingsStatus = {};
   public dropdownSettingsApplication = {};
+  public dropdownSettingsItemType = {};
+
+  public itemTypeOptions = [
+    {
+      _id: 'subscription',
+      name: 'subscription'
+    },
+    {
+      _id: 'add-on',
+      name: 'add-on'
+    },
+    {
+      _id: 'exclusive',
+      name: 'exclusive'
+    }
+  ];
 
   public subscriptionItem: SubscriptionItem = {
-    name: '',
+    name: ''
   };
 
-  public isUpdate = true;
   public options = [];
   public state: any = {
     tabs: {
-      demo1: 0,
-    },
+      demo1: 0
+    }
   };
 
   public subscriptionPlan: SubscriptionPlan = this.defaultJob;
@@ -80,65 +97,68 @@ export class SubcriptionPlanComponent implements OnInit {
     // Rules for form validation
     rules: {
       name: {
-        required: true,
+        required: true
       },
       applicationId: {
-        required: true,
+        required: true
       },
       statusId: {
-        required: true,
+        required: true
       },
       description: {
-        required: true,
+        required: true
       },
       dateExpire: {
-        required: true,
-      },
+        required: true
+      }
     },
 
     // Messages for form validation
     messages: {
       name: {
-        required: 'Please enter a name',
+        required: 'Please enter a name'
       },
       applicationId: {
-        required: 'Please select an application',
+        required: 'Please select an application'
       },
       statusId: {
-        required: 'Please enter a status',
+        required: 'Please enter a status'
       },
       description: {
-        required: 'Please enter a description',
+        required: 'Please enter a description'
       },
       dateExpire: {
-        required: 'Please select an expiration date',
-      },
-    },
+        required: 'Please select an expiration date'
+      }
+    }
   };
 
   public validationItemOptions: any = {
     // Rules for form validation
     rules: {
       name: {
-        required: true,
+        required: true
       },
       subject: {
-        required: true,
-      },
+        required: true
+      }
     },
 
     // Messages for form validation
     messages: {
       name: {
-        required: 'Please enter email notification name',
+        required: 'Please enter email notification name'
       },
       subject: {
-        required: 'Please enter a subject',
-      },
-    },
+        required: 'Please enter a subject'
+      }
+    }
   };
 
   public optionsItemsTable: any = {};
+
+  public isUpdate = true;
+  public isUpdateItem = false;
 
   @ViewChild('lgItemModal') public lgItemModal: ModalDirective;
 
@@ -148,11 +168,11 @@ export class SubcriptionPlanComponent implements OnInit {
 
   constructor(
     private _service: SubscriptionPlanService,
-    private _itemService: SubscriptionItemService,
     private _route: ActivatedRoute,
     private _notificationService: NotificationService,
     private _router: Router,
     private _factory: SubscriptionPlanFactory,
+    private _itemFactory: SubscriptionItemFactory,
     private _activityLogService: ActivityLogSubjectService,
     private _applicationService: ApplicationService
   ) {}
@@ -164,7 +184,17 @@ export class SubcriptionPlanComponent implements OnInit {
   ngOnInit() {
     const id = this._route.snapshot.params['id'];
     if (id !== '0') {
-      this.subscriptionPlan = this._route.snapshot.data['subscriptionPlan'];
+      //this.subscriptionPlan = this._route.snapshot.data['subscriptionPlan'];
+      this._route.params.subscribe(params => {
+        const id = params['id'];
+        if (id !== '0') {
+          this.subscriptionPlan = this._route.snapshot.data['subscriptionPlan'];
+          this.isUpdate = true;
+        } else {
+          this.isUpdate = false;
+        }
+      });
+
       this.selectedApplication.push(this.subscriptionPlan.applicationId);
       this.selectedStatus.push(this.subscriptionPlan.statusId);
       this.parseDate(this.subscriptionPlan.dateExpire);
@@ -175,29 +205,16 @@ export class SubcriptionPlanComponent implements OnInit {
     this.activate();
   }
 
-  onItemSelect(item: any) {
-    //console.log(item);
-  }
-
-  onSelectAll(items: any) {
-    //console.log(items);
-  }
-
-  public showItemModal(data: any): void {
-    if (!!data) {
-      this.selectedType.push(this.subscriptionItem.typeId);
-    }
-
-    this.subscriptionItem = data;
-    this.lgItemModal.show();
-  }
-
   /////////////////////////////////////
   // Public Metods
   /////////////////////////////////////
 
-  public save(form: any) {
+  public hideModal() {
+    this.selectedType = [];
+    this.lgItemModal.hide();
+  }
 
+  public save(form: any) {
     if (this.validate()) {
       if (this.isUpdate) {
         this.update();
@@ -208,13 +225,26 @@ export class SubcriptionPlanComponent implements OnInit {
   }
 
   public saveItem(form: any) {
-    this.subscriptionItem.typeId = this.selectedType[0];
     if (this.validateItem()) {
-      if (this.isUpdate) {
+      this.subscriptionItem.dateModified = moment().toDate();
+      if (this.isUpdateItem) {
         this.updateItem();
       } else {
-        this.insert();
+        this.insertItem();
       }
+    }
+  }
+
+  public showItemModal(data: any): void {
+    this.lgItemModal.show();
+
+    this.subscriptionItem = data;
+
+    if (!!data._id) {
+      this.selectedType = [data.typeId];
+      this.isUpdateItem = true;
+    } else {
+      this.isUpdateItem = false;
     }
   }
 
@@ -232,16 +262,22 @@ export class SubcriptionPlanComponent implements OnInit {
     this.dropdownSettingsStatus = {
       singleSelection: true,
       idField: '_id',
-      textField: 'name',
+      textField: 'name'
     };
 
     this.dropdownSettingsApplication = {
       singleSelection: true,
       idField: '_id',
-      textField: 'name',
+      textField: 'name'
     };
 
-    this._applicationService.all().subscribe((data) => {
+    this.dropdownSettingsItemType = {
+      singleSelection: true,
+      idField: '_id',
+      textField: 'name'
+    };
+
+    this._applicationService.all().subscribe(data => {
       this.applications = data;
     });
 
@@ -249,7 +285,6 @@ export class SubcriptionPlanComponent implements OnInit {
   }
 
   private activateItemsTable() {
-
     const that = this;
 
     this.optionsItemsTable = {
@@ -261,7 +296,7 @@ export class SubcriptionPlanComponent implements OnInit {
         { data: 'description', title: 'Description' },
         {
           data: 'amount',
-          title: 'Amount',
+          title: 'Amount'
         },
         { data: 'saleAmount', title: 'Sale Amount' },
         { data: 'typeId', title: 'Type' },
@@ -270,8 +305,8 @@ export class SubcriptionPlanComponent implements OnInit {
           data: 'dateCreated',
           render: (data, type, row, meta) => {
             return moment(data).format('LLL');
-          },
-        },
+          }
+        }
       ],
       buttons: [
         'copy',
@@ -282,8 +317,8 @@ export class SubcriptionPlanComponent implements OnInit {
           action: function(e, dt, node, config) {
             that.showItemModal(that.subscriptionItem);
           },
-          className: 'btn btn-primary',
-        },
+          className: 'btn btn-primary'
+        }
       ],
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;
@@ -291,10 +326,10 @@ export class SubcriptionPlanComponent implements OnInit {
         // (see https://github.com/l-lin/angular-datatables/issues/87)
         jQuery('td', row).unbind('click');
         jQuery('td', row).bind('click', () => {
-          self.showItemModal(data);
+          that.showItemModal(data);
         });
         return row;
-      },
+      }
     };
   }
 
@@ -307,7 +342,7 @@ export class SubcriptionPlanComponent implements OnInit {
       color: '#C46A69',
       icon: 'fa fa-warning shake animated',
       number: '1',
-      timeout: 6000, // 6 seconds
+      timeout: 6000 // 6 seconds
     });
   }
 
@@ -320,7 +355,7 @@ export class SubcriptionPlanComponent implements OnInit {
       color: '#C46A69',
       icon: 'fa fa-warning shake animated',
       number: '1',
-      timeout: 6000, // 6 seconds
+      timeout: 6000 // 6 seconds
     });
   }
 
@@ -329,7 +364,7 @@ export class SubcriptionPlanComponent implements OnInit {
    */
   private insert() {
     this._service.insert(this.subscriptionPlan).subscribe(
-      (item) => {
+      item => {
         if (item) {
           this._activityLogService.addInserts(
             `Inserted {subscriptionPlan} ${item._id}`
@@ -340,7 +375,7 @@ export class SubcriptionPlanComponent implements OnInit {
             color: '#739E73',
             timeout: 4000,
             icon: 'fa fa-check',
-            number: '4',
+            number: '4'
           });
           this.isUpdate = true;
           this.subscriptionPlan._id = item._id;
@@ -355,11 +390,11 @@ export class SubcriptionPlanComponent implements OnInit {
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
-            timeout: 6000, // 6 seconds
+            timeout: 6000 // 6 seconds
           });
         }
       },
-      (errInfo) => {
+      errInfo => {
         this._activityLogService.addError(errInfo);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to create',
@@ -367,7 +402,60 @@ export class SubcriptionPlanComponent implements OnInit {
           color: '#C46A69',
           icon: 'fa fa-warning shake animated',
           number: '1',
-          timeout: 6000, // 6 seconds
+          timeout: 6000 // 6 seconds
+        });
+      },
+      () => {
+        // Clean up
+      }
+    );
+  }
+
+  /**
+   * Insert an item in the database
+   */
+  private insertItem() {
+    this._service.insertItem(this.subscriptionItem).subscribe(
+      item => {
+        if (item) {
+          this._activityLogService.addInserts(
+            `Inserted {subscriptionItem} ${item._id}`
+          );
+          this._notificationService.smallBox({
+            title: '[Subscription Item] created',
+            content: '[Subscription Item] has been created successfully. ',
+            color: '#739E73',
+            timeout: 4000,
+            icon: 'fa fa-check',
+            number: '4'
+          });
+          this.subscriptionItem._id = item._id;
+          this.selectedType = [];
+          this.lgItemModal.hide();
+        } else {
+          this._activityLogService.addError(
+            '[Subscription Item] not returned from database on insert'
+          );
+          this._notificationService.bigBox({
+            title: 'Oops! the database has returned an error',
+            content:
+              '[Subscription Item] was not returned indicating that {subscriptionPlan} was not in fact updated',
+            color: '#C46A69',
+            icon: 'fa fa-warning shake animated',
+            number: '1',
+            timeout: 6000 // 6 seconds
+          });
+        }
+      },
+      errInfo => {
+        this._activityLogService.addError(errInfo);
+        this._notificationService.bigBox({
+          title: 'Oops!  there is an issue with the call to create',
+          content: errInfo.error.message || errInfo.message,
+          color: '#C46A69',
+          icon: 'fa fa-warning shake animated',
+          number: '1',
+          timeout: 6000 // 6 seconds
         });
       },
       () => {
@@ -384,9 +472,8 @@ export class SubcriptionPlanComponent implements OnInit {
    * Update item
    */
   private update() {
-
     this._service.update(this.subscriptionPlan).subscribe(
-      (item) => {
+      item => {
         if (item) {
           this._activityLogService.addUpdate(
             `Updated {subscriptionPlan} ${item._id}`
@@ -397,7 +484,7 @@ export class SubcriptionPlanComponent implements OnInit {
             color: '#739E73',
             timeout: 4000,
             icon: 'fa fa-check',
-            number: '4',
+            number: '4'
           });
         } else {
           this._activityLogService.addError(
@@ -410,11 +497,11 @@ export class SubcriptionPlanComponent implements OnInit {
             color: '#C46A69',
             icon: 'fa fa-warning shake animated',
             number: '1',
-            timeout: 6000, // 6 seconds
+            timeout: 6000 // 6 seconds
           });
         }
       },
-      (err) => {
+      err => {
         this._activityLogService.addError(err);
         this._notificationService.bigBox({
           title: 'Oops!  there is an issue with the call to update',
@@ -422,7 +509,7 @@ export class SubcriptionPlanComponent implements OnInit {
           color: '#C46A69',
           icon: 'fa fa-warning shake animated',
           number: '1',
-          timeout: 6000, // 6 seconds
+          timeout: 6000 // 6 seconds
         });
       },
       () => {
@@ -432,8 +519,8 @@ export class SubcriptionPlanComponent implements OnInit {
   }
 
   private updateItem() {
-    this._itemService.update(this.subscriptionItem).subscribe(
-      (subscriptionItem) => {
+    this._service.updateItem(this.subscriptionItem).subscribe(
+      subscriptionItem => {
         this.subscriptionItem = subscriptionItem;
 
         this._activityLogService.addUpdate(
@@ -446,17 +533,29 @@ export class SubcriptionPlanComponent implements OnInit {
           color: '#739E73',
           timeout: 4000,
           icon: 'fa fa-check',
-          number: '4',
+          number: '4'
         });
+
+        this.lgItemModal.hide();
+        this._router
+          .navigateByUrl('/subscription/plans', { skipLocationChange: false })
+          .then(() =>
+            this._router.navigate([`/subscription/plans/details/${this.subscriptionPlan._id}`])
+          );
       },
-      (error) => {
+      error => {
         this.displayServerErrors(error);
       }
     );
   }
 
   /**
-   * Validate the item
+   * @description Validates the Subscription plan form
+   * @author Antonio Marasco
+   * @date 2019-08-01
+   * @private
+   * @returns {boolean} True if plan form validates; otherwise false
+   * @memberof SubcriptionPlanComponent
    */
   private validate(): boolean {
     this.subscriptionPlan.statusId = this.selectedStatus[0];
@@ -464,11 +563,22 @@ export class SubcriptionPlanComponent implements OnInit {
     return this._factory.validate(this.subscriptionPlan, this.displayErrors);
   }
 
+  /**
+   * @description Validates subscription plan item form
+   * @author Antonio Marasco
+   * @date 2019-08-01
+   * @private
+   * @returns {boolean} True if item validated; otherwise false
+   * @memberof SubcriptionPlanComponent
+   */
   private validateItem(): boolean {
     this.subscriptionItem.typeId = this.selectedType[0];
     this.subscriptionItem.applicationId = this.subscriptionPlan.applicationId;
     this.subscriptionItem.subscriptionPlanId = this.subscriptionPlan._id;
 
-    return this._factory.validate(this.subscriptionItem, this.displayErrors);
+    return this._itemFactory.validate(
+      this.subscriptionItem,
+      this.displayErrors
+    );
   }
 }

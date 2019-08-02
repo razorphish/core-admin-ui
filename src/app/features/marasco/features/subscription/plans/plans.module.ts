@@ -13,7 +13,6 @@ import { ApplicationService } from '../../account/applications/shared';
 import {
   //Core Subscription Components
   SubscriptionPlansComponent,
-  
   SubscriptionPlansRoutingModule,
   SubscriptionPlanListComponent,
   SubcriptionPlanComponent,
@@ -24,7 +23,8 @@ import {
   //Subscription Plans
   SubscriptionPlanService,
   SubscriptionPlanFactory,
-  SubscriptionItemService
+  SubscriptionItemService,
+  SubscriptionItemFactory
 } from '.';
 
 @NgModule({
@@ -34,10 +34,14 @@ import {
     SmartadminValidationModule,
     SmartadminInputModule,
     SubscriptionPlansRoutingModule,
-    NgMultiSelectDropDownModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [],
-  declarations: [SubscriptionPlansComponent, SubscriptionPlanListComponent, SubcriptionPlanComponent],
+  declarations: [
+    SubscriptionPlansComponent,
+    SubscriptionPlanListComponent,
+    SubcriptionPlanComponent
+  ],
   providers: [
     SubscriptionPlanService,
     SubscriptionPlanGuard,
@@ -46,8 +50,9 @@ import {
     SubscriptionPlanFactory,
 
     SubscriptionItemService,
+    SubscriptionItemFactory,
     UpperCasePipe,
     ApplicationService
-  ],
+  ]
 })
 export class SubscriptionPlansModule {}

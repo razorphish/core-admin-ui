@@ -7,3 +7,4 @@ export * from './SubscriptionUser.interface';
 export * from './subscriptionPlan.factory';
 export * from './subscriptionPlan.service';
 export * from './subscriptionItem.service';
+export * from './subscriptionItem.factory';

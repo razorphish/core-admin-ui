@@ -153,12 +153,12 @@
                     <thead>
                       <tr>
                         <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
-                        <th [style.width]="'4%'">Name</th>
-                        <th [style.width]="'8%'">Description</th>
-                        <th [style.width]="'8%'">Amount</th>
-                        <th [style.width]="'8%'">Sale Amount</th>
-                        <th [style.width]="'4%'">Type</th>
-                        <th [style.width]="'8%'">Limit</th>
+                        <th [style.width]="'10%'">Name</th>
+                        <th [style.width]="'20%'">Description</th>
+                        <th [style.width]="'10%'">Amount</th>
+                        <th [style.width]="'10%'">Sale Amount</th>
+                        <th [style.width]="'10%'">Type</th>
+                        <th [style.width]="'10%'">Limit</th>
                         <th data-class="expand">Created</th>
                       </tr>
                     </thead>
@@ -211,15 +211,15 @@
     #subscriptionItemForm="ngForm"
     [saUiValidate]="validationItemOptions"
     novalidate="novalidate"
-    (ngSubmit)="saveSubscriptionPlanItem(subscriptionItemForm.value)"
+    (ngSubmit)="saveItem(subscriptionItemForm.value)"
   >
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
           <button
             type="button"
             class="close"
-            (click)="lgItemModal.hide()"
+            (click)="hideModal();"
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
@@ -229,7 +229,7 @@
 
         <div class="modal-body">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-6">
               <div class="form-group">
                 <label for="name"> Name</label>
                 <input
@@ -255,7 +255,10 @@
                 />
               </div>
             </div>
-            <div class="col-md-3">
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
               <div class="form-group">
                 <label for="fromEmail"> Amount</label>
                 <input
@@ -268,46 +271,45 @@
                 />
               </div>
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-2">
               <div class="form-group">
-                <label for="saleAmount">Sale Amount</label>
+                <label for="saleAmount">Sale </label>
                 <input
                   type="text"
                   class="form-control"
                   id="saleAmount"
                   name="saleAmount"
-                  placeholder="Sale Amount"
+                  placeholder="Sale"
                   [(ngModel)]="subscriptionItem.saleAmount"
                 />
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <div class="form-group">
+                  <label for="limit"> Limit</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="limit"
+                    name="limit"
+                    [(ngModel)]="subscriptionItem.limit"
+                  />
+                </div>
+              </div>
+            <div class="col-md-5">
               <div class="form-group">
-                <label for="typeId"> Type</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="typeId"
-                  name="typeId"
-                  [(ngModel)]="subscriptionItem.typeId"
-                />
+                Type
+                <ng-multiselect-dropdown
+                name="typeId"
+                [placeholder]="'Select Type'"
+                [data]="itemTypeOptions"
+                [(ngModel)]="selectedType"
+                [settings]="dropdownSettingsItemType"
+              >
+              </ng-multiselect-dropdown>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label for="limit"> Limit</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="limit"
-                  name="limit"
-                  [(ngModel)]="subscriptionItem.limit"
-                />
-              </div>
-            </div>
+
           </div>
         </div>
 
@@ -315,7 +317,7 @@
           <button
             type="button"
             class="btn btn-default"
-            (click)="lgItemModal.hide()"
+            (click)="hideModal()"
           >
             Cancel
           </button>
