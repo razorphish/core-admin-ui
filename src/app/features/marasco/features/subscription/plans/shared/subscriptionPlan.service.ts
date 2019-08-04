@@ -9,6 +9,7 @@ import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
 import { SubscriptionPlan } from './SubscriptionPlan.interface';
 import { SubscriptionItem } from './SubscriptionItem.interface';
+import { SubscriptionUser } from './SubscriptionUser.interface';
 
 @Injectable()
 export class SubscriptionPlanService {
@@ -19,14 +20,14 @@ export class SubscriptionPlanService {
   constructor(private _authHttp: AuthHttpService) {
     this._headers = new Headers({
       'Content-Type': 'application/json',
-      Accept: 'q=0.8;application/json;q=0.9.1'
+      Accept: 'q=0.8;application/json;q=0.9.1',
     });
 
     this._headers.append('X-Requested-With', 'XMLHttpRequest');
 
     this._options = new RequestOptions({
       headers: this._headers,
-      withCredentials: true
+      withCredentials: true,
     });
   }
 
@@ -86,6 +87,18 @@ export class SubscriptionPlanService {
       );
   }
 
+  insertUser(subscriptionUser: SubscriptionUser): Observable<SubscriptionUser> {
+    return this._authHttp
+      .post(
+        `${this._url}${subscriptionUser.subscriptionPlanId}/user`,
+        JSON.stringify(subscriptionUser)
+      )
+      .pipe(
+        map((subscriptionUser: SubscriptionUser) => subscriptionUser),
+        catchError(this.handleError)
+      );
+  }
+
   update(subcriptionPlan: SubscriptionPlan): Observable<SubscriptionPlan> {
     return this._authHttp
       .put(
@@ -108,6 +121,20 @@ export class SubscriptionPlanService {
       )
       .pipe(
         map((subscriptionItem: SubscriptionItem) => subscriptionItem),
+        catchError(this.handleError)
+      );
+  }
+
+  updateUser(subscriptionUser: SubscriptionUser): Observable<SubscriptionUser> {
+    return this._authHttp
+      .put(
+        `${this._url}${subscriptionUser.subscriptionPlanId}/user/${
+          subscriptionUser._id
+        }`,
+        JSON.stringify(subscriptionUser)
+      )
+      .pipe(
+        map((subscriptionUser: SubscriptionUser) => subscriptionUser),
         catchError(this.handleError)
       );
   }

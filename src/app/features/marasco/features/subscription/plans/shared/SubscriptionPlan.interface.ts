@@ -1,4 +1,4 @@
-import { SubscriptionItem } from './SubscriptionItem.interface';
+import { SubscriptionItem, SubscriptionUser } from '.';
 
 export interface SubscriptionPlan {
   _id?: string;
@@ -14,7 +14,9 @@ export interface SubscriptionPlan {
    */
   statusId?: string;
 
-  items? : SubscriptionItem[];
+  items?: SubscriptionItem[];
+
+  users?: SubscriptionUser[];
 
   dateExpire?: any;
   dateModified?: Date;

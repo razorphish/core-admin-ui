@@ -1,7 +1,6 @@
-import { SubscriptionItem } from './SubscriptionItem.interface';
-
 export interface SubscriptionUser {
   _id?: string;
+  userId?: any;
   planId?: any;
   subscriptionPlanId?: any;
   frequencyId?: string;

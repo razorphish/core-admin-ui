@@ -32,10 +32,10 @@
           <!-- widget div-->
           <div>
             <form
-              #subscriptionPlanDetailsForm="ngForm"
-              [saUiValidate]="validationOptions"
+              #subscriptionPlanForm="ngForm"
+              [saUiValidate]="validationPlan"
               novalidate="novalidate"
-              (ngSubmit)="save(subscriptionPlanDetailsForm.value)"
+              (ngSubmit)="save(subscriptionPlanForm.value)"
             >
               <div class="smart-form">
                 <!-- widget content -->
@@ -80,7 +80,7 @@
                         <ng-multiselect-dropdown
                           name="statusId"
                           [placeholder]="'Select Status'"
-                          [data]="statusOptions"
+                          [data]="optionsStatus"
                           [(ngModel)]="selectedStatus"
                           [settings]="dropdownSettingsStatus"
                         >
@@ -129,6 +129,7 @@
             <!-- Tab content -->
             <div class="widget-body">
               <ul id="myTab1" class="nav nav-tabs bordered">
+
                 <li [class.active]="state.tabs.demo1 === 0">
                   <a (click)="state.tabs.demo1 = 0"
                     ><i class="fa fa-fw fa-lg fa-pencil-square"></i> Items</a
@@ -144,9 +145,10 @@
               </ul>
 
               <tabset class="padding-10">
+                <!-- Subscription Items Table -->
                 <tab [active]="state.tabs.demo1 === 0">
                   <sa-datatable
-                    [options]="optionsItemsTable"
+                    [options]="tableOptionsItems"
                     tableClass="table table-striped table-bordered table-hover"
                     paginationLength="true"
                   >
@@ -177,10 +179,41 @@
                     </tfoot>
                   </sa-datatable>
                 </tab>
+                <!-- //Subsription Items Table-->
 
-                <tab [active]="state.tabs.demo1 === 1" class="smart-form">
+                <!-- Subscription User Table -->
+                <tab [active]="state.tabs.demo1 === 1">
+                  <sa-datatable
+                    [options]="tableOptionsUsers"
+                    tableClass="table table-striped table-bordered table-hover"
+                    paginationLength="true"
+                  >
+                    <thead>
+                      <tr>
+                        <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
+                        <th [style.width]="'10%'">Name</th>
+                        <th [style.width]="'20%'">Frequency</th>
+                        <th [style.width]="'10%'">Status</th>
+                        <th [style.width]="'10%'">Start</th>
+                        <th [style.width]="'10%'">End</th>
+                        <th data-class="expand">Created</th>
+                      </tr>
+                    </thead>
 
+                    <tfoot>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Frequency</th>
+                        <th>Status</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Created</th>
+                      </tr>
+                    </tfoot>
+                  </sa-datatable>
                 </tab>
+                <!-- //Subscription User Table -->
 
               </tabset>
             </div>
@@ -200,7 +233,7 @@
 <!-- Subscription Plan Item Modal-->
 <div
   bsModal
-  #lgItemModal="bs-modal"
+  #modalItem="bs-modal"
   class="modal fade"
   tabindex="-1"
   role="dialog"
@@ -209,7 +242,7 @@
 >
   <form
     #subscriptionItemForm="ngForm"
-    [saUiValidate]="validationItemOptions"
+    [saUiValidate]="validationItem"
     novalidate="novalidate"
     (ngSubmit)="saveItem(subscriptionItemForm.value)"
   >
@@ -219,7 +252,7 @@
           <button
             type="button"
             class="close"
-            (click)="hideModal();"
+            (click)="hideModalItem();"
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
@@ -302,7 +335,7 @@
                 <ng-multiselect-dropdown
                 name="typeId"
                 [placeholder]="'Select Type'"
-                [data]="itemTypeOptions"
+                [data]="optionsItemType"
                 [(ngModel)]="selectedType"
                 [settings]="dropdownSettingsItemType"
               >
@@ -317,7 +350,7 @@
           <button
             type="button"
             class="btn btn-default"
-            (click)="hideModal()"
+            (click)="hideModalItem()"
           >
             Cancel
           </button>
@@ -330,3 +363,137 @@
   </form>
 </div>
 <!-- //End Subscription Plan Item Modal -->
+
+<!-- Subscription Plan User Modal-->
+<div
+  bsModal
+  #modalUser="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalItemLabel"
+  aria-hidden="true"
+>
+  <form
+    #subscriptionItemForm="ngForm"
+    [saUiValidate]="validationUser"
+    novalidate="novalidate"
+    (ngSubmit)="saveItem(subscriptionUserForm.value)"
+  >
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            (click)="hideModalUser();"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Subscription User</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name"> Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Name"
+                  name="name"
+                  [(ngModel)]="subscriptionItem.name"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description"> Description</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="description"
+                  placeholder="Description"
+                  name="description"
+                  [(ngModel)]="subscriptionItem.description"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="fromEmail"> Amount</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="amount"
+                  placeholder="Amount"
+                  name="amount"
+                  [(ngModel)]="subscriptionItem.amount"
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="saleAmount">Sale </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="saleAmount"
+                  name="saleAmount"
+                  placeholder="Sale"
+                  [(ngModel)]="subscriptionItem.saleAmount"
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                  <label for="limit"> Limit</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="limit"
+                    name="limit"
+                    [(ngModel)]="subscriptionItem.limit"
+                  />
+                </div>
+              </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                Type
+                <ng-multiselect-dropdown
+                name="typeId"
+                [placeholder]="'Select Type'"
+                [data]="optionsItemType"
+                [(ngModel)]="selectedType"
+                [settings]="dropdownSettingsItemType"
+              >
+              </ng-multiselect-dropdown>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="hideModalUser()"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Save User
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- //End Subscription Plan User Modal -->

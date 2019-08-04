@@ -8,3 +8,4 @@ export * from './subscriptionPlan.factory';
 export * from './subscriptionPlan.service';
 export * from './subscriptionItem.service';
 export * from './subscriptionItem.factory';
+export * from './subscriptionUser.factory';
