@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: './plans/plans.module#SubscriptionPlansModule',
     data: { pageTitle: 'Subscription Plans' },
   },
+  {
+    path: 'users',
+    loadChildren: './users/users.module#SubscriptionUsersModule',
+    data: { pageTitle: 'Subscription Users' },
+  }
 ];
 
 @NgModule({

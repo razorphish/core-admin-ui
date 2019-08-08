@@ -11,26 +11,19 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ApplicationService } from '../../account/applications/shared';
 
 import {
-  //Core Subscription Components
-  SubscriptionPlansComponent,
-  SubscriptionPlansRoutingModule,
-  SubscriptionPlanListComponent,
-  SubcriptionPlanComponent,
-  SubscriptionPlanResolve,
-  SubscriptionPlanListResolve,
-  SubscriptionPlanGuard,
+  //Core Subscription Iser Components
+  SubscriptionUsersComponent,
+  SubscriptionUsersRoutingModule,
+  SubscriptionUserListComponent,
+  SubcriptionUserComponent,
+  SubscriptionUserResolve,
+  SubscriptionUserListResolve,
+  SubscriptionUserGuard,
 
-  //Subscription Plans
-  SubscriptionPlanService,
-  SubscriptionPlanFactory,
-  SubscriptionItemService,
-  SubscriptionItemFactory,
+  //Subscription User
+  SubscriptionUserService,
+  SubscriptionUserFactory
 } from '.';
-
-import { 
-    //Subscription Users
-    SubscriptionUserFactory
-} from '../users/shared/'
 
 @NgModule({
   imports: [
@@ -38,29 +31,24 @@ import {
     SmartadminDatatableModule,
     SmartadminValidationModule,
     SmartadminInputModule,
-    SubscriptionPlansRoutingModule,
+    SubscriptionUsersRoutingModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [],
   declarations: [
-    SubscriptionPlansComponent,
-    SubscriptionPlanListComponent,
-    SubcriptionPlanComponent
+    SubscriptionUsersComponent,
+    SubscriptionUserListComponent,
+    SubcriptionUserComponent
   ],
   providers: [
-    SubscriptionPlanService,
-    SubscriptionPlanGuard,
-    SubscriptionPlanResolve,
-    SubscriptionPlanListResolve,
-    SubscriptionPlanFactory,
-
-    SubscriptionItemService,
-    SubscriptionItemFactory,
-
+    SubscriptionUserService,
+    SubscriptionUserGuard,
+    SubscriptionUserResolve,
+    SubscriptionUserListResolve,
     SubscriptionUserFactory,
 
     UpperCasePipe,
     ApplicationService
   ]
 })
-export class SubscriptionPlansModule {}
+export class SubscriptionUsersModule {}

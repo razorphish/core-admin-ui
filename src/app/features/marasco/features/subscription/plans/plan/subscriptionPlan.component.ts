@@ -1,3 +1,4 @@
+import { SubscriptionUserService } from './../../users/shared/subscriptionUser.service';
 import { ApplicationService } from './../../../account/applications/shared/application.service';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,12 +9,15 @@ import { ActivityLogSubjectService } from '../../../../shared/activitylog.subjec
 import {
   SubscriptionPlan,
   SubscriptionItem,
-  SubscriptionUser,
   SubscriptionPlanService,
   SubscriptionPlanFactory,
   SubscriptionItemFactory,
-  SubscriptionUserFactory,
 } from '../shared/';
+
+import {
+  SubscriptionUser,
+  SubscriptionUserFactory
+} from '../../users/shared/'
 
 import * as moment from 'moment';
 import { Application } from '../../../account/applications';
