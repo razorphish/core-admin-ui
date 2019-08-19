@@ -24,6 +24,8 @@ import {
   SubscriptionUserService,
   SubscriptionUserFactory
 } from '.';
+import { SubscriptionPlanService } from '../plans';
+import { UsersService } from '../../account/users';
 
 @NgModule({
   imports: [
@@ -41,6 +43,7 @@ import {
     SubcriptionUserComponent
   ],
   providers: [
+    SubscriptionPlanService,
     SubscriptionUserService,
     SubscriptionUserGuard,
     SubscriptionUserResolve,
@@ -48,7 +51,8 @@ import {
     SubscriptionUserFactory,
 
     UpperCasePipe,
-    ApplicationService
+    ApplicationService,
+    UsersService
   ]
 })
 export class SubscriptionUsersModule {}

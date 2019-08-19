@@ -2,7 +2,7 @@
 <div id="content">
   <div class="row">
     <sa-big-breadcrumbs
-      [items]="['Subscription', 'Plan', 'Details', subscriptionPlan._id]"
+      [items]="['Subscription User', 'Details', subscriptionUser._id]"
       icon="pencil-square-o"
       class="col-xs-12 col-sm-7 col-md-7 col-lg-4"
     ></sa-big-breadcrumbs>
@@ -26,163 +26,120 @@
           <header>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 
-            <h2>{{ isUpdate ? 'Edit' : 'Create A New Subscription Plan' }}</h2>
+            <h2>{{ isUpdate ? 'Edit' : 'Create A New Subscription User' }}</h2>
           </header>
 
           <!-- widget div-->
           <div>
             <form
-              #subscriptionPlanForm="ngForm"
-              [saUiValidate]="validationPlan"
+              #subscriptionItemForm="ngForm"
+              [saUiValidate]="validationUser"
               novalidate="novalidate"
-              (ngSubmit)="save(subscriptionPlanForm.value)"
+              (ngSubmit)="saveUser(subscriptionUserForm.value)"
             >
               <div class="smart-form">
                 <!-- widget content -->
                 <div class="widget-body no-padding">
                   <fieldset>
+
                     <div class="row">
                       <section class="col col-3">
-                        Name
-                        <label class="input">
-                          <input
-                            type="text"
-                            name="name"
-                            placeholder="Name"
-                            [(ngModel)]="subscriptionPlan.name"
-                          />
-                        </label>
+                          User
+                          <ng-multiselect-dropdown
+                            name="userId"
+                            [placeholder]="'Select User'"
+                            [data]="users"
+                            [(ngModel)]="selectedUser"
+                            [settings]="dropdownSettingsUsers"
+                          >
+                          </ng-multiselect-dropdown>
                       </section>
                       <section class="col col-3">
-                        Description
-                        <label class="input">
-                          <input
-                            type="text"
-                            name="description"
-                            placeholder="Description"
-                            [(ngModel)]="subscriptionPlan.description"
-                          />
-                        </label>
+                          Subcription
+                          <ng-multiselect-dropdown
+                            name="subcriptionPlanId"
+                            [placeholder]="'Select Plan'"
+                            [data]="subscriptionPlans"
+                            [(ngModel)]="selectedSubscriptionPlan"
+                            [settings]="dropdownSettingsSubscriptionPlans"
+                          >
+                          </ng-multiselect-dropdown>
                       </section>
-                      <section class="col col-3">
-                        Application
-                        <ng-multiselect-dropdown
-                          name="applicationId"
-                          [placeholder]="'Select Application'"
-                          [data]="applications"
-                          [(ngModel)]="selectedApplication"
-                          [settings]="dropdownSettingsApplication"
-                        >
-                        </ng-multiselect-dropdown>
+                      <section class="col col-3">   
+                          Frequency
+                          <ng-multiselect-dropdown
+                            name="typeId"
+                            [placeholder]="'Select Type'"
+                            [data]="optionsFrequency"
+                            [(ngModel)]="selectedFrequency"
+                            [settings]="dropdownSettingsFrequency"
+                          >
+                          </ng-multiselect-dropdown>
                       </section>
                       <section class="col col-2">
-                        Status
-                        <ng-multiselect-dropdown
-                          name="statusId"
-                          [placeholder]="'Select Status'"
-                          [data]="optionsStatus"
-                          [(ngModel)]="selectedStatus"
-                          [settings]="dropdownSettingsStatus"
-                        >
-                        </ng-multiselect-dropdown>
+                          Status
+                          <ng-multiselect-dropdown
+                            name="typeId"
+                            [placeholder]="'Select Type'"
+                            [data]="optionsUserStatus"
+                            [(ngModel)]="selectedUserStatus"
+                            [settings]="dropdownSettingsUserStatus"
+                          >
+                          </ng-multiselect-dropdown>
                       </section>
                     </div>
 
                     <div class="row">
                       <section class="col col-3">
-                        Expiration Date
+                        Start Date
                         <label class="input">
                           <input
                             type="text"
-                            name="dateExpire"
-                            id="dateExpire"
-                            placeholder="Date Expires"
+                            name="dateStart"
+                            id="dateStart"
+                            placeholder="Date Start"
                             bsDatepicker
-                            [bsValue]="subscriptionPlan.dateExpire"
-                            [(ngModel)]="subscriptionPlan.dateExpire"
+                            [bsValue]="subscriptionUser.dateStart"
+                            [(ngModel)]="subscriptionUser.dateStart"
                             autocomplete="off"
                           />
                         </label>
                       </section>
-                      <section class="col col-3"></section>
-                      <section class="col col-2"></section>
+                      <section class="col col-3">
+                        End Date
+                        <label class="input">
+                          <input
+                            type="text"
+                            name="dateEnd"
+                            id="dateEnd"
+                            placeholder="Date End"
+                            bsDatepicker
+                            [bsValue]="subscriptionUser.dateEnd"
+                            [(ngModel)]="subscriptionUser.dateEnd"
+                            autocomplete="off"
+                          />
+                        </label>
+                      </section>
                     </div>
                   </fieldset>
-
-                  <footer>
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      (click)="toList()"
-                    >
-                      Back to list
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                      Save
-                    </button>
-                  </footer>
                 </div>
-                <!-- end widget content -->
               </div>
             </form>
 
             <!-- Tab content -->
             <div class="widget-body">
               <ul id="myTab1" class="nav nav-tabs bordered">
-
                 <li [class.active]="state.tabs.demo1 === 0">
                   <a (click)="state.tabs.demo1 = 0"
-                    ><i class="fa fa-fw fa-lg fa-pencil-square"></i> Items</a
+                    ><i class="fa fa-fw fa-lg fa-pencil-square"></i>
+                    Subscriptions</a
                   >
                 </li>
-
-                <li [class.active]="state.tabs.demo1 === 1">
-                  <a (click)="state.tabs.demo1 = 1"
-                    ><i class="fa fa-fw fa-lg fa-users"></i> Users</a
-                  >
-                </li>
-
               </ul>
 
               <tabset class="padding-10">
-                <!-- Subscription Items Table -->
-                <tab [active]="state.tabs.demo1 === 0">
-                  <sa-datatable
-                    [options]="tableOptionsItems"
-                    tableClass="table table-striped table-bordered table-hover"
-                    paginationLength="true"
-                  >
-                    <thead>
-                      <tr>
-                        <th [style.width]="'200px'" data-hide="mobile-p">Id</th>
-                        <th [style.width]="'10%'">Name</th>
-                        <th [style.width]="'20%'">Description</th>
-                        <th [style.width]="'10%'">Amount</th>
-                        <th [style.width]="'10%'">Sale Amount</th>
-                        <th [style.width]="'10%'">Type</th>
-                        <th [style.width]="'10%'">Limit</th>
-                        <th data-class="expand">Created</th>
-                      </tr>
-                    </thead>
-
-                    <tfoot>
-                      <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Sale Amount</th>
-                        <th>Type</th>
-                        <th>Limit</th>
-                        <th>Created</th>
-                      </tr>
-                    </tfoot>
-                  </sa-datatable>
-                </tab>
-                <!-- //Subsription Items Table-->
-
                 <!-- Subscription User Table -->
-                <tab [active]="state.tabs.demo1 === 1">
+                <tab [active]="state.tabs.demo1 === 0">
                   <sa-datatable
                     [options]="tableOptionsUsers"
                     tableClass="table table-striped table-bordered table-hover"
@@ -214,7 +171,6 @@
                   </sa-datatable>
                 </tab>
                 <!-- //Subscription User Table -->
-
               </tabset>
             </div>
             <!-- end Tab content -->
@@ -229,271 +185,3 @@
   </sa-widgets-grid>
   <!-- end widget grid -->
 </div>
-
-<!-- Subscription Plan Item Modal-->
-<div
-  bsModal
-  #modalItem="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="myLargeModalItemLabel"
-  aria-hidden="true"
->
-  <form
-    #subscriptionItemForm="ngForm"
-    [saUiValidate]="validationItem"
-    novalidate="novalidate"
-    (ngSubmit)="saveItem(subscriptionItemForm.value)"
-  >
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button
-            type="button"
-            class="close"
-            (click)="hideModalItem();"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title">Subscription Item</h4>
-        </div>
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="name"> Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  placeholder="Name"
-                  name="name"
-                  [(ngModel)]="subscriptionItem.name"
-                />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="description"> Description</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="description"
-                  placeholder="Description"
-                  name="description"
-                  [(ngModel)]="subscriptionItem.description"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="fromEmail"> Amount</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="amount"
-                  placeholder="Amount"
-                  name="amount"
-                  [(ngModel)]="subscriptionItem.amount"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="saleAmount">Sale </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="saleAmount"
-                  name="saleAmount"
-                  placeholder="Sale"
-                  [(ngModel)]="subscriptionItem.saleAmount"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                  <label for="limit"> Limit</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="limit"
-                    name="limit"
-                    [(ngModel)]="subscriptionItem.limit"
-                  />
-                </div>
-              </div>
-            <div class="col-md-5">
-              <div class="form-group">
-                Type
-                <ng-multiselect-dropdown
-                name="typeId"
-                [placeholder]="'Select Type'"
-                [data]="optionsItemType"
-                [(ngModel)]="selectedType"
-                [settings]="dropdownSettingsItemType"
-              >
-              </ng-multiselect-dropdown>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-default"
-            (click)="hideModalItem()"
-          >
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-primary">
-            Save Item
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-<!-- //End Subscription Plan Item Modal -->
-
-<!-- Subscription Plan User Modal-->
-<div
-  bsModal
-  #modalUser="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="myLargeModalItemLabel"
-  aria-hidden="true"
->
-  <form
-    #subscriptionItemForm="ngForm"
-    [saUiValidate]="validationUser"
-    novalidate="novalidate"
-    (ngSubmit)="saveItem(subscriptionUserForm.value)"
-  >
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button
-            type="button"
-            class="close"
-            (click)="hideModalUser();"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title">Subscription User</h4>
-        </div>
-
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="name"> Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  placeholder="Name"
-                  name="name"
-                  [(ngModel)]="subscriptionItem.name"
-                />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="description"> Description</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="description"
-                  placeholder="Description"
-                  name="description"
-                  [(ngModel)]="subscriptionItem.description"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="fromEmail"> Amount</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="amount"
-                  placeholder="Amount"
-                  name="amount"
-                  [(ngModel)]="subscriptionItem.amount"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="saleAmount">Sale </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="saleAmount"
-                  name="saleAmount"
-                  placeholder="Sale"
-                  [(ngModel)]="subscriptionItem.saleAmount"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                  <label for="limit"> Limit</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="limit"
-                    name="limit"
-                    [(ngModel)]="subscriptionItem.limit"
-                  />
-                </div>
-              </div>
-            <div class="col-md-5">
-              <div class="form-group">
-                Type
-                <ng-multiselect-dropdown
-                name="typeId"
-                [placeholder]="'Select Type'"
-                [data]="optionsItemType"
-                [(ngModel)]="selectedType"
-                [settings]="dropdownSettingsItemType"
-              >
-              </ng-multiselect-dropdown>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-default"
-            (click)="hideModalUser()"
-          >
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-primary">
-            Save User
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-<!-- //End Subscription Plan User Modal -->

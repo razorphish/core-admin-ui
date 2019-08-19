@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { SubscriptionUser } from './SubscriptionUser.interface';
 import { UpperCasePipe } from '@angular/common';
 
+import * as moment from 'moment';
+
 @Injectable()
 export class SubscriptionUserFactory {
   ////////// Private variables//////////
@@ -60,6 +62,14 @@ export class SubscriptionUserFactory {
 
     if (!subscriptionUser.dateEnd) {
       errors.push('Please enter an end date.');
+    }
+
+    //Compare times
+    let startTime = moment(subscriptionUser.dateStart);
+    let endTime = moment(subscriptionUser.dateEnd);
+
+    if (endTime.isBefore(startTime)){
+      errors.push('End date cannot be before start date');
     }
 
     // Only check on updated obects

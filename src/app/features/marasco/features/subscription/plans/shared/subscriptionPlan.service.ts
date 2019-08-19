@@ -9,7 +9,7 @@ import { AuthHttpService } from '../../../../core/services/auth-http.service';
 
 import { SubscriptionPlan } from './SubscriptionPlan.interface';
 import { SubscriptionItem } from './SubscriptionItem.interface';
-import { SubscriptionUser } from './SubscriptionUser.interface';
+import { SubscriptionUser } from '../../users/shared';
 
 @Injectable()
 export class SubscriptionPlanService {

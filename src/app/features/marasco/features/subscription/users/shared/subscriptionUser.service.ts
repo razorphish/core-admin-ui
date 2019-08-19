@@ -11,7 +11,7 @@ import { SubscriptionUser } from './SubscriptionUser.interface';
 
 @Injectable()
 export class SubscriptionUserService {
-  private _url: string = environment.apiUrl + 'subscription/plan/';
+  private _url: string = environment.apiUrl + 'subscription/user/';
   private _headers: Headers;
   private _options: RequestOptions;
 

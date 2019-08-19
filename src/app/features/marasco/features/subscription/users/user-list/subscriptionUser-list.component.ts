@@ -34,18 +34,25 @@ export class SubscriptionUserListComponent implements OnInit {
       data: this.jobs,
       columns: [
         { data: '_id', title: 'Id' },
-        { data: 'name', title: 'Name', defaultContent: '<i>Not Set</i>' },
-        { data: 'description', title: 'Description' },
+        {
+          data: 'userId',
+          title: 'User',
+          defaultContent: '<i>Not Set</i>',
+          render: (data, type, row, meta) => {
+            return `${data.firstName} ${data.lastName}`;
+          },
+        },
+        { data: 'subscriptionPlanId', title: 'Plan' },
+        { data: 'frequencyId', title: 'Frequency' },
         { data: 'statusId', title: 'Status' },
         {
-          data: 'applicationId',
-          title: 'Application',
+          data: 'dateStart',
           render: (data, type, row, meta) => {
-            return data.name;
+            return moment(data).format('LLL');
           },
         },
         {
-          data: 'dateExpire',
+          data: 'dateEnd',
           render: (data, type, row, meta) => {
             return moment(data).format('LLL');
           },
@@ -65,7 +72,7 @@ export class SubscriptionUserListComponent implements OnInit {
         {
           text: 'Create',
           action: function(e, dt, node, config) {
-            that._router.navigate(['/subscription/plans/details/', 0]);
+            that._router.navigate(['/subscription/users/details/', 0]);
           },
           className: 'btn btn-primary',
         },

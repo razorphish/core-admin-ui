@@ -1,4 +1,5 @@
-import { SubscriptionItem, SubscriptionUser } from '.';
+import { SubscriptionItem } from '.';
+import { SubscriptionUser } from '../../users/shared/';
 
 export interface SubscriptionPlan {
   _id?: string;

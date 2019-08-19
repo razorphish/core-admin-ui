@@ -1,5 +1,4 @@
-import { SubscriptionPlanService } from './../../plans/shared/subscriptionPlan.service';
-import { ApplicationService } from '../../../account/applications/shared/application.service';
+import { UsersService } from '@app/features/marasco/features/account/users/shared/users.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -14,7 +13,8 @@ import {
 
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { SubscriptionPlan } from '../../plans/shared';
+import { SubscriptionPlan, SubscriptionPlanService } from '../../plans/shared';
+import { User } from '@app/features/marasco/core/interfaces/UserInfo.interface';
 
 @Component({
   selector: 'marasco-subscriptions-user',
@@ -28,10 +28,13 @@ export class SubcriptionUserComponent implements OnInit {
 
   //////////////////Publicly exposed variables///////////
   public subscriptionPlans: SubscriptionPlan[];
+  public users : User[];
+
 
   public defaultUser: SubscriptionUser = {};
 
   public dropdownSettingsSubscriptionPlans = {};
+  public dropdownSettingsUsers = {};
   public dropdownSettingsFrequency = {};
   public dropdownSettingsUserStatus = {};
 
@@ -72,6 +75,7 @@ export class SubcriptionUserComponent implements OnInit {
   ];
 
   public selectedSubscriptionPlan = [];
+  public selectedUser = [];
   public selectedFrequency = [];
   public selectedUserStatus = [];
 
@@ -142,7 +146,8 @@ export class SubcriptionUserComponent implements OnInit {
     private _userFactory: SubscriptionUserFactory,
     private _activityLogService: ActivityLogSubjectService,
     private _service: SubscriptionUserService,
-    private _subscriptionPlanService: SubscriptionPlanService
+    private _subscriptionPlanService: SubscriptionPlanService,
+    private _userService: UsersService
   ) {}
 
   /////////////////////////////////////
@@ -165,6 +170,8 @@ export class SubcriptionUserComponent implements OnInit {
 
       this.selectedFrequency.push(this.subscriptionUser.frequencyId);
       this.selectedUserStatus.push(this.subscriptionUser.statusId);
+      this.selectedUser.push(this.subscriptionUser.userId);
+      this.selectedSubscriptionPlan.push(this.subscriptionUser.subscriptionPlanId);
     } else {
       this.isUpdate = false;
     }
@@ -205,6 +212,10 @@ export class SubcriptionUserComponent implements OnInit {
       this.subscriptionPlans = data;
     });
 
+    this._userService.all().subscribe((data) => {
+      this.users = data;
+    })
+
     this.activateTables();
   }
 
@@ -213,19 +224,25 @@ export class SubcriptionUserComponent implements OnInit {
     this.dropdownSettingsSubscriptionPlans = {
       singleSelection: true,
       idField: '_id',
-      textField: 'name',
+      textField: 'name'
+    };
+
+    this.dropdownSettingsUsers = {
+      singleSelection: true,
+      idField: '_id',
+      textField: 'lastName'
     };
 
     this.dropdownSettingsFrequency = {
       singleSelection: true,
       idField: '_id',
-      textField: 'name',
+      textField: 'name'
     };
 
     this.dropdownSettingsUserStatus = {
       singleSelection: true,
       idField: '_id',
-      textField: 'name',
+      textField: 'name'
     };
   }
 
@@ -416,6 +433,7 @@ export class SubcriptionUserComponent implements OnInit {
     this.subscriptionUser.frequencyId = this.selectedFrequency[0];
     this.subscriptionUser.statusId = this.selectedUserStatus[0];
     this.subscriptionUser.subscriptionPlanId = this.selectedSubscriptionPlan[0];
+    this.subscriptionUser.userId = this.selectedUser[0];
 
     return this._userFactory.validate(
       this.subscriptionUser,
