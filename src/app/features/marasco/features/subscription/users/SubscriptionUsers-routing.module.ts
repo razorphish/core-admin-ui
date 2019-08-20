@@ -5,7 +5,7 @@ import { SubscriptionUserResolve } from './user/subscriptionUser.resolve';
 import { SubcriptionUserComponent } from './user/subscriptionUser.component';
 import { SubscriptionUserListResolve } from './user-list/subscriptionUser-list.resolve';
 import { SubscriptionUserListComponent } from './user-list/subscriptionUser-list.component';
-import { SubscriptionUsersComponent } from './users.component';
+import { SubscriptionUsersComponent } from './SubscriptionUsers.component';
 
 export const routes: Routes = [
   {

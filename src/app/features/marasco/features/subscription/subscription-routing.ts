@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    loadChildren: './users/users.module#SubscriptionUsersModule',
+    loadChildren: './users/subscriptionUsers.module#SubscriptionUsersModule',
     data: { pageTitle: 'Subscription Users' },
   }
 ];
