@@ -1,107 +1,749 @@
 <!-- MAIN CONTENT -->
 <div id="content">
   <div class="row">
-    <sa-big-breadcrumbs [items]="['Application', 'Details', application._id]" icon="pencil-square-o" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+    <sa-big-breadcrumbs
+      [items]="['Application', 'Details', application._id]"
+      icon="pencil-square-o"
+      class="col-xs-12 col-sm-7 col-md-7 col-lg-4"
+    ></sa-big-breadcrumbs>
     <sa-stats></sa-stats>
   </div>
 
-
   <!-- widget grid -->
   <sa-widgets-grid>
-
     <!-- START ROW -->
     <div class="row">
-
       <!-- NEW COL START -->
       <article class="col-sm-12 col-md-12 col-lg-12">
-
         <!-- Widget ID (each widget will need unique ID)-->
-        <div sa-widget [colorbutton]="false" [editbutton]="false" [custombutton]="false" [deletebutton]="false">
-
+        <div
+          sa-widget
+          [colorbutton]="false"
+          [editbutton]="false"
+          [custombutton]="false"
+          [deletebutton]="false"
+        >
           <header>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 
-            <h2>{{isUpdate ? "Edit" : "Create A New Application"}}</h2>
-
+            <h2>{{ isUpdate ? 'Edit' : 'Create A New Application' }}</h2>
           </header>
 
           <!-- widget div-->
           <div>
-
             <!-- widget content -->
-            <div class="widget-body no-padding">
+            <form
+              #applicationDetailsForm="ngForm"
+              class="smart-form"
+              [saUiValidate]="validationOptions"
+              novalidate="novalidate"
+              (ngSubmit)="save(applicationDetailsForm.value)"
+            >
+              <div class="smart-form">
+                <div class="row">
+                  <section class="col col-4">
+                    Name
+                    <label class="input">
+                      <i class="icon-append fa fa-question"></i>
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Application Name"
+                        [(ngModel)]="application.name"
+                      />
+                      <b class="tooltip tooltip-bottom-right"
+                        >Enter an application name</b
+                      >
+                    </label>
+                  </section>
 
-              <form 
-                #applicationDetailsForm="ngForm" class="smart-form" [saUiValidate]="validationOptions" novalidate="novalidate" (ngSubmit)="save(applicationDetailsForm.value)">
+                  <section class="col col-4">
+                    Short Name
+                    <label class="input">
+                      <i class="icon-append fa fa-question"></i>
+                      <input
+                        type="text"
+                        name="shortName"
+                        placeholder="Short Name"
+                        [(ngModel)]="application.shortName"
+                      />
+                      <b class="tooltip tooltip-bottom-right"
+                        >Enter an short name</b
+                      >
+                    </label>
+                  </section>
 
-                <fieldset>
-                  <div class="row">
-                    <section class="col col-4">
-                      Name
-                      <label class="input"> <i class="icon-append fa fa-question"></i>
-                        <input type="text" name="name" placeholder="Application Name" [(ngModel)]="application.name"/>
-                        <b class="tooltip tooltip-bottom-right">Enter an application name</b> </label>
-                    </section>
+                  <section class="col col-4">
+                    Url:
+                    <label class="input">
+                      <input
+                        type="text"
+                        name="url"
+                        placeholder="Url"
+                        [(ngModel)]="application.url"
+                      />
+                    </label>
+                  </section>
+                </div>
 
-                    <section class="col col-4">
-                      Short Name
-                      <label class="input"> <i class="icon-append fa fa-question"></i>
-                        <input type="text" name="shortName" placeholder="Short Name" [(ngModel)]="application.shortName"/>
-                        <b class="tooltip tooltip-bottom-right">Enter an short name</b> </label>
-                    </section>
+                <div class="row">
+                  <section class="col col-6">
+                    Status
+                    <ng-multiselect-dropdown
+                      name="statusId"
+                      [placeholder]="'Select Status'"
+                      [data]="statusOptions"
+                      [(ngModel)]="selectedStatus"
+                      [settings]="dropdownSettingsStatus"
+                    >
+                    </ng-multiselect-dropdown>
+                  </section>
+                </div>
+              </div>
 
-                    <section class="col col-4">
-                        Url:
-                        <label class="input">
-                          <input type="text" name="url" placeholder="Url" [(ngModel)]="application.url"/>
-                        </label>
-                      </section>
-                  </div>
-                </fieldset>
+              <footer>
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="toList()"
+                >
+                  Back to list
+                </button>
+                <button type="button" class="btn btn-warning" (click)="saveSettings()" *ngIf="!settingsCreated">
+                  Initialize Settings
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Save
+                </button>
+              </footer>
+            </form>
+            <br />
 
-                <fieldset>
-                  <div class="row">
-                    <section class="col col-6">
-                        Status
-                        <ng-multiselect-dropdown 
-                          name="applicationStatus" 
-                          [placeholder]="'Select Status'"
-                          [data]="statusOptions" 
-                          [(ngModel)]="selectedStatus" 
-                          [settings]="dropdownSettingsStatus">
-                      </ng-multiselect-dropdown>
-                    </section>
-                  </div>
-                </fieldset>
+            <!-- tabs content -->
+            <div class="widget-body" *ngIf="settingsCreated">
+              <fieldset>
+                <ul id="myTab1" class="nav nav-tabs bordered">
+                  <li [class.active]="state.tabs.demo1 === 0">
+                    <a (click)="state.tabs.demo1 = 0"
+                      ><i class="fa fa-fw fa-lg fa-bullhorn"></i
+                      >Notifications</a
+                    >
+                  </li>
 
-                <footer>
-                  <button type="button" class="btn btn-default" (click)="toList()">
-                    Back to list
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Save
-                  </button>
-                </footer>
+                  <li [class.active]="state.tabs.demo1 === 1">
+                    <a (click)="state.tabs.demo1 = 1"
+                      ><i class="fa fa-fw fa-lg fa-envelope"></i>Emails
+                    </a>
+                  </li>
+                </ul>
 
-              </form>
+                <tabset class="padding-10">
+                  <!-- Notifications -->
+                  <tab [active]="state.tabs.demo1 === 0">
+                    <sa-datatable
+                      [options]="optionsNotificationTable"
+                      tableClass="table table-striped table-bordered table-hover"
+                      paginationLength="true"
+                    >
+                      <thead>
+                        <tr>
+                          <th [style.width]="'200px'" data-hide="mobile-p">
+                            Id
+                          </th>
+                          <th [style.width]="'8%'">Name</th>
+                          <th [style.width]="'8%'">Title</th>
+                          <th [style.width]="'8%'">Dir</th>
+                          <th [style.width]="'8%'">Lang</th>
+                          <th [style.width]="'8%'">Body</th>
+                          <th [style.width]="'8%'">Tag</th>
+                          <th [style.width]="'8%'">Vibrate</th>
+                          <th data-class="expand">Created</th>
+                        </tr>
+                      </thead>
+
+                      <tfoot>
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                          <th>Title</th>
+                          <th>Dir</th>
+                          <th>Lang</th>
+                          <th>Body</th>
+                          <th>Tag</th>
+                          <th>Vibrate</th>
+                          <th>Created</th>
+                        </tr>
+                      </tfoot>
+                    </sa-datatable>
+                  </tab>
+
+                  <!-- Emails -->
+                  <tab [active]="state.tabs.demo1 === 1">
+                    <sa-datatable
+                      [options]="optionsEmailTable"
+                      tableClass="table table-striped table-bordered table-hover"
+                      paginationLength="true"
+                    >
+                      <thead>
+                        <tr>
+                          <th [style.width]="'200px'" data-hide="mobile-p">
+                            Id
+                          </th>
+                          <th [style.width]="'8%'">Name</th>
+                          <th [style.width]="'8%'">Subject</th>
+                          <th [style.width]="'8%'">From</th>
+                          <th [style.width]="'20%'">Text</th>
+                          <th [style.width]="'20%'">Html</th>
+                          <th data-class="expand">Created</th>
+                        </tr>
+                      </thead>
+
+                      <tfoot>
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                          <th>Subject</th>
+                          <th>From</th>
+                          <th>Text</th>
+                          <th>Html</th>
+                          <th>Created</th>
+                        </tr>
+                      </tfoot>
+                    </sa-datatable>
+                  </tab>
+                </tabset>
+              </fieldset>
             </div>
-            <!-- end widget content -->
-
+            <!-- end tabs content -->
           </div>
-          <!-- end widget div -->
-
+          <!-- end widget content -->
         </div>
         <!-- end widget -->
-
       </article>
       <!-- END COL -->
-
     </div>
 
     <!-- END ROW -->
-
   </sa-widgets-grid>
   <!-- end widget grid -->
 
+  <!-- Modal -->
 
+  <!-- Email Notification Modal-->
+  <div
+    bsModal
+    #lgEmailModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myLargeModalEmailLabel"
+    aria-hidden="true"
+  >
+    <form
+      #emailForm="ngForm"
+      [saUiValidate]="validationOptions3"
+      novalidate="novalidate"
+      (ngSubmit)="saveEmailNotification(emailForm.value)"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              (click)="lgEmailModal.hide()"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Email Notification</h4>
+          </div>
+
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="fromName">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="name"
+                    name="name"
+                    [(ngModel)]="emailNotification.name"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="fromName">From Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="fromName"
+                    placeholder="fromName"
+                    name="fromName"
+                    [(ngModel)]="emailNotification.fromName"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="fromName">Reply To</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="replyTo"
+                    placeholder="Reply To"
+                    name="replyTo"
+                    [(ngModel)]="emailNotification.replyTo"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="subject"> Subject</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="subject"
+                    placeholder="Subject"
+                    name="subject"
+                    [(ngModel)]="emailNotification.subject"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="fromEmail"> From Email</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="fromEmailAddress"
+                    placeholder="From Email"
+                    name="fromEmailAddress"
+                    [(ngModel)]="emailNotification.fromEmailAddress"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="textarea">Text</label>
+                  <textarea
+                    class="form-control"
+                    id="text"
+                    name="text"
+                    rows=10
+                    placeholder="Text display of email"
+                    [(ngModel)]="emailNotification.text"
+                  >
+                  </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="html"> Html</label>
+                  <ckeditor
+                    [editor]="Editor"
+                    name="html"
+                    placeholder="Html display of email"
+                    [(ngModel)]="emailNotification.html"
+                  ></ckeditor>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="lgEmailModal.hide()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- //End Email Notification Modal -->
+
+  <!-- Notification Modal-->
+  <div
+    bsModal
+    #lgModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myLargeModalLabel"
+    aria-hidden="true"
+  >
+    <form
+      #notificationForm="ngForm"
+      [saUiValidate]="validationOptionsNotification"
+      novalidate="novalidate"
+      (ngSubmit)="saveNotification(notificationForm.value)"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              (click)="lgModal.hide()"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Notification</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Name"
+                    [(ngModel)]="notification.name"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="title"> Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Title"
+                    [(ngModel)]="notification.title"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="dir"> Dir</label>
+                  <select class="form-control" id="dir" name="dir" [(ngModel)]="notification.dir">
+                    <option value="auto">Auto</option>
+                    <option value="ltr">Left-to-right</option>
+                    <option value="rtl">Right-to-left</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="language"> Language</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="language"
+                    placeholder="Language"
+                    name="lang"
+                    [(ngModel)]="notification.lang"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="body"> Body</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="body"
+                    placeholder="Body"
+                    name="body"
+                    [(ngModel)]="notification.body"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="tag"> Tag</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="tag"
+                    placeholder="Tag"
+                    name="tag"
+                    [(ngModel)]="notification.tag"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="image"> Image</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="image"
+                    placeholder="Image"
+                    name="image"
+                    [(ngModel)]="notification.image"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="icon"> Icon</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="icon"
+                    placeholder="Icon"
+                    name="icon"
+                    [(ngModel)]="notification.icon"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="badge"> Badge</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="badge"
+                    placeholder="Badge"
+                    name="badge"
+                    [(ngModel)]="notification.badge"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="vibrate"> Vibrate</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="vibrate"
+                    placeholder="Vibrate"
+                    name="vibrate"
+                    [(ngModel)]="notification.vibrate"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="timeStamp"> Timestamp</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="timeStamp"
+                    placeholder="Time Stamp"
+                    name="timeStamp"
+                    [(ngModel)]="notification.timestamp"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="icon"> Renotify</label>
+                  <input
+                    type="checkbox"
+                    class="form-control"
+                    id="renotify"
+                    placeholder="Icon"
+                    name="renotify"
+                    [(ngModel)]="notification.renotify"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="badge"> Silent</label>
+                  <input
+                    type="checkbox"
+                    class="form-control"
+                    id="silent"
+                    placeholder="Silent"
+                    name="silent"
+                    [(ngModel)]="notification.silent"
+                  />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="requireInteraction"> Require Interaction</label>
+                  <input
+                    type="checkbox"
+                    class="form-control"
+                    id="requireInteraction"
+                    placeholder="Require Interaction"
+                    name="requireInteraction"
+                    [(ngModel)]="notification.requireInteraction"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="data"> Data</label>
+                  <textarea
+                    class="form-control"
+                    placeholder="Data"
+                    id="data"
+                    rows="3"
+                    required
+                    name="data"
+                    [(ngModel)]="notification.data"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="widget-body no-padding" *ngIf="notificationsCreated">
+                  <label for="data"> Actions</label>
+                  <sa-datatable
+                    *ngIf="this.actionOptions.data"
+                    [options]="actionOptions"
+                    tableClass="table table-striped table-bordered table-hover"
+                    paginationLength="false"
+                    id="actionDataTable"
+                    name="actionDataTable"
+                  >
+                    <thead>
+                      <tr>
+                        <th [style.width]="'8%'">Id</th>
+                        <th [style.width]="'8%'">Action</th>
+                        <th [style.width]="'8%'">Title</th>
+                        <th [style.width]="'8%'">Icon</th>
+                      </tr>
+                    </thead>
+                  </sa-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="lgModal.hide()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- //End Notification Modal -->
+
+  <!-- Notification Action Modal-->
+  <div
+    bsModal
+    #smModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="mySmallModalLabel"
+    aria-hidden="true"
+  >
+    <form
+      #wishlistAppNotificationActionForm="ngForm"
+      [saUiValidate]="validationOptionsNotification"
+      novalidate="novalidate"
+      (ngSubmit)="
+        saveNotificationAction(wishlistAppNotificationActionForm.value)
+      "
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              (click)="smModal.hide()"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Notification Action</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="name">Action</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="action"
+                    name="action"
+                    placeholder="Action"
+                    [(ngModel)]="action.action"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="title"> Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Title"
+                    [(ngModel)]="action.title"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="title"> Icon</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="icon"
+                    name="icon"
+                    placeholder="Icon"
+                    [(ngModel)]="action.icon"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default"
+              (click)="smModal.hide()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Save Action
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- //End Notification Action Modal-->
+
+  <!-- //End Modal -->
 </div>

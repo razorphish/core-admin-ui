@@ -20,7 +20,7 @@ import {
 } from '../../users/shared/'
 
 import * as moment from 'moment';
-import { Application } from '../../../account/applications';
+import { IApplication } from '../../../account/applications';
 import { ModalDirective } from 'ngx-bootstrap';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -35,7 +35,7 @@ export class SubcriptionPlanComponent implements OnInit {
   //\\\END Private variables ////////
 
   //////////////////Publicly exposed variables///////////
-  public applications: Application[];
+  public applications: IApplication[];
 
   public defaultPlan: SubscriptionPlan = {};
   public defaultUser: SubscriptionUser = {};

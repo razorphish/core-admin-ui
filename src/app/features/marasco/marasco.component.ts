@@ -17,6 +17,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: '<router-outlet></router-outlet>',
+  styleUrls: ['./marasco.component.css']
 })
 export class MarascoComponent {
   title = 'sa';

@@ -33,5 +33,7 @@ export interface MarascoEmailNotification {
     text?: string;
     html?: string;
     fromEmailAddress?: string;
-    vibrate?: string[];
+    fromName?: string;
+    replyTo?: string;
+    dateCreated?: Date;
 }

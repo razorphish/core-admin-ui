@@ -1,40 +1,50 @@
 import { Injectable } from '@angular/core';
-
-import { Application } from './application.interface';
+import { IApplication } from './application.interface';
 
 @Injectable()
 export class ApplicationFactory {
-    ////////// Private variables//////////
-    // private _application: Application;
+  ////////// Private variables//////////
+  // private _application: Application;
 
-    //////////Publicly exposed properties//////////
+  ////////// Publicly exposed properties//////////
 
-    //////////Constructor//////////
-    /**
-     * These should be singleton objects
-     */
-    constructor() { }
+  ////////// Constructor//////////
+  /**
+   * These should be singleton objects
+   */
+  // constructor() {}
 
-    public validate(application: Application, callback?: (errors: string[]) => void): boolean {
-        const errors: string[] = [];
+  public validate(
+    application: IApplication,
+    callback?: (errors: string[]) => void
+  ): boolean {
+    const errors: string[] = [];
 
-        if (!application) {
-            throw new Error('Role Object Missing...');
-        }
-
-        // Check for required properties
-        if (!application.name) {
-            errors.push('Please enter a role name');
-        }
-
-        // Set errors
-        if (errors.length > 0) {
-            if (callback) {
-                callback(errors);
-            }
-            return false;
-        } else {
-            return true;
-        }
+    if (!application) {
+      throw new Error('Application Object Missing...');
     }
+
+    // Check for required properties
+    if (!application.name) {
+      errors.push('Please enter application name');
+    }
+
+    if (!application.url) {
+      errors.push('Please enter url');
+    }
+
+    if (!application.statusId) {
+      errors.push('Please enter status');
+    }
+
+    // Set errors
+    if (errors.length > 0) {
+      if (callback) {
+        callback(errors);
+      }
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

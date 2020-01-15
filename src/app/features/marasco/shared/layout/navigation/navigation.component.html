@@ -55,6 +55,34 @@
         </ul>
       </li>
 
+      <!--Twittles-->
+      <li>
+        <a href="#"
+          ><i class="fa fa-lg fa-fw fa-twitter"></i>
+          <span class="menu-item-parent">{{ 'Twittles' | i18n }}</span></a
+        >
+        <ul>
+          <li routerLinkActive="active">
+            <a routerLink="/wishlistPremiere/wishlists">
+              <i class="fa fa-lg fa-fw fa-rss"></i>
+              {{ 'Subscriptions' | i18n }}
+            </a>
+          </li>
+          <li routerLinkActive="active">
+            <a routerLink="/twittles/settings">
+              <i class="fa fa-lg fa-fw fa-cog"></i>
+              {{ 'Settings' | i18n }}
+            </a>
+          </li>
+          <li routerLinkActive="active">
+            <a routerLink="/twittles/users">
+              <i class="fa fa-lg fa-fw fa-users"></i>
+              {{ 'Users' | i18n }}
+            </a>
+          </li>
+        </ul>
+      </li>
+
       <!-- Subscriptions-->
       <li>
         <a href="#"

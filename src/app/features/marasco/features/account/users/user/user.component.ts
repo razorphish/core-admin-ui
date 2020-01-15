@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NotificationService } from '../../../../core/services/notification.service';
@@ -8,11 +8,11 @@ import { User } from '../../../../core/interfaces/UserInfo.interface';
 import { UsersService } from '../shared/users.service';
 import { UserFactory } from './../shared/user.factory';
 
-import { RoleService } from './../../roles/shared/role.service';
-import { ApplicationService } from '../../../account/applications/shared/application.service';
-import { IRole } from './../../roles/shared/IRole';
-import { Application } from '../../applications/shared/application.interface';
 import * as moment from 'moment';
+import { ApplicationService } from '../../../account/applications/shared/application.service';
+import { IApplication } from '../../applications/shared/application.interface';
+import { IRole } from './../../roles/shared/IRole';
+import { RoleService } from './../../roles/shared/role.service';
 
 @Component({
   selector: 'marasco-user',
@@ -20,15 +20,16 @@ import * as moment from 'moment';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  //////////////////Private variables///////////
-  private _applications: Application[];
+
+  ////////////////// Private variables///////////
+  private _applications: IApplication[];
 
   private _addressesModel = [
     { address: '', city: '', state: '', zip: '' },
     { address: '', city: '', state: '', zip: '' }
   ];
   private _roles: IRole[];
-  //\\\END Private variables ////////
+  //\\\ END Private variables ////////
 
   //////////////////Publicly exposed variables///////////
   public applicationOptions = [];
@@ -518,7 +519,7 @@ export class UserComponent implements OnInit {
 
   private getApplications() {
     this._applicationService.all().subscribe(
-      (applications: Application[]) => {
+      (applications: IApplication[]) => {
         this._applications = applications;
       },
       (err) => {},

@@ -1,6 +1,6 @@
 {
     "extends": "tslint:recommended",
-    "rulesDirectory": ["path/to/custom/rules/directory/", "another/path/"],
+    "rulesDirectory": ["codelyzer"],
     "rules": {
         "max-line-length": {
             "options": [120]
@@ -14,7 +14,36 @@
             "severity": "warning",
             "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
         },
-        "quotemark": [true, "single"]
+        "quotemark": [true, "single"],
+        "variable-name": {
+            "options": [
+              "ban-keywords",
+              "check-format",
+              "allow-leading-underscore",
+              "allow-pascal-case"
+            ]
+          },
+          "trailing-comma": [
+            false,
+            {
+              "multiline": {
+                "objects": "never",
+                "arrays": "never",
+                "functions": "never",
+                "typeLiterals": "ignore"
+              },
+              "esSpecCompliant": true
+            }
+          ],
+          "member-access": [false],
+          "no-string-literal": false,
+          "object-literal-sort-keys": [
+            false,
+            "ignore-blank-lines",
+            "ignore-case",
+            "match-declaration-order",
+            "shorthand-first"
+          ]
     },
     "jsRules": {
         "max-line-length": {

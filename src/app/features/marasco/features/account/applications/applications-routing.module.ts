@@ -1,11 +1,11 @@
 
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { ApplicationResolve } from './application/application.resolve';
-import { ApplicationComponent } from './application/application.component';
-import { ApplicationListResolve } from './application-list/application-list.resolve';
 import { ApplicationListComponent } from './application-list/application-list.component';
+import { ApplicationListResolve } from './application-list/application-list.resolve';
+import { ApplicationComponent } from './application/application.component';
+import { ApplicationResolve } from './application/application.resolve';
 import { ApplicationsComponent } from './applications.component';
 
 export const routes: Routes = [

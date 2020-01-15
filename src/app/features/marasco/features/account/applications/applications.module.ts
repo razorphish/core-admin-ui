@@ -1,22 +1,26 @@
 import { ApplicationsRoutingModule } from './applications-routing.module';
 
-import { SharedModule } from '../../../shared/shared.module';
-import { NgModule } from '@angular/core';
 import { CommonModule, UpperCasePipe } from '@angular/common';
-import { SmartadminDatatableModule } from '../../../shared/ui/datatable/smartadmin-datatable.module';
-import { SmartadminValidationModule } from '../../../shared/forms/validation/smartadmin-validation.module';
+import { NgModule } from '@angular/core';
+import { SmartadminEditorsModule } from '../../..//shared/forms/editors/smartadmin-editors.module';
 import { SmartadminInputModule } from '../../../shared/forms/input/smartadmin-input.module';
+import { SmartadminValidationModule } from '../../../shared/forms/validation/smartadmin-validation.module';
+import { SharedModule } from '../../../shared/shared.module';
+import { SmartadminDatatableModule } from '../../../shared/ui/datatable/smartadmin-datatable.module';
 
-import { ApplicationService } from './shared/application.service';
 import {
-  ApplicationsComponent,
   ApplicationComponent,
   ApplicationListComponent,
-  ApplicationListResolve
+  ApplicationListResolve,
+  ApplicationsComponent,
+  ApplicationSettingsService
 } from '.';
-import { ApplicationFactory } from './shared/application.factory';
-import { ApplicationResolve } from './application/application.resolve';
+import { ApplicationService } from './shared/application.service';
+
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ApplicationResolve } from './application/application.resolve';
+import { ApplicationFactory } from './shared/application.factory';
 
 @NgModule({
   imports: [
@@ -26,7 +30,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     SmartadminValidationModule,
     SmartadminInputModule,
     ApplicationsRoutingModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    SmartadminEditorsModule,
+    CKEditorModule
   ],
   declarations: [
     ApplicationsComponent,
@@ -38,7 +44,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ApplicationFactory,
     ApplicationListResolve,
     ApplicationResolve,
-    UpperCasePipe
+    UpperCasePipe,
+    ApplicationSettingsService
   ]
 })
 export class ApplicationsModule { }

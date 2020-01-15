@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Application } from '../shared/application.interface';
+import { IApplication } from '../shared/application.interface';
 
 import * as moment from 'moment';
 
@@ -12,7 +12,7 @@ import * as moment from 'moment';
 })
 export class ApplicationListComponent implements OnInit {
   errorMessage: string;
-  applications: Application[] = [];
+  applications: IApplication[] = [];
   options: {};
   message: string;
 
