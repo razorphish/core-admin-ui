@@ -46,6 +46,7 @@ export class ApplicationComponent implements OnInit {
   public notification: MarascoNotification = {};
 
   public action: any = {};
+  public actionChanged: any;
 
   public Editor = ClassicEditor;
 
@@ -187,6 +188,7 @@ export class ApplicationComponent implements OnInit {
 
   public selectedStatus = [];
   public dropdownSettingsStatus = {};
+  public notificationActionTable;
 
   @ViewChild('applicationDetailsForm') applicationDetailsForm;
   @ViewChild('emailForm') emailForm;
@@ -207,6 +209,9 @@ export class ApplicationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.notificationActionTable = $(
+      '#notificationActionDataTable'
+    ).DataTable();
     const id = this._route.snapshot.params['id'];
     if (id !== '0') {
       this.application = Object.assign(
@@ -235,6 +240,7 @@ export class ApplicationComponent implements OnInit {
       this.notification = data;
       this.notificationsCreated = true;
       this.actionOptions.data = this.notification.actions;
+      this.actionChanged = this.notification.actions;
     } else {
       this.notification = {};
       this.actionOptions.data = {};
@@ -259,6 +265,9 @@ export class ApplicationComponent implements OnInit {
 
   public hideChildModal(): void {
     this.lgModal.hide();
+    // There is a bug with datatable and I cannot redraw it
+    // instead just refresh
+    this._pageRefresh();
   }
 
   public hideEmailChildModal(): void {
@@ -866,14 +875,16 @@ export class ApplicationComponent implements OnInit {
           );
           this._notificationService.smallBox({
             title: 'Notification action Updated',
-            content: 'Notificaiton action has been updated successfully. ',
+            content: 'Notification action has been updated successfully. ',
             color: '#739E73',
             timeout: 4000,
             icon: 'fa fa-check',
             number: '4'
           });
 
-          this._pageRefresh();
+          // this._pageRefresh();
+          this.actionChanged = this.action;
+          this.hideGrancchildModal();
         },
         (error) => {
           this.displayServerErrors(error);

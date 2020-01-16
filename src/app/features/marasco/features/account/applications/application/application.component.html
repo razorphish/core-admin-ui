@@ -144,6 +144,7 @@
                       [options]="optionsNotificationTable"
                       tableClass="table table-striped table-bordered table-hover"
                       paginationLength="true"
+                      id="notificationDataTable"
                     >
                       <thead>
                         <tr>
@@ -183,6 +184,7 @@
                       [options]="optionsEmailTable"
                       tableClass="table table-striped table-bordered table-hover"
                       paginationLength="true"
+                      id="emailNotificationDataTable"
                     >
                       <thead>
                         <tr>
@@ -401,7 +403,7 @@
             <button
               type="button"
               class="close"
-              (click)="lgModal.hide()"
+              (click)="hideChildModal()"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
@@ -619,8 +621,8 @@
                     [options]="actionOptions"
                     tableClass="table table-striped table-bordered table-hover"
                     paginationLength="false"
-                    id="actionDataTable"
-                    name="actionDataTable"
+                    name="notificationActionDataTable"
+                    [data]="actionChanged"
                   >
                     <thead>
                       <tr>
@@ -639,7 +641,7 @@
             <button
               type="button"
               class="btn btn-default"
-              (click)="lgModal.hide()"
+              (click)="hideChildModal()"
             >
               Cancel
             </button>
